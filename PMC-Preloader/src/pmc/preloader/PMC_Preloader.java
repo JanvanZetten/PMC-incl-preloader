@@ -5,13 +5,17 @@
  */
 package pmc.preloader;
 
+import java.io.IOException;
 import javafx.application.Preloader;
 import javafx.application.Preloader.ProgressNotification;
 import javafx.application.Preloader.StateChangeNotification;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Simple Preloader Using the ProgressBar Control
@@ -23,17 +27,16 @@ public class PMC_Preloader extends Preloader {
     ProgressBar bar;
     Stage stage;
     
-    private Scene createPreloaderScene() {
-        bar = new ProgressBar();
-        BorderPane p = new BorderPane();
-        p.setCenter(bar);
-        return new Scene(p, 300, 150);        
+    private Scene createPreloaderScene() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("PreloaderView.fxml"));
+        return new Scene(root);        
     }
     
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        stage.setScene(createPreloaderScene());        
+        stage.setScene(createPreloaderScene());  
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
     
