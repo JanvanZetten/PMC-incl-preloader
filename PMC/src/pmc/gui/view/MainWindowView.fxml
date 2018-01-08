@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MainWindowController">
    <children>
-      <StackPane alignment="TOP_LEFT" layoutX="7.0" prefHeight="400.0" prefWidth="175.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="stackPaneFiltering" alignment="TOP_LEFT" layoutX="7.0" prefHeight="372.0" prefWidth="175.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
             <TextField promptText="Search text..">
                <StackPane.margin>
@@ -47,7 +47,7 @@
             </Slider>
          </children>
       </StackPane>
-      <StackPane layoutX="200.0" layoutY="101.0" prefHeight="400.0" prefWidth="480.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="StackPaneMovieView" layoutX="200.0" layoutY="28.0" prefHeight="372.0" prefWidth="425.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
             <TableView prefHeight="200.0" prefWidth="200.0">
               <columns>
@@ -60,25 +60,32 @@
             </TableView>
          </children>
       </StackPane>
-      <MenuBar fx:id="Menubar" prefHeight="5.0" prefWidth="600.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <StackPane prefHeight="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar fx:id="Menubar" prefWidth="600.0" StackPane.alignment="TOP_LEFT">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+            </MenuBar>
+         </children>
+      </StackPane>
    </children>
    <stylesheets>
         <URL value="@MainWindowCSS.css" />

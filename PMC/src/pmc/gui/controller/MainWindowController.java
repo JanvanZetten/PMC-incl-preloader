@@ -10,6 +10,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import pmc.gui.model.MainModel;
 
 /**
  *
@@ -20,11 +23,18 @@ public class MainWindowController implements Initializable {
     
     @FXML
     private MenuBar Menubar;
+    @FXML
+    private StackPane stackPaneFiltering;
+    @FXML
+    private StackPane StackPaneMovieView;
+    
+    private MainModel mainModel = new MainModel();
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Menubar.useSystemMenuBarProperty().set(true);
+        mainModel.changeMenubarForMac(Menubar, stackPaneFiltering, StackPaneMovieView);
+        
     }    
     
 }

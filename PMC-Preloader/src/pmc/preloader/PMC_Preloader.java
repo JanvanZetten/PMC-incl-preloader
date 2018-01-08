@@ -45,11 +45,6 @@ public class PMC_Preloader extends Preloader {
         if (scn.getType() == StateChangeNotification.Type.BEFORE_START) {
             stage.hide();
         }
-    }
-    
-    @Override
-    public void handleProgressNotification(ProgressNotification pn) {
-        bar.setProgress(pn.getProgress());
-    }    
+    }   
     
 }
