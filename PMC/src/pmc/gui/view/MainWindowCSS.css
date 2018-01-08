@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08-01-2018, 11:31:18
+    Author     : janvanzetten
+*/
+.slider .axis .axis-tick-mark, .slider .axis .axis-minor-tick-mark {
+    -fx-fill: null;
+    -fx-stroke: #ECF0F1;
+}
+
+.slider .axis{
+    -fx-tick-label-fill: #ECF0F1;
+}
+
+.slider .thumb {
+    -fx-background-color: #e74c3c;
+}
+
+.slider .track {
+    -fx-background-color: #ECF0F1;
+}

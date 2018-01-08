@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="369.0" prefWidth="615.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9" fx:controller="pmc.gui.controller.MovieDetailsViewController">
+   <children>
+      <TextArea fx:id="textareaDescription" editable="false" layoutX="255.0" layoutY="85.0" prefHeight="200.0" prefWidth="323.0" />
+      <ImageView fx:id="imageMoviePoster" fitHeight="254.0" fitWidth="212.0" layoutX="30.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblTitleAndYear" layoutX="38.0" layoutY="36.0" text="Title + (Year)">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblGenres" layoutX="255.0" layoutY="295.0" text="Genres">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="255.0" layoutY="322.0" text="Director:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDirector" layoutX="333.0" layoutY="322.0" text="Director name">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
