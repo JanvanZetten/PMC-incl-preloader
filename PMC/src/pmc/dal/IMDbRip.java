@@ -238,8 +238,6 @@ public class IMDbRip
                 // Save result.
                 imageInBytes = baos.toByteArray();
             }
-
-            setImage(imageInBytes);
         }
         catch (IOException ex)
         {
