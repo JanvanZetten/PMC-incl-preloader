@@ -1,7 +1,11 @@
 package pmc.dal;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -10,6 +14,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 //import javafx.scene.web.WebView;
 
 /**
@@ -28,6 +33,7 @@ public class IMDbRip
     private String rating;
     private List<String> directors;
     private String image;
+    private byte[] imageInBytes;
 
     public IMDbRip(String imdbUrl)
     {
@@ -50,14 +56,14 @@ public class IMDbRip
                 });
         webView.getEngine().load(imdbUrl);
          */
-        ripInformationByFile(imdbUrl);
+        ripInformationAsFile(imdbUrl);
     }
 
     /**
      * rip IMDb Website by reading it as a stream.
      * @param imdbUrl String containing URL.
      */
-    private void ripInformationByFile(String imdbUrl)
+    private void ripInformationAsFile(String imdbUrl)
     {
         try
         {
@@ -141,25 +147,7 @@ public class IMDbRip
                         String imageUrl = inputLine.split("\"")[1];
                         //System.out.println("ImageURL: " + imageUrl);
 
-                        try (InputStream inImg = new URL(imageUrl).openStream())
-                        {
-                            String fileName = "";
-                            for (String string : name.split(" "))
-                            {
-                                fileName += string + "_";
-                            }
-                            fileName += year + imageUrl.substring(imageUrl.length() - 4);
-
-                            File dir = new File("./images/");
-                            dir.mkdir();
-                            Files.copy(inImg, Paths.get("./images/" + fileName), StandardCopyOption.REPLACE_EXISTING);
-                            image = "./images/" + fileName;
-                            //System.out.println("Saved image to: " + image);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new RuntimeException("Error copying image!");
-                        }
+                        handleImage(imageUrl);
 
                         wasImage = 0;
                     }
@@ -186,6 +174,102 @@ public class IMDbRip
         catch (Exception ex)
         {
             throw new RuntimeException("Error reading information from IMDb!");
+        }
+    }
+
+    /**
+     * Saves the image as a file and in a byte array. Adds the path as String to
+     * image.
+     * @param imageUrl URL of image.
+     */
+    private void handleImage(String imageUrl)
+    {
+        // Open stream for image.
+        try (InputStream inImg = new URL(imageUrl).openStream())
+        {
+            // Create file name.
+            String fileName = "";
+            for (String string : name.split(" "))
+            {
+                fileName += string + "_";
+            }
+            fileName += year + imageUrl.substring(imageUrl.length() - 4);
+
+            // Create directory if it is not there.
+            File dir = new File("./images/");
+            dir.mkdir();
+
+            // Copy image to directory with given name.
+            Files.copy(inImg, Paths.get("./images/" + fileName), StandardCopyOption.REPLACE_EXISTING);
+
+            // Save path as Sting.
+            image = "./images/" + fileName;
+
+            //System.out.println("Saved image to: " + image);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException("Error copying image!");
+        }
+
+        // Converts the image to a byte array.
+        try
+        {
+            // Get image as BufferedImage
+            BufferedImage imm = ImageIO.read(new File(image));
+
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
+            {
+                // Write BufferedImage to ByteArrayOutputStream.
+                ImageIO.write(imm, "jpg", baos);
+                baos.flush();
+
+                // Save result.
+                imageInBytes = baos.toByteArray();
+            }
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException("Error turning image into binary data!");
+        }
+    }
+
+    /**
+     * Set image from byte array and saves the image as a file. Requires that
+     * the name and year is set. Should be in Business Entity.
+     * @param imageInBytes Image expressed as byte array.
+     */
+    public void setImage(byte[] imageInBytes)
+    {
+        try
+        {
+            // Open stream for given byte array.
+            InputStream in = new ByteArrayInputStream(imageInBytes);
+            BufferedImage imgFromDb = ImageIO.read(in);
+
+            // Create file name.
+            String fileName = "";
+            for (String string : name.split(" "))
+            {
+                fileName += string + "_";
+            }
+            fileName += year + ".jpg";
+
+            // Create directory if it is not there.
+            File dir = new File("./images/");
+            dir.mkdir();
+
+            // Write image to file.
+            File outputfile = new File("./images/" + fileName);
+            ImageIO.write(imgFromDb, "jpg", outputfile);
+
+            // Saved data to variables.
+            this.imageInBytes = imageInBytes;
+            this.image = fileName;
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException("Error getting image from binary data!");
         }
     }
 
@@ -374,6 +458,11 @@ public class IMDbRip
         return image;
     }
 
+    /**
+     * Override original toString() method to return all information in one
+     * string.
+     * @return String containing all information.
+     */
     @Override
     public String toString()
     {
