@@ -9,48 +9,51 @@ package pmc.be;
  *
  * @author janvanzetten
  */
-public class Genre {
-    
+public class Genre
+{
+
     private int id;
-    
-    private String Name;
+
+    private String name;
 
     /**
      * the constucter for the Genre object
      * @param id the Genres id
-     * @param Name the Genres Name
+     * @param name the Genres Name
      */
-    public Genre(int id, String Name) {
+    public Genre(int id, String name)
+    {
         this.id = id;
-        this.Name = Name;
+        this.name = name;
     }
 
-    
     /**
      * Get the value of Name
      *
      * @return the value of Name
      */
-    public String getName() {
-        return Name;
+    public String getName()
+    {
+        return name;
     }
 
     /**
      * Set the value of Name
      *
-     * @param Name new value of Name
+     * @param name new value of Name
      */
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name)
+    {
+        this.name = name;
     }
-
 
     /**
      * Get the value of id
      *
      * @return the value of id
      */
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
@@ -59,7 +62,8 @@ public class Genre {
      *
      * @param id new value of id
      */
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
