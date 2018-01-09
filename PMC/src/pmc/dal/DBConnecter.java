@@ -24,8 +24,8 @@ public class DBConnecter {
 
         dataSource.setServerName("EASV-DB2");
         dataSource.setPortNumber(1433);
-        dataSource.setDatabaseName("name"); //enter database name
-        dataSource.setUser("CS2017A_x_java");//enter number of user
+        dataSource.setDatabaseName("PMC_DB"); //enter database name
+        dataSource.setUser("CS2017A_14_java");//enter number of user
         dataSource.setPassword("javajava");
     }
 
