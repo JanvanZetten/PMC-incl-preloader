@@ -19,16 +19,18 @@ public class DALManager {
     /**
      * gets all the genres
      * @return list of genre objects
+     * @throws pmc.dal.DalExeption
      */
-    public List<Genre> getAllGenres(){
+    public List<Genre> getAllGenres() throws DalExeption{
         return Database.getAllGenres();
     }
     
     /**
      * gets all the movies
      * @return list of movie objects
+     * @throws pmc.dal.DalExeption
      */
-    public List<Movie> getAllMovies(){
+    public List<Movie> getAllMovies() throws DalExeption{
         return Database.getAllMovies();
     }
     

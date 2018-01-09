@@ -80,6 +80,11 @@ public class DBManager {
                 movie.setImdbRating(rs.getInt("ImdbRating"));
                 movie.setPersonalRating(rs.getInt("personalRating"));
                 movie.setLastView(rs.getInt("lastView"));
+                movie.setDirector(rs.getString("directors"));
+                movie.setImage(rs.getBytes("imageInBytes"));
+                movie.setDuration(rs.getInt("duration"));
+                movie.setImdbUrl(rs.getString("ImdbUrl"));
+                
                 movies.add(movie);
             }
 

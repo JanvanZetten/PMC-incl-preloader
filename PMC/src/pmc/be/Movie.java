@@ -35,7 +35,7 @@ public class Movie
 
     private double imdbRating;
 
-    private List<String> directors;
+    private String directors;
 
     private int lastView;
 
@@ -312,12 +312,12 @@ public class Movie
         this.duration = duration;
     }
 
-    public List<String> getDirectors()
+    public String getDirectors()
     {
         return directors;
     }
 
-    public void setDirectors(List<String> directors)
+    public void setDirector(String directors)
     {
         this.directors = directors;
     }
