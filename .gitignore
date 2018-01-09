@@ -88,3 +88,5 @@ $RECYCLE.BIN/
 /MyTunes/localDB/
 /JavaFXPreloader/nbproject/private/
 /PMC-Preloader/nbproject/private/
+*.properties
+PMC/nbproject/private/private.xml
