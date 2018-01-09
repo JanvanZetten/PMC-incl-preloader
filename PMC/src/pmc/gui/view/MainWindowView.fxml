@@ -12,8 +12,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MainWindowController">
    <children>
       <StackPane fx:id="stackPaneFiltering" alignment="TOP_LEFT" layoutX="7.0" prefHeight="372.0" prefWidth="175.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
@@ -33,12 +34,12 @@
                </StackPane.margin>
             </Slider>
             <Label text="Minimum Personal Rating" textFill="WHITESMOKE">
-               <padding>
-                  <Insets top="100.0" />
-               </padding>
                <StackPane.margin>
-                  <Insets left="4.0" right="4.0" />
+                  <Insets left="4.0" right="4.0" top="100.0" />
                </StackPane.margin>
+               <font>
+                  <Font name="Roboto" size="13.0" />
+               </font>
             </Label>
             <Slider blockIncrement="1.0" majorTickUnit="10.0" max="10.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <StackPane.margin>

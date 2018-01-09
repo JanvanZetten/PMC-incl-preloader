@@ -53,11 +53,11 @@ public class DBManager {
         }
     }
 
-    
     /**
      * For getting all th movies in the database
+     *
      * @return a list of all the movies in the database
-     * @throws DalExeption 
+     * @throws DalExeption
      */
     List<Movie> getAllMovies() throws DalExeption {
         try (Connection con = DBCon.getConnection()) {
@@ -70,7 +70,6 @@ public class DBManager {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                
 
                 Movie movie = new Movie(id,
                         rs.getString("name"),
@@ -94,41 +93,66 @@ public class DBManager {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
-    
+
     /**
      * Adds a new genre to the database
+     *
      * @param Name the name the new genre should have
      * @return the newly made Genre object
-     * @throws DalExeption 
+     * @throws DalExeption
      */
-    Genre addNewGenre(String name) throws DalExeption{
-        try(Connection con = DBCon.getConnection()){
+    Genre addNewGenre(String name) throws DalExeption {
+        try (Connection con = DBCon.getConnection()) {
             String sql = "INSERT INTO Genre VALUES (?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, name);
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
                 return new Genre(id, name);
             }
             throw new DalExeption("New genre could not be made, check database connection");
-            
+
         } catch (SQLException ex) {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
-    
 
-    
+    /**
+     * Delete a genre from the database
+     *
+     * @param genre the genre to be deleted
+     * @return true if deleted succesfully
+     * @throws DalExeption
+     */
+    boolean deleteGenre(Genre genre) throws DalExeption {
+        try (Connection con = DBCon.getConnection()) {
+
+            String sql = "DELETE Genre WHERE id=?;";
+
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, genre.getId());
+
+            if (statement.executeUpdate() == 1) {
+                return true;
+            } else {
+                throw new DalExeption("Could not delete genre: " + genre.getName());
+            }
+        } catch (SQLException ex) {
+            throw new DalExeption(ex.getMessage(), ex.getCause());
+        }
+    }
+
     /**
      * Gets all the genres for a movie
+     *
      * @param Movieid the id for the movie from which to find the genres
      * @return a list with genre objects
-     * @throws DalExeption 
+     * @throws DalExeption
      */
     private List<Genre> getGenresOfMovie(int Movieid) throws DalExeption {
         try (Connection con = DBCon.getConnection()) {
@@ -153,7 +177,7 @@ public class DBManager {
                     genres.add(genre);
                 }
             }
-            
+
             return genres;
         } catch (SQLException ex) {
             throw new DalExeption(ex.getMessage(), ex.getCause());
