@@ -5,20 +5,28 @@
  */
 package pmc.gui.controller;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import pmc.gui.model.MovieDetailsModel;
 
 /**
  * FXML Controller class
  *
  * @author Alex
  */
-public class MovieDetailsViewController implements Initializable {
+public class MovieDetailsController implements Initializable {
 
     @FXML
     private TextArea textareaDescription;
@@ -31,12 +39,26 @@ public class MovieDetailsViewController implements Initializable {
     @FXML
     private Label lblDirector;
 
+    MovieDetailsModel model;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        model = new MovieDetailsModel();
+
+        model.setImage(imageMoviePoster);
+//        model.setTitleAndYear(lblTitleAndYear);
+//        model.setDescription(textareaDescription);
+//        model.setGenres(lblGenres);
+//        model.setDirector(lblDirector);
+    }
+
+    @FXML
+    private void handleButtonAction() throws IOException {
+        Desktop.getDesktop().open(new File("C:\\Users\\Alex\\Documents\\GitHub\\PMC-incl-preloader\\PMC\\src\\pmc\\gui\\resources\\timmy.jpg"));
+
+    }
+
 }

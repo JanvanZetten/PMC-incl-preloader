@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
@@ -9,9 +10,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="405.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MovieDetailsViewController">
+<AnchorPane id="AnchorPane" prefHeight="384.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MovieDetailsController">
    <children>
-      <StackPane layoutX="-1.0" prefHeight="85.0" prefWidth="553.0" style="-fx-background-color: #2c3e50;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane layoutX="-1.0" prefHeight="49.0" prefWidth="552.0" style="-fx-background-color: #2c3e50;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="lblTitleAndYear" text="Title + (Year)" textFill="#ecf0f1">
                <font>
@@ -20,16 +21,19 @@
             </Label>
          </children>
       </StackPane>
-      <StackPane layoutX="-3.0" layoutY="85.0" prefHeight="321.0" prefWidth="222.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="84.0">
+      <StackPane alignment="TOP_LEFT" layoutX="-3.0" layoutY="85.0" prefHeight="335.0" prefWidth="222.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="49.0">
          <children>
-            <ImageView fx:id="imageMoviePoster" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageMoviePoster" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets left="10.0" top="10.0" />
+               </StackPane.margin></ImageView>
          </children>
       </StackPane>
-      <StackPane alignment="TOP_LEFT" layoutX="7.0" prefHeight="325.0" prefWidth="344.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+      <StackPane alignment="TOP_LEFT" layoutX="7.0" prefHeight="335.0" prefWidth="344.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="49.0">
          <children>
             <TextArea fx:id="textareaDescription" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ecf0f1;">
                <StackPane.margin>
-                  <Insets bottom="80.0" left="10.0" right="20.0" top="30.0" />
+                  <Insets bottom="100.0" left="10.0" right="20.0" top="10.0" />
                </StackPane.margin>
             </TextArea>
             <Label text="Director:" textFill="#ecf0f1" StackPane.alignment="BOTTOM_LEFT">
@@ -37,7 +41,7 @@
                   <Font size="18.0" />
                </font>
                <StackPane.margin>
-                  <Insets bottom="15.0" left="10.0" />
+                  <Insets bottom="45.0" left="10.0" top="10.0" />
                </StackPane.margin>
             </Label>
             <Label fx:id="lblDirector" text="Director name" textFill="#ecf0f1" StackPane.alignment="BOTTOM_LEFT">
@@ -45,15 +49,20 @@
                   <Font size="18.0" />
                </font>
                <StackPane.margin>
-                  <Insets bottom="15.0" left="90.0" />
+                  <Insets bottom="45.0" left="90.0" top="10.0" />
                </StackPane.margin>
             </Label>
+            <Button fx:id="WatchMovie" mnemonicParsing="false" onAction="#handleButtonAction" text="Watch Movie" StackPane.alignment="BOTTOM_LEFT">
+               <StackPane.margin>
+                  <Insets bottom="15.0" left="10.0" />
+               </StackPane.margin>
+            </Button>
             <Label fx:id="lblGenres" contentDisplay="CENTER" text="Genres" textFill="#ecf0f1" StackPane.alignment="BOTTOM_LEFT">
                <font>
                   <Font size="18.0" />
                </font>
                <StackPane.margin>
-                  <Insets bottom="40.0" left="10.0" />
+                  <Insets bottom="70.0" left="10.0" top="10.0" />
                </StackPane.margin>
             </Label>
          </children>
