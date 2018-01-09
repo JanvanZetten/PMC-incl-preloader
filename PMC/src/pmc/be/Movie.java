@@ -25,7 +25,7 @@ public class Movie
 
     private String name;
 
-    private String year;
+    private int year;
 
     private String duration;
 
@@ -41,7 +41,7 @@ public class Movie
 
     private String filePath;
 
-    private String image;
+    private String imagePath;
 
     private byte[] imageInBytes;
 
@@ -59,7 +59,7 @@ public class Movie
         if (imdbRip.rippedAllInformation())
         {
             this.name = imdbRip.getName();
-            this.year = imdbRip.getYear();
+            this.year = Integer.parseInt(imdbRip.getYear());
             this.duration = imdbRip.getDuration();
 
             List<String> gs = imdbRip.getGenres();
@@ -78,7 +78,7 @@ public class Movie
 
             this.directors = imdbRip.getDirectors();
             this.filePath = filePath;
-            this.image = imdbRip.getImage();
+            this.imagePath = imdbRip.getImage();
             this.imageInBytes = imdbRip.getImageInBytes();
             this.imdbUrl = imdbUrl;
         }
@@ -107,8 +107,8 @@ public class Movie
     }
 
     /**
-     * Set image from byte array and saves the image as a file. Requires that
-     * the name and year is set. Used to get image from database.
+     * Set imagePath from byte array and saves the imagePath as a file. Requires that
+ the name and year is set. Used to get imagePath from database.
      * @param imageInBytes Image expressed as byte array.
      */
     public void setImage(byte[] imageInBytes)
@@ -131,13 +131,13 @@ public class Movie
             File dir = new File("./images/");
             dir.mkdir();
 
-            // Write image to file.
+            // Write imagePath to file.
             File outputfile = new File("./images/" + fileName);
             ImageIO.write(imgFromDb, "jpg", outputfile);
 
             // Saved data to variables.
             this.imageInBytes = imageInBytes;
-            this.image = fileName;
+            this.imagePath = fileName;
         }
         catch (IOException ex)
         {
@@ -292,12 +292,12 @@ public class Movie
         this.name = name;
     }
 
-    public String getYear()
+    public int getYear()
     {
         return year;
     }
 
-    public void setYear(String year)
+    public void setYear(int year)
     {
         this.year = year;
     }
@@ -324,12 +324,12 @@ public class Movie
 
     public String getImage()
     {
-        return image;
+        return imagePath;
     }
 
     public void setImage(String image)
     {
-        this.image = image;
+        this.imagePath = image;
     }
 
     public byte[] getImageInBytes()
