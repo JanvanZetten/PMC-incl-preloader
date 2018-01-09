@@ -171,7 +171,7 @@ public class IMDbRip
             }
         }
         // In case of an exception throw new exception.
-        catch (Exception ex)
+        catch (IOException ex)
         {
             throw new RuntimeException("Error reading information from IMDb!");
         }
@@ -231,45 +231,6 @@ public class IMDbRip
         catch (IOException ex)
         {
             throw new RuntimeException("Error turning image into binary data!");
-        }
-    }
-
-    /**
-     * Set image from byte array and saves the image as a file. Requires that
-     * the name and year is set. Should be in Business Entity.
-     * @param imageInBytes Image expressed as byte array.
-     */
-    public void setImage(byte[] imageInBytes)
-    {
-        try
-        {
-            // Open stream for given byte array.
-            InputStream in = new ByteArrayInputStream(imageInBytes);
-            BufferedImage imgFromDb = ImageIO.read(in);
-
-            // Create file name.
-            String fileName = "";
-            for (String string : name.split(" "))
-            {
-                fileName += string + "_";
-            }
-            fileName += year + ".jpg";
-
-            // Create directory if it is not there.
-            File dir = new File("./images/");
-            dir.mkdir();
-
-            // Write image to file.
-            File outputfile = new File("./images/" + fileName);
-            ImageIO.write(imgFromDb, "jpg", outputfile);
-
-            // Saved data to variables.
-            this.imageInBytes = imageInBytes;
-            this.image = fileName;
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException("Error getting image from binary data!");
         }
     }
 
@@ -456,6 +417,11 @@ public class IMDbRip
     public String getImage()
     {
         return image;
+    }
+
+    public byte[] getImageInBytes()
+    {
+        return imageInBytes;
     }
 
     /**

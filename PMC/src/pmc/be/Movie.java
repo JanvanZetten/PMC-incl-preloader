@@ -5,95 +5,200 @@
  */
 package pmc.be;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import javax.imageio.ImageIO;
+import pmc.dal.IMDbRip;
 
 /**
  *
  * @author janvanzetten
  */
-public class Movie {
-    
-    private String name;
-    
-    private int Id;
-    
-    private int personalRating;
-    
-    private int ImdbRating;
-    
-    private int lastView;
-    
-    private String FilePath;
+public class Movie
+{
 
-    private List<Genre> Genres;
+    private int id;
+
+    private String name;
+
+    private String year;
+
+    private String duration;
+
+    private List<Genre> genres;
+
+    private int personalRating;
+
+    private double imdbRating;
+
+    private List<String> directors;
+
+    private int lastView;
+
+    private String filePath;
+
+    private String image;
+
+    private byte[] imageInBytes;
+
+    private String imdbUrl;
+
+    /**
+     * Make Movie object from IMDbRip.
+     * @param imdbUrl IMDb Movie site.
+     * @param filePath Path to movie file.
+     */
+    public Movie(String imdbUrl, String filePath)
+    {
+        IMDbRip imdbRip = new IMDbRip(imdbUrl);
+
+        if (imdbRip.rippedAllInformation())
+        {
+            this.name = imdbRip.getName();
+            this.year = imdbRip.getYear();
+            this.duration = imdbRip.getDuration();
+
+            List<String> gs = imdbRip.getGenres();
+            for (String g : gs)
+            {
+            }
+
+            try
+            {
+                this.imdbRating = Double.parseDouble(imdbRip.getRating());
+            }
+            catch (NumberFormatException ex)
+            {
+                this.imdbRating = 0.0;
+            }
+
+            this.directors = imdbRip.getDirectors();
+            this.filePath = filePath;
+            this.image = imdbRip.getImage();
+            this.imageInBytes = imdbRip.getImageInBytes();
+            this.imdbUrl = imdbUrl;
+        }
+        else
+        {
+            throw new RuntimeException("Error did not get all information from IMDb URL!");
+        }
+    }
 
     /**
      * the constructor for the Movie object
-     * @param Id the unique object id 
+     * @param id the unique object id
      * @param name the movie name
-     * @param FilePath the file path
-     * @param Genres the list of genres
+     * @param filePath the file path
+     * @param genres the list of genres
      */
-    public Movie(int Id, String name, String FilePath, List<Genre> Genres) {
+    public Movie(int id, String name, String filePath, List<Genre> genres)
+    {
         this.name = name;
-        this.Id = Id;
-        this.FilePath = FilePath;
-        this.Genres = Genres;
+        this.id = id;
+        this.filePath = filePath;
+        this.genres = genres;
         personalRating = -1;
-        ImdbRating = -1;
+        imdbRating = -1;
         lastView = -1;
     }
-    
-    
+
+    /**
+     * Set image from byte array and saves the image as a file. Requires that
+     * the name and year is set. Used to get image from database.
+     * @param imageInBytes Image expressed as byte array.
+     */
+    public void setImage(byte[] imageInBytes)
+    {
+        try
+        {
+            // Open stream for given byte array.
+            InputStream in = new ByteArrayInputStream(imageInBytes);
+            BufferedImage imgFromDb = ImageIO.read(in);
+
+            // Create file name.
+            String fileName = "";
+            for (String string : name.split(" "))
+            {
+                fileName += string + "_";
+            }
+            fileName += year + ".jpg";
+
+            // Create directory if it is not there.
+            File dir = new File("./images/");
+            dir.mkdir();
+
+            // Write image to file.
+            File outputfile = new File("./images/" + fileName);
+            ImageIO.write(imgFromDb, "jpg", outputfile);
+
+            // Saved data to variables.
+            this.imageInBytes = imageInBytes;
+            this.image = fileName;
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException("Error getting image from binary data!");
+        }
+    }
+
     /**
      * Get a list with the movies genres
-     * @return 
+     * @return
      */
-    public List<Genre> getGenres(){
-        return Genres;
+    public List<Genre> getGenres()
+    {
+        return genres;
     }
-    
+
     /**
      * Add a Genre to the list og genres
-     * @param genre 
+     * @param genre
      */
-    public void addGenre(Genre genre){
-        Genres.add(genre);
+    public void addGenre(Genre genre)
+    {
+        genres.add(genre);
     }
-    
+
     /**
      * Replace the current list of Genres with this list
      * @param Genres the new list
      */
-    public void setGenres(List<Genre> Genres){
-        this.Genres = Genres;
-    }      
-            
+    public void setGenres(List<Genre> Genres)
+    {
+        this.genres = Genres;
+    }
+
     /**
      * Get the value of FilePath
      *
      * @return the value of FilePath
      */
-    public String getFilePath() {
-        return FilePath;
+    public String getFilePath()
+    {
+        return filePath;
     }
 
     /**
      * Set the value of FilePath
      *
-     * @param FilePath new value of FilePath
+     * @param filePath new value of FilePath
      */
-    public void setFilePath(String FilePath) {
-        this.FilePath = FilePath;
+    public void setFilePath(String filePath)
+    {
+        this.filePath = filePath;
     }
-
 
     /**
      * Get the value of lastView
      *
      * @return the value of lastView
      */
-    public int getLastView() {
+    public int getLastView()
+    {
         return lastView;
     }
 
@@ -102,37 +207,38 @@ public class Movie {
      *
      * @param lastView new value of lastView
      */
-    public void setLastView(int lastView) {
+    public void setLastView(int lastView)
+    {
         this.lastView = lastView;
     }
-
-    
 
     /**
      * Get the value of ImdbRating
      *
      * @return the value of ImdbRating
      */
-    public int getImdbRating() {
-        return ImdbRating;
+    public double getImdbRating()
+    {
+        return imdbRating;
     }
 
     /**
      * Set the value of ImdbRating
      *
-     * @param ImdbRating new value of ImdbRating
+     * @param imdbRating new value of ImdbRating
      */
-    public void setImdbRating(int ImdbRating) {
-        this.ImdbRating = ImdbRating;
+    public void setImdbRating(double imdbRating)
+    {
+        this.imdbRating = imdbRating;
     }
-
 
     /**
      * Get the value of personalRating
      *
      * @return the value of personalRating
      */
-    public int getPersonalRating() {
+    public int getPersonalRating()
+    {
         return personalRating;
     }
 
@@ -141,36 +247,38 @@ public class Movie {
      *
      * @param personalRating new value of personalRating
      */
-    public void setPersonalRating(int personalRating) {
+    public void setPersonalRating(int personalRating)
+    {
         this.personalRating = personalRating;
     }
-
 
     /**
      * Get the value of Id
      *
      * @return the value of Id
      */
-    public int getId() {
-        return Id;
+    public int getId()
+    {
+        return id;
     }
 
     /**
      * Set the value of Id
      *
-     * @param Id new value of Id
+     * @param id new value of Id
      */
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(int id)
+    {
+        this.id = id;
     }
-
 
     /**
      * Get the value of name
      *
      * @return the value of name
      */
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
@@ -179,8 +287,69 @@ public class Movie {
      *
      * @param name new value of name
      */
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
+    }
+
+    public String getYear()
+    {
+        return year;
+    }
+
+    public void setYear(String year)
+    {
+        this.year = year;
+    }
+
+    public String getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(String duration)
+    {
+        this.duration = duration;
+    }
+
+    public List<String> getDirectors()
+    {
+        return directors;
+    }
+
+    public void setDirectors(List<String> directors)
+    {
+        this.directors = directors;
+    }
+
+    public String getImage()
+    {
+        return image;
+    }
+
+    public void setImage(String image)
+    {
+        this.image = image;
+    }
+
+    public byte[] getImageInBytes()
+    {
+        return imageInBytes;
+    }
+
+    public void setImageInBytes(byte[] imageInBytes)
+    {
+        this.imageInBytes = imageInBytes;
+    }
+
+    public String getImdbUrl()
+    {
+        return imdbUrl;
+    }
+
+    public void setImdbUrl(String imdbUrl)
+    {
+        this.imdbUrl = imdbUrl;
     }
 
 }
