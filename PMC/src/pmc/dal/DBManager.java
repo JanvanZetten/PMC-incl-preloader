@@ -6,11 +6,14 @@
 package pmc.dal;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pmc.be.Genre;
 import pmc.be.Movie;
 
@@ -85,6 +88,34 @@ public class DBManager {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
+    
+    /**
+     * Adds a new genre to the database
+     * @param Name the name the new genre should have
+     * @return the newly made Genre object
+     * @throws DalExeption 
+     */
+    Genre addNewGenre(String name) throws DalExeption{
+        try(Connection con = DBCon.getConnection()){
+            String sql = "INSERT INTO Genre VALUES (?);";
+
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, name);
+            if (statement.executeUpdate() == 1)
+            {
+                ResultSet rs = statement.getGeneratedKeys();
+                rs.next();
+                int id = rs.getInt(1);
+                return new Genre(id, name);
+            }
+            throw new DalExeption("New genre could not be made, check database connection");
+            
+        } catch (SQLException ex) {
+            throw new DalExeption(ex.getMessage(), ex.getCause());
+        }
+    }
+    
 
     
     /**
