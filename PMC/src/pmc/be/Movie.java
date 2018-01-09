@@ -319,7 +319,7 @@ public class Movie
         return imagePath;
     }
 
-    public void setImage(String image)
+    public void setImagePath(String image)
     {
         this.imagePath = image;
     }
