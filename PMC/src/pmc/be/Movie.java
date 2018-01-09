@@ -27,7 +27,7 @@ public class Movie
 
     private int year;
 
-    private String duration;
+    private int duration;
 
     private List<Genre> genres;
 
@@ -35,7 +35,7 @@ public class Movie
 
     private double imdbRating;
 
-    private List<String> directors;
+    private String directors;
 
     private int lastView;
 
@@ -52,14 +52,14 @@ public class Movie
      * @param imdbUrl IMDb Movie site.
      * @param filePath Path to movie file.
      */
-    public Movie(String imdbUrl, String filePath)
+    public Movie(String imdbUrl, String filePath) throws RuntimeException
     {
         IMDbRip imdbRip = new IMDbRip(imdbUrl);
 
         if (imdbRip.rippedAllInformation())
         {
             this.name = imdbRip.getName();
-            this.year = Integer.parseInt(imdbRip.getYear());
+            this.year = imdbRip.getYear();
             this.duration = imdbRip.getDuration();
 
             List<String> gs = imdbRip.getGenres();
@@ -67,18 +67,10 @@ public class Movie
             {
             }
 
-            try
-            {
-                this.imdbRating = Double.parseDouble(imdbRip.getRating());
-            }
-            catch (NumberFormatException ex)
-            {
-                this.imdbRating = 0.0;
-            }
-
+            this.imdbRating = imdbRip.getRating();
             this.directors = imdbRip.getDirectors();
             this.filePath = filePath;
-            this.imagePath = imdbRip.getImage();
+            this.imagePath = imdbRip.getImagePath();
             this.imageInBytes = imdbRip.getImageInBytes();
             this.imdbUrl = imdbUrl;
         }
@@ -107,8 +99,8 @@ public class Movie
     }
 
     /**
-     * Set imagePath from byte array and saves the imagePath as a file. Requires that
- the name and year is set. Used to get imagePath from database.
+     * Set imagePath from byte array and saves the imagePath as a file. Requires
+     * that the name and year is set. Used to get imagePath from database.
      * @param imageInBytes Image expressed as byte array.
      */
     public void setImage(byte[] imageInBytes)
@@ -302,22 +294,22 @@ public class Movie
         this.year = year;
     }
 
-    public String getDuration()
+    public int getDuration()
     {
         return duration;
     }
 
-    public void setDuration(String duration)
+    public void setDuration(int duration)
     {
         this.duration = duration;
     }
 
-    public List<String> getDirectors()
+    public String getDirectors()
     {
         return directors;
     }
 
-    public void setDirectors(List<String> directors)
+    public void setDirectors(String directors)
     {
         this.directors = directors;
     }

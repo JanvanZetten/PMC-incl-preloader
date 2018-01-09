@@ -27,24 +27,21 @@ public class IMDbRip
     private boolean rippedAllInformation;
 
     private String name;
-    private String year;
-    private String duration;
+    private int year;
+    private int duration;
     private List<String> genres;
-    private String rating;
-    private List<String> directors;
-    private String image;
+    private double rating;
+    private String directors;
+    private String imagePath;
     private byte[] imageInBytes;
 
-    public IMDbRip(String imdbUrl)
+    public IMDbRip(String imdbUrl) throws RuntimeException
     {
         rippedAllInformation = false;
         name = null;
-        year = null;
-        duration = null;
         genres = new ArrayList<>();
-        rating = null;
-        directors = new ArrayList<>();
-        image = null;
+        directors = null;
+        imagePath = null;
 
         /*
         //Working with JavaFX WebView
@@ -63,7 +60,7 @@ public class IMDbRip
      * rip IMDb Website by reading it as a stream.
      * @param imdbUrl String containing URL.
      */
-    private void ripInformationAsFile(String imdbUrl)
+    private void ripInformationAsFile(String imdbUrl) throws RuntimeException
     {
         try
         {
@@ -72,7 +69,7 @@ public class IMDbRip
             try (BufferedReader in = new BufferedReader(new InputStreamReader(imdb.openStream())))
             {
                 boolean wasYear = false;
-                boolean wasDuration = false;
+                int wasDuration = 0;
                 int wasDirector = 0;
                 int wasImage = 0;
                 String inputLine;
@@ -94,7 +91,7 @@ public class IMDbRip
                     }
                     else if (wasYear)
                     {
-                        year = inputLine.split(">")[1].split("<")[0].trim();
+                        year = Integer.parseInt(inputLine.split(">")[1].split("<")[0].trim());
                         //System.out.println("Year: " + year);
                         wasYear = false;
                     }
@@ -102,20 +99,20 @@ public class IMDbRip
                     // Check for rating.
                     if (inputLine.contains("span itemprop=\"ratingValue\""))
                     {
-                        rating = inputLine.split(">")[2].split("<")[0].trim();
+                        rating = Double.parseDouble(inputLine.split(">")[2].split("<")[0].trim());
                         //System.out.println("Rating: " + rating);
                     }
 
                     // Check for duration.
-                    if (inputLine.contains("time itemprop=\"duration\""))
+                    if (inputLine.contains("time itemprop=\"duration\"") && wasDuration > 0 && duration == 0)
                     {
-                        wasDuration = true;
+                        duration = Integer.parseInt(inputLine.split(">")[1].split("min")[0].trim());
+                        System.out.println("Duration: " + duration);
+                        wasDuration = 0;
                     }
-                    else if (wasDuration && duration == null)
+                    else if (inputLine.contains("time itemprop=\"duration\""))
                     {
-                        duration = inputLine.trim();
-                        //System.out.println("Duration: " + duration);
-                        wasDuration = false;
+                        wasDuration++;
                     }
 
                     // Check for genres.
@@ -132,7 +129,15 @@ public class IMDbRip
                     }
                     else if (wasDirector > 1)
                     {
-                        directors.add(inputLine.split(">")[2].split("<")[0].trim());
+                        if (directors == null)
+                        {
+                            directors = inputLine.split(">")[2].split("<")[0].trim();
+                        }
+                        else
+                        {
+                            directors += ", " + inputLine.split(">")[2].split("<")[0].trim();
+                        }
+
                         //System.out.println("Director " + (directors.size()) + ": " + directors.get(directors.size() - 1));
                         wasDirector = 0;
                     }
@@ -155,12 +160,12 @@ public class IMDbRip
 
                 // If all variables are set it ripped all information.
                 if (name != null
-                        && year != null
-                        && duration != null
+                        && year != 0
+                        && duration != 0
                         && genres.size() > 0
-                        && rating != null
-                        && directors.size() > 0
-                        && image != null)
+                        && rating != 0.0
+                        && directors != null
+                        && imagePath != null)
                 {
                     rippedAllInformation = true;
                 }
@@ -171,23 +176,17 @@ public class IMDbRip
             }
         }
         // In case of an exception throw new exception.
-        catch (IOException ex)
+        catch (Exception ex)
         {
             throw new RuntimeException("Error reading information from IMDb!");
         }
     }
 
-    /**
-     * Saves the image as a file and in a byte array. Adds the path as String to
-     * image.
-     * @param imageUrl URL of image.
-     */
     private void handleImage(String imageUrl)
     {
-        // Open stream for image.
+
         try (InputStream inImg = new URL(imageUrl).openStream())
         {
-            // Create file name.
             String fileName = "";
             for (String string : name.split(" "))
             {
@@ -195,15 +194,10 @@ public class IMDbRip
             }
             fileName += year + imageUrl.substring(imageUrl.length() - 4);
 
-            // Create directory if it is not there.
             File dir = new File("./images/");
             dir.mkdir();
-
-            // Copy image to directory with given name.
             Files.copy(inImg, Paths.get("./images/" + fileName), StandardCopyOption.REPLACE_EXISTING);
-
-            // Save path as Sting.
-            image = "./images/" + fileName;
+            imagePath = "./images/" + fileName;
 
             //System.out.println("Saved image to: " + image);
         }
@@ -212,25 +206,50 @@ public class IMDbRip
             throw new RuntimeException("Error copying image!");
         }
 
-        // Converts the image to a byte array.
+        BufferedImage imm;
         try
         {
-            // Get image as BufferedImage
-            BufferedImage imm = ImageIO.read(new File(image));
-
+            imm = ImageIO.read(new File(imagePath));
+            //use another encoding if JPG is innappropriate for you
             try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
             {
-                // Write BufferedImage to ByteArrayOutputStream.
+                //use another encoding if JPG is innappropriate for you
                 ImageIO.write(imm, "jpg", baos);
                 baos.flush();
-
-                // Save result.
                 imageInBytes = baos.toByteArray();
             }
+
+            setImage(imageInBytes);
         }
         catch (IOException ex)
         {
             throw new RuntimeException("Error turning image into binary data!");
+        }
+    }
+
+    public void setImage(byte[] ImageInBytes)
+    {
+        try
+        {
+            InputStream in = new ByteArrayInputStream(ImageInBytes);
+            BufferedImage imgFromDb = ImageIO.read(in);
+
+            String fileName = "";
+            for (String string : name.split(" "))
+            {
+                fileName += string + "_";
+            }
+            fileName += year + "_BINARY" + ".jpg";
+
+            File dir = new File("./images/");
+            dir.mkdir();
+
+            File outputfile = new File("./images/" + fileName);
+            ImageIO.write(imgFromDb, "jpg", outputfile);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException("Error getting image from binary data!");
         }
     }
 
@@ -389,12 +408,12 @@ public class IMDbRip
         return name;
     }
 
-    public String getYear()
+    public int getYear()
     {
         return year;
     }
 
-    public String getDuration()
+    public int getDuration()
     {
         return duration;
     }
@@ -404,19 +423,19 @@ public class IMDbRip
         return genres;
     }
 
-    public String getRating()
+    public double getRating()
     {
         return rating;
     }
 
-    public List<String> getDirectors()
+    public String getDirectors()
     {
         return directors;
     }
 
-    public String getImage()
+    public String getImagePath()
     {
-        return image;
+        return imagePath;
     }
 
     public byte[] getImageInBytes()
@@ -432,6 +451,6 @@ public class IMDbRip
     @Override
     public String toString()
     {
-        return "IMDbRip{" + "name=" + name + ", year=" + year + ", duration=" + duration + ", genres=" + genres + ", rating=" + rating + ", directors=" + directors + ", image=" + image + '}';
+        return "IMDbRip{" + "name=" + name + ", year=" + year + ", duration=" + duration + ", genres=" + genres + ", rating=" + rating + ", directors=" + directors + ", image=" + imagePath + '}';
     }
 }
