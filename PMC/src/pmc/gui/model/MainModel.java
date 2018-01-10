@@ -5,13 +5,17 @@
  */
 package pmc.gui.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import pmc.be.IMDbMovieFilter;
 import pmc.be.Movie;
+import pmc.be.MovieFilter;
+import pmc.be.PersonalMovieFilter;
 
 /**
  *
@@ -19,12 +23,17 @@ import pmc.be.Movie;
  */
 public class MainModel
 {
-
     private ObservableList<Movie> movies;
+    private ObservableList<Movie> filteredMovies;
+    private double minImdbRating;
+    private int minPersonalRating;
 
     public MainModel()
     {
-        this.movies = FXCollections.observableArrayList();;
+        this.movies = FXCollections.observableArrayList();
+        this.filteredMovies = FXCollections.observableArrayList();
+        minImdbRating = 0.0;
+        minPersonalRating = 0;
     }
 
     /**
@@ -34,6 +43,7 @@ public class MainModel
     public void addMovieToObsLst(Movie movie)
     {
         movies.add(movie);
+        addToFiltered();
     }
 
     /**
@@ -44,6 +54,7 @@ public class MainModel
     {
         this.movies.clear();
         this.movies.addAll(movies);
+        addToFiltered();
     }
 
     /**
@@ -69,9 +80,51 @@ public class MainModel
      * Get movies Observable List.
      * @return movies Observable List.
      */
-    public ObservableList<Movie> getMovies()
+    public ObservableList<Movie> getFilteredMovies()
     {
-        return movies;
+        return filteredMovies;
+    }
+
+    public void addToFiltered()
+    {
+        List<MovieFilter> movieFilters = new ArrayList<>();
+        MovieFilter imdbMovieFilter = new IMDbMovieFilter(0.0, minImdbRating);;
+        MovieFilter personalMovieFilter = new PersonalMovieFilter(0, minPersonalRating);;
+
+        movieFilters.add(imdbMovieFilter);
+        movieFilters.add(personalMovieFilter);
+
+        filteredMovies.clear();
+
+        for (Movie movie : movies)
+        {
+            movieFilters.set(0, new IMDbMovieFilter(movie.getImdbRating(), minImdbRating));
+            movieFilters.set(1, new PersonalMovieFilter(movie.getPersonalRating(), minPersonalRating));
+
+            int meetsRestrictions = 0;
+            for (MovieFilter movieFilter : movieFilters)
+            {
+                if (movieFilter.meetsRestrictions())
+                {
+                    meetsRestrictions++;
+                }
+            }
+            System.out.println(meetsRestrictions + " " + movieFilters.size());
+            if (meetsRestrictions == movieFilters.size())
+            {
+                filteredMovies.add(movie);
+            }
+        }
+    }
+
+    public void setMinImdbRating(double minImdbRating)
+    {
+        this.minImdbRating = minImdbRating;
+    }
+
+    public void setMinPersonalRating(int minPersonalRating)
+    {
+        this.minPersonalRating = minPersonalRating;
     }
 
 }

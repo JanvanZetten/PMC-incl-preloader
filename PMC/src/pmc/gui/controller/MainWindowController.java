@@ -21,11 +21,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
@@ -61,6 +64,10 @@ public class MainWindowController implements Initializable
     private TableColumn<Movie, String> tblcolPersonalRating;
 
     private MainModel mainModel = new MainModel();
+    @FXML
+    private Slider slrMinImdb;
+    @FXML
+    private Slider slrMinPersonal;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -136,7 +143,7 @@ public class MainWindowController implements Initializable
         mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt1570728/?ref_=nv_sr_1", "pmc/Movies/Guy runs into wall.mp4"));
 
         // Set Observable List.
-        tblviewMovies.setItems(mainModel.getMovies());
+        tblviewMovies.setItems(mainModel.getFilteredMovies());
     }
 
     private void handleMovieDetails()
@@ -202,5 +209,21 @@ public class MainWindowController implements Initializable
         newStage.setMinWidth(minWidth);
         newStage.setMinHeight(minHeight);
         newStage.showAndWait();
+    }
+
+    @FXML
+    private void handleMinImdb(MouseEvent event)
+    {
+        mainModel.setMinImdbRating(slrMinImdb.getValue());
+        System.out.println("IMDB: " + slrMinImdb.getValue());
+        mainModel.addToFiltered();
+    }
+
+    @FXML
+    private void handleMinPersonal(MouseEvent event)
+    {
+        mainModel.setMinPersonalRating((int) slrMinPersonal.getValue());
+        System.out.println("Personal: " + slrMinPersonal.getValue());
+        mainModel.addToFiltered();
     }
 }

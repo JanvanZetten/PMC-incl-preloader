@@ -28,7 +28,7 @@
                   <Insets left="4.0" right="4.0" top="45.0" />
                </StackPane.margin>
             </Label>
-            <Slider blockIncrement="1.0" majorTickUnit="10.0" max="10.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="slrMinImdb" blockIncrement="0.1" majorTickUnit="10.0" max="10.0" minorTickCount="9" onMouseReleased="#handleMinImdb" showTickLabels="true" showTickMarks="true">
                <StackPane.margin>
                   <Insets left="4.0" right="4.0" top="60.0" />
                </StackPane.margin>
@@ -41,7 +41,7 @@
                   <Font name="Roboto" size="13.0" />
                </font>
             </Label>
-            <Slider blockIncrement="1.0" majorTickUnit="10.0" max="10.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="slrMinPersonal" blockIncrement="1.0" majorTickUnit="10.0" max="10.0" minorTickCount="9" onMouseReleased="#handleMinPersonal" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <StackPane.margin>
                   <Insets left="4.0" right="4.0" top="120.0" />
                </StackPane.margin>
