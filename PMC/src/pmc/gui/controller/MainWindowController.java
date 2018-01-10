@@ -10,6 +10,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,11 +20,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pmc.be.Movie;
 import pmc.gui.model.MainModel;
 
 /**
@@ -37,6 +44,18 @@ public class MainWindowController implements Initializable
     private StackPane stackPaneFiltering;
     @FXML
     private StackPane StackPaneMovieView;
+    @FXML
+    private TableView<Movie> tblviewMovies;
+    @FXML
+    private TableColumn<Movie, String> tblcolTitle;
+    @FXML
+    private TableColumn<Movie, String> tblcolGenre;
+    @FXML
+    private TableColumn<Movie, String> tblcolTime;
+    @FXML
+    private TableColumn<Movie, String> tblcolImdbRating;
+    @FXML
+    private TableColumn<Movie, String> tblcolPersonalRating;
 
     private MainModel mainModel = new MainModel();
 
@@ -45,6 +64,21 @@ public class MainWindowController implements Initializable
     {
         mainModel.changeMenubarForMac(Menubar, stackPaneFiltering, StackPaneMovieView);
 
+        tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
+        tblcolGenre.setCellValueFactory(new PropertyValueFactory("genres"));
+        tblcolTime.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
+        {
+            int duration = param.getValue().getDuration();
+            int min = duration % 60;
+            int hour = (duration - min) / 60;
+            return new ReadOnlyObjectWrapper<>(hour + "t " + min + "min");
+        });
+        tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
+        tblcolPersonalRating.setCellValueFactory(new PropertyValueFactory("personalRating"));
+
+        mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt1570728/?ref_=nv_sr_1", "pmc/Movies/Guy runs into wall.mp4"));
+
+        tblviewMovies.setItems(mainModel.getMovies());
     }
 
     @FXML

@@ -63,7 +63,7 @@ public class IMDbRip
     }
 
     /**
-     * Rip IMDb Website by reading it as a stream.
+     * rip IMDb Website by reading it as a stream.
      * @param imdbUrl String containing URL.
      */
     private void ripInformationAsFile(String imdbUrl) throws RuntimeException
@@ -110,15 +110,18 @@ public class IMDbRip
                     }
 
                     // Check for duration.
-                    if (inputLine.contains("time itemprop=\"duration\"") && wasDuration > 0 && duration == 0)
-                    {
-                        duration = Integer.parseInt(inputLine.split(">")[1].split("min")[0].trim());
-                        System.out.println("Duration: " + duration);
-                        wasDuration = 0;
-                    }
-                    else if (inputLine.contains("time itemprop=\"duration\""))
+                    if (inputLine.contains("time itemprop=\"duration\"") && duration == 0)
                     {
                         wasDuration++;
+                    }
+                    else if (wasDuration > 0)
+                    {
+                        String txt = inputLine.trim();
+                        int hour = Integer.parseInt(txt.split("h")[0].trim()) * 60;
+                        int min = Integer.parseInt(txt.split("h")[1].split("min")[0].trim());
+                        duration = hour + min;
+                        //System.out.println("Duration: " + duration);
+                        wasDuration = 0;
                     }
 
                     // Check for genres.
