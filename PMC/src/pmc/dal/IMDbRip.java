@@ -32,6 +32,7 @@ public class IMDbRip
     private List<String> genres;
     private double rating;
     private String directors;
+    private String summary;
     private String imagePath;
     private byte[] imageInBytes;
 
@@ -47,6 +48,7 @@ public class IMDbRip
         name = null;
         genres = new ArrayList<>();
         directors = null;
+        summary = null;
         imagePath = null;
 
         /*
@@ -77,6 +79,7 @@ public class IMDbRip
                 boolean wasYear = false;
                 int wasDuration = 0;
                 int wasDirector = 0;
+                boolean wasSummary = false;
                 int wasImage = 0;
                 String inputLine;
 
@@ -149,6 +152,17 @@ public class IMDbRip
 
                         //System.out.println("Director " + (directors.size()) + ": " + directors.get(directors.size() - 1));
                         wasDirector = 0;
+                    }
+
+                    // Check for summary.
+                    if (inputLine.contains("class=\"summary_text\" itemprop=\"description\""))
+                    {
+                        wasSummary = true;
+                    }
+                    else if (wasSummary)
+                    {
+                        summary = inputLine.trim();
+                        wasSummary = false;
                     }
 
                     // Check for image and save to harddisk.
