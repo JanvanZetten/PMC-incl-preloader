@@ -2,12 +2,18 @@
 # Created by https://www.gitignore.io/api/netbeans,java
 
 ### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+PMC/nbproject/private/
+PMC/build/
+PMC/nbbuild/
+PMC/dist/
+PMC/nbdist/
+PMC/.nb-gradle/
+PMC-Preloader/nbproject/private/
+PMC-Preloader/build/
+PMC-Preloader/nbbuild/
+PMC-Preloader/dist/
+PMC-Preloader/nbdist/
+PMC-Preloader/.nb-gradle/
 
 
 ### Java ###
@@ -82,11 +88,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-/MyTunes/nbproject/private/
 
-# Local DB
-/MyTunes/localDB/
-/JavaFXPreloader/nbproject/private/
-/PMC-Preloader/nbproject/private/
-*.properties
-PMC/nbproject/private/private.xml
+# Images
+/PMC/images/

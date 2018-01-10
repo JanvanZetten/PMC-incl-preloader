@@ -5,19 +5,16 @@
  */
 package pmc.gui.controller;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import pmc.gui.model.MovieDetailsModel;
 
@@ -33,11 +30,19 @@ public class MovieDetailsController implements Initializable {
     @FXML
     private ImageView imageMoviePoster;
     @FXML
+    private ImageView imageRatingStar;
+    @FXML
     private Label lblTitleAndYear;
     @FXML
     private Label lblGenres;
     @FXML
     private Label lblDirector;
+    @FXML
+    private Label lblScore;
+    @FXML
+    private Button btnCopyLink;
+    @FXML
+    private Button btnClose;
 
     MovieDetailsModel model;
 
@@ -48,21 +53,31 @@ public class MovieDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         model = new MovieDetailsModel();
 
-        model.setImage(imageMoviePoster);
-//        model.setTitleAndYear(lblTitleAndYear);
+        model.setPosterImage(imageMoviePoster);
+        model.setRatingImage(imageRatingStar);
 //        model.setDescription(textareaDescription);
+//        model.setTitleAndYear(lblTitleAndYear);
 //        model.setGenres(lblGenres);
 //        model.setDirector(lblDirector);
-    }
+//        model.setScore(lblScore);
+    }   
 
+    //Plays the movie selected.
     @FXML
-    private void handleButtonAction() throws IOException {
-        String currentDir = System.getProperty("user.dir") + File.separator;
-        File dir = new File(currentDir);
-        System.out.println(dir + "\\Movies\\Guy runs into wall.mp4");
-        Desktop.getDesktop().open(new File(dir + "\\Movies\\Guy runs into wall.mp4"));
-        
-
+    private void watchMovieAction() throws IOException {
+        model.playMovie();
+    }
+    
+    @FXML
+    private void closeWindowAction() {
+        Stage stage = (Stage) btnClose.getScene().getWindow();
+        stage.close();
+    }
+    
+    @FXML
+    private void getLinkAction() {
+        model.setClipboard();        
+        btnCopyLink.setText("Copied to clipboard");
     }
 
 }

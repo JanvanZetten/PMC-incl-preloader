@@ -16,37 +16,41 @@ import javafx.stage.Stage;
  *
  * @author janvanzetten
  */
-public class PMC extends Application {
+public class PMC extends Application
+{
     private Scene scene;
-    
-    
+
     /**
      * this does the slow stuff because of preloader
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
-    public void init() throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MovieDetailsView.fxml"));
-        
+    public void init() throws Exception
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("gui/view/MovieDetailsView.fxml"));
+
         scene = new Scene(root);
-        
-        
+
     }
-    
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception
+    {
         stage.setScene(scene);
         stage.setTitle("PMC");
         stage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+        stage.setMinWidth(620);
+        stage.setMinHeight(420);
         stage.show();
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
-    
+
 }
