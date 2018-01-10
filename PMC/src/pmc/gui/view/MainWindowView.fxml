@@ -61,9 +61,9 @@
             </TableView>
          </children>
       </StackPane>
-      <StackPane prefHeight="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane prefHeight="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuBar fx:id="Menubar" prefWidth="600.0" StackPane.alignment="TOP_LEFT">
+            <MenuBar fx:id="Menubar" maxHeight="28.0" minHeight="28.0" prefHeight="28.0" StackPane.alignment="TOP_LEFT">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>

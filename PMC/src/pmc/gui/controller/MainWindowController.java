@@ -133,7 +133,7 @@ public class MainWindowController implements Initializable
     {
         try
         {
-            startModalWindow("MovieDetailsView");
+            startModalWindow("MovieDetailsView", 620, 394);
         }
         catch (IOException ex)
         {
@@ -146,7 +146,7 @@ public class MainWindowController implements Initializable
     {
         try
         {
-            startModalWindow("About");
+            startModalWindow("About", 330, 310);
         }
         catch (IOException ex)
         {
@@ -157,7 +157,7 @@ public class MainWindowController implements Initializable
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
-    private void startModalWindow(String windowView) throws IOException
+    private void startModalWindow(String windowView, int minWidth, int minHeight) throws IOException
     {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -168,6 +168,8 @@ public class MainWindowController implements Initializable
         newStage.setTitle("PMC - " + windowView);
         newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
         newStage.setScene(scene);
+        newStage.setMinWidth(minWidth);
+        newStage.setMinHeight(minHeight);
         newStage.showAndWait();
     }
 }
