@@ -366,11 +366,23 @@ public class DBManager {
     }
 
     /**
-     * Delete all the rows in the database where the moveid is the given movieid and the genre has the same is as one of the genres in the list
+     * Delete all the rows in the database where the movieid is the given 
+     * movieid and the genre has the same id as one of the genres in the list
      * @param movieid the movieid from which to delete the genres
      * @param genres the genres to delete from the movie
      */
-    private void deleteGenresToMovie(int movieid, List<Genre> genres) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DalExeption {
+        try (Connection con = DBCon.getConnection()) {
+            String sql = "DELETE GenresInMovie WHERE movieId = (?) AND genre = (?);";
+                
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            for (Genre genre : genres) {
+                statement.setInt(1, movieid);
+                statement.setInt(2, genre.getId());
+            }
+            } catch (SQLException ex) {
+            throw new DalExeption("Old movie and song combinations could not be deleted");
+        }
     }
 }
