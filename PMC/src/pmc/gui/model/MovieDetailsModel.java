@@ -17,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import pmc.bll.BLLManager;
+import pmc.be.Movie;
 
 /**
  *
@@ -24,7 +26,11 @@ import javafx.scene.input.ClipboardContent;
  */
 public class MovieDetailsModel {
     
+    private Movie currentMovie;
+    BLLManager bllManager;
+    
     public void initialize(URL url, ResourceBundle rb) {
+        bllManager = new BLLManager();
     }
 
     //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
@@ -85,6 +91,11 @@ public class MovieDetailsModel {
         ClipboardContent content = new ClipboardContent();
         content.putString("google.com");
         clipboard.setContent(content);
+        
+    }
+    
+    private void getCurrentMovie() {
+        currentMovie = bllManager.getCurrentMovie;
     }
     
 }

@@ -16,6 +16,7 @@ import pmc.be.IMDbMovieFilter;
 import pmc.be.Movie;
 import pmc.be.MovieFilter;
 import pmc.be.PersonalMovieFilter;
+import pmc.bll.BLLManager;
 
 /**
  *
@@ -27,9 +28,11 @@ public class MainModel
     private ObservableList<Movie> filteredMovies;
     private double minImdbRating;
     private int minPersonalRating;
+    BLLManager bllManager;
 
     public MainModel()
     {
+        bllManager = new BLLManager();
         this.movies = FXCollections.observableArrayList();
         this.filteredMovies = FXCollections.observableArrayList();
         minImdbRating = 0.0;
@@ -128,5 +131,9 @@ public class MainModel
             AnchorPane.setTopAnchor(stackPaneFiltering, 0.0);
             AnchorPane.setTopAnchor(stackPaneMovieView, 0.0);
         }
+    }
+
+    public void setCurrentMovie(Movie currentMovie) {
+        bllManager.setCurrentMovie(currentMovie);
     }
 }

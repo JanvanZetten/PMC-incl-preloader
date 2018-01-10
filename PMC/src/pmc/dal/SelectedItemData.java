@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmc.bll;
+package pmc.dal;
 
 import pmc.be.Movie;
-import pmc.dal.SelectedItemData;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex
  */
-public class BLLManager {
+public class SelectedItemData {
     
-    SelectedItemData SID;
-    public Movie getCurrentMovie;
+    private Movie currentMovie;
     
-    public BLLManager() {
-        SID = new SelectedItemData();
+    public SelectedItemData() {
+        
     }
 
     public void setCurrentMovie(Movie currentMovie) {
-        SID.setCurrentMovie(currentMovie);
+        this.currentMovie = currentMovie;
+    }
+    
+    public Movie getCurrentMovie() {
+        return currentMovie;
     }
     
 }
