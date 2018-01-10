@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import pmc.be.Genre;
 import pmc.be.Movie;
@@ -87,6 +88,7 @@ public class DBManager {
                 //image
                 Blob imageAsBlob;
                 imageAsBlob = rs.getBlob("imageInBytes");
+                System.out.println(Arrays.toString(imageAsBlob.getBytes(1, (int) imageAsBlob.length())));
                 movie.setImage(imageAsBlob.getBytes(1, (int) imageAsBlob.length()));
 
                 movies.add(movie);
@@ -172,7 +174,8 @@ public class DBManager {
 
             ByteArrayInputStream bais = new ByteArrayInputStream(imageInBytes);
             statement.setBinaryStream(10, bais, imageInBytes.length);
-
+            
+            
             if (statement.executeUpdate() == 1) {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
@@ -200,10 +203,11 @@ public class DBManager {
     void updateMovie(Movie updatedMovie) throws DalExeption {
         try (Connection con = DBCon.getConnection()) {
 
-            String sql = "UPDATE MOVIE SET name= '?', personalRating= '?', ImdbRating= '?', lastView= '?', filePath= '?', ImdbUrl= '?', year= '?', duration= '?', directors= '?', imageInBytes= '?',";
+            String sql = "UPDATE MOVIE SET name= ?, personalRating= ?, ImdbRating= ?, lastView= ?, filePath= ?, ImdbUrl= ?, "
+                    + "year= ?, duration= ?, directors= ?, imageInBytes= ? WHERE id = ?;" ;
 
             PreparedStatement statement = con.prepareStatement(sql);
-
+            
             statement.setString(1, updatedMovie.getName());
             statement.setInt(2, updatedMovie.getPersonalRating());
             statement.setDouble(3, updatedMovie.getImdbRating());
@@ -213,9 +217,15 @@ public class DBManager {
             statement.setInt(7, updatedMovie.getYear());
             statement.setInt(8, updatedMovie.getDuration());
             statement.setString(9, updatedMovie.getDirectors());
-
+            
+            ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
+            statement.setBinaryStream(10, bais, updatedMovie.getImageInBytes().length);
+            
+            statement.setInt(11, updatedMovie.getId());
+            
             if (statement.executeUpdate() == 1) {
                 updateGenresInMovie(updatedMovie.getId(), updatedMovie.getGenres());
+                return;
             }
             throw new DalExeption("Could not update Movie in database");
         } catch (SQLException ex) {
