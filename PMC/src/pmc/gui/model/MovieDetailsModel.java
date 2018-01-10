@@ -27,7 +27,7 @@ public class MovieDetailsModel {
     }
 
     public void setImage(ImageView imageMoviePoster) {
-        File file = new File("src/pmc/gui/resources/timmy.jpg");
+        File file = new File("Movies/timmy.jpg");
         Image image = new Image(file.toURI().toString());
         imageMoviePoster.setImage(image);
     }
