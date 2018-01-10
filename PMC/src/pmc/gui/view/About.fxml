@@ -21,7 +21,7 @@
         </StackPane>
         <StackPane alignment="TOP_LEFT" layoutX="7.0" prefHeight="325.0" prefWidth="344.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
             <children>
-                <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ecf0f1;" text="&#10;This is a school project.  &#10;EASV - Ehvervs Akademi Syd Vest&#10;CS2017A&#10;&#10;Jan, Alex &amp; Asbjørn" wrapText="true">
+                <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ecf0f1;" text="&#10;This is a school project.  &#10;EASV - Ehvervs Akademi Syd Vest&#10;CS2017A&#10;&#10;En Gruppe&#10;Jan, Alex &amp; Asbjørn" wrapText="true">
                     <StackPane.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </StackPane.margin>
