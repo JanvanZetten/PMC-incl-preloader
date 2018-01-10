@@ -98,7 +98,8 @@ public class Movie
         lastView = -1;
     }
 
-    public Movie(int id, String name, int year, int duration, List<Genre> genres, int personalRating, double imdbRating, String directors, int lastView, String filePath, String imdbUrl) {
+    public Movie(int id, String name, int year, int duration, List<Genre> genres, int personalRating, double imdbRating, String directors, int lastView, String filePath, String imdbUrl)
+    {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -111,8 +112,6 @@ public class Movie
         this.filePath = filePath;
         this.imdbUrl = imdbUrl;
     }
-    
-    
 
     /**
      * Set imagePath from byte array and saves the imagePath as a file. Requires
@@ -360,4 +359,9 @@ public class Movie
         this.imdbUrl = imdbUrl;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Movie{" + "id=" + id + ", name=" + name + ", year=" + year + ", duration=" + duration + ", genres=" + genres + ", personalRating=" + personalRating + ", imdbRating=" + imdbRating + ", directors=" + directors + ", lastView=" + lastView + ", filePath=" + filePath + ", imagePath=" + imagePath + ", imdbUrl=" + imdbUrl + '}';
+    }
 }

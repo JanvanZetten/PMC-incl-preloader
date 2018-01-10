@@ -7,6 +7,7 @@ package pmc.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -28,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.gui.model.MainModel;
 
@@ -63,9 +66,36 @@ public class MainWindowController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         mainModel.changeMenubarForMac(Menubar, stackPaneFiltering, StackPaneMovieView);
+        initializeTableView();
+    }
 
+    /**
+     * Setup TableView.
+     */
+    private void initializeTableView()
+    {
+        // Set values for Table Cells.
         tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
-        tblcolGenre.setCellValueFactory(new PropertyValueFactory("genres"));
+        tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
+        {
+            List<Genre> gs = param.getValue().getGenres();
+            String txt = "";
+            if (gs != null)
+            {
+                for (Genre g : gs)
+                {
+                    if (txt.equalsIgnoreCase(""))
+                    {
+                        txt = g.getName();
+                    }
+                    else
+                    {
+                        txt += ", " + g.getName();
+                    }
+                }
+            }
+            return new ReadOnlyObjectWrapper<>(txt);
+        });
         tblcolTime.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
         {
             int duration = param.getValue().getDuration();
@@ -76,8 +106,25 @@ public class MainWindowController implements Initializable
         tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
         tblcolPersonalRating.setCellValueFactory(new PropertyValueFactory("personalRating"));
 
+        // Set doubleclick on row.
+        tblviewMovies.setRowFactory(tv ->
+        {
+            TableRow<Movie> row = new TableRow<>();
+            row.setOnMouseClicked(event ->
+            {
+                if (event.getClickCount() == 2 && (!row.isEmpty()))
+                {
+                    Movie rowData = row.getItem();
+                    System.out.println(rowData);
+                }
+            });
+            return row;
+        });
+
+        // Add test Movie.
         mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt1570728/?ref_=nv_sr_1", "pmc/Movies/Guy runs into wall.mp4"));
 
+        // Set Observable List.
         tblviewMovies.setItems(mainModel.getMovies());
     }
 
