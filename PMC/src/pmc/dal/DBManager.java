@@ -358,9 +358,9 @@ public class DBManager {
     }
 
     /**
-     * delete all the rows in the database where 
-     * @param movieid
-     * @param oldGenres 
+     * Delete all the rows in the database where the moveid is the given movieid and the genre has the same is as one of the genres in the list
+     * @param movieid the movieid from which to delete the genres
+     * @param genres the genres to delete from the movie
      */
     private void deleteGenresToMovie(int movieid, List<Genre> genres) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
