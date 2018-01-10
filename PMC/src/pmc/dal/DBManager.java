@@ -190,7 +190,32 @@ public class DBManager {
         } catch (SQLException ex) {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
+    }
+    
+    /**
+     * Delete a movie from the database
+     *
+     * @param movie the movie to be deleted
+     * @return true if deleted succesfully
+     * @throws DalExeption
+     */
+    boolean deleteMovie(Movie movie) throws DalExeption {
+        try (Connection con = DBCon.getConnection()) {
 
+            String sql = "DELETE Movie WHERE id=?;";
+
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, movie.getId());
+
+            if (statement.executeUpdate() == 1) {
+                return true;
+            } else {
+                throw new DalExeption("Could not delete movie: " + movie.getName());
+            }
+        } catch (SQLException ex) {
+            throw new DalExeption(ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
