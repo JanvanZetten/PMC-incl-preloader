@@ -116,6 +116,7 @@ public class MainWindowController implements Initializable
                 {
                     Movie rowData = row.getItem();
                     System.out.println(rowData);
+                    handleMovieDetails();
                 }
             });
             return row;
@@ -126,6 +127,18 @@ public class MainWindowController implements Initializable
 
         // Set Observable List.
         tblviewMovies.setItems(mainModel.getMovies());
+    }
+
+    private void handleMovieDetails()
+    {
+        try
+        {
+            startModalWindow("MovieDetailsView");
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException("Could not open window!");
+        }
     }
 
     @FXML
