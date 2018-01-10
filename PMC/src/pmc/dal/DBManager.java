@@ -383,16 +383,18 @@ public class DBManager {
      */
     private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DalExeption {
         try (Connection con = DBCon.getConnection()) {
-            String sql = "DELETE GenresInMovie WHERE movieId = (?) AND genre = (?);";
+            String sql = "DELETE GenresInMovie WHERE movieId = ? AND genreId = ?;";
                 
-            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = con.prepareStatement(sql);
 
             for (Genre genre : genres) {
                 statement.setInt(1, movieid);
                 statement.setInt(2, genre.getId());
+                statement.addBatch();
             }
+            statement.executeBatch();
             } catch (SQLException ex) {
-            throw new DalExeption("Old movie and song combinations could not be deleted");
+            throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
 }
