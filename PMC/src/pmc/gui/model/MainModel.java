@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import pmc.be.Genre;
 import pmc.be.IMDbMovieFilter;
 import pmc.be.Movie;
 import pmc.be.MovieFilter;
@@ -28,7 +29,9 @@ public class MainModel
     private ObservableList<Movie> filteredMovies;
     private double minImdbRating;
     private int minPersonalRating;
-    BLLManager bllManager;
+    private String filterString;
+
+    private BLLManager bllManager;
 
     public MainModel()
     {
@@ -37,6 +40,7 @@ public class MainModel
         this.filteredMovies = FXCollections.observableArrayList();
         minImdbRating = 0.0;
         minPersonalRating = 0;
+        filterString = "";
     }
 
     /**
@@ -96,9 +100,47 @@ public class MainModel
 
             if (meetsRestrictions == movieFilters.size())
             {
-                filteredMovies.add(movie);
+                if (filterString.equalsIgnoreCase("") || filterString == null)
+                {
+                    filteredMovies.add(movie);
+                }
+                else
+                {
+                    String genres = "";
+                    if (movie.getGenres() != null)
+                    {
+                        for (Genre genre : movie.getGenres())
+                        {
+                            if (genres.equalsIgnoreCase(""))
+                            {
+                                genres = genre.getName();
+                            }
+                            else
+                            {
+                                genres += genre.getName();
+                            }
+                        }
+                    }
+
+                    for (String string : filterString.split(" "))
+                    {
+                        if (movie.getName().toLowerCase().contains(string.toLowerCase())
+                                || String.valueOf(movie.getYear()).toLowerCase().contains(string.toLowerCase())
+                                || genres.toLowerCase().contains(string.toLowerCase())
+                                || movie.getDirectors().toLowerCase().contains(string.toLowerCase()))
+                        {
+                            filteredMovies.add(movie);
+                            break;
+                        }
+                    }
+                }
             }
         }
+    }
+
+    public void setFilterString(String filterString)
+    {
+        this.filterString = filterString;
     }
 
     public void setMinImdbRating(double minImdbRating)
@@ -133,7 +175,8 @@ public class MainModel
         }
     }
 
-    public void setCurrentMovie(Movie currentMovie) {
+    public void setCurrentMovie(Movie currentMovie)
+    {
         bllManager.setCurrentMovie(currentMovie);
     }
 }

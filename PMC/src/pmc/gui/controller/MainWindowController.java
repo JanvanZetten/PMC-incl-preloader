@@ -25,6 +25,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -62,6 +63,8 @@ public class MainWindowController implements Initializable
     private TableColumn<Movie, String> tblcolImdbRating;
     @FXML
     private TableColumn<Movie, String> tblcolPersonalRating;
+    @FXML
+    private TextField txtfldFilter;
     @FXML
     private Slider slrMinImdb;
     @FXML
@@ -132,7 +135,7 @@ public class MainWindowController implements Initializable
                     mainModel.setCurrentMovie(currentMovie);
                     System.out.println(currentMovie);
                     handleMovieDetails();
-                    
+
                 }
             });
             return row;
@@ -224,6 +227,13 @@ public class MainWindowController implements Initializable
     private void handleMinPersonal(MouseEvent event)
     {
         mainModel.setMinPersonalRating((int) slrMinPersonal.getValue());
+        mainModel.addToFiltered();
+    }
+
+    @FXML
+    private void handleTxtFilter(KeyEvent event)
+    {
+        mainModel.setFilterString(txtfldFilter.getText());
         mainModel.addToFiltered();
     }
 }
