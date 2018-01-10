@@ -192,6 +192,11 @@ public class DBManager {
         }
     }
 
+    /**
+     * update a movie in database 
+     * @param updatedMovie the movie object which should have the id of the movie wished to be updated
+     * @throws DalExeption 
+     */
     void updateMovie(Movie updatedMovie) throws DalExeption {
         try (Connection con = DBCon.getConnection()) {
 
@@ -219,13 +224,16 @@ public class DBManager {
     }
 
     /**
-     * Delete a movie from the database
+     * Delete a movie from the database 
      *
      * @param movie the movie to be deleted
      * @return true if deleted succesfully
      * @throws DalExeption
      */
     boolean deleteMovie(Movie movie) throws DalExeption {
+        
+        deleteGenresToMovie(movie.getId(), movie.getGenres());
+        
         try (Connection con = DBCon.getConnection()) {
 
             String sql = "DELETE Movie WHERE id=?;";
