@@ -53,6 +53,7 @@ public class MovieDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         model = new MovieDetailsModel();
 
+//        model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
 //        model.setDescription(textareaDescription);
