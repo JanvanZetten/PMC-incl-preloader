@@ -132,6 +132,7 @@ public class MainWindowController implements Initializable
                     mainModel.setCurrentMovie(currentMovie);
                     System.out.println(currentMovie);
                     handleMovieDetails();
+                    
                 }
             });
             return row;

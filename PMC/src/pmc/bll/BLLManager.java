@@ -15,7 +15,6 @@ import pmc.dal.SelectedItemData;
 public class BLLManager {
     
     SelectedItemData SID;
-    public Movie getCurrentMovie;
     
     public BLLManager() {
         SID = new SelectedItemData();
@@ -23,6 +22,10 @@ public class BLLManager {
 
     public void setCurrentMovie(Movie currentMovie) {
         SID.setCurrentMovie(currentMovie);
+    }
+    
+    public Movie getCurrentMovie() {
+        return SID.getCurrentMovie();
     }
     
 }

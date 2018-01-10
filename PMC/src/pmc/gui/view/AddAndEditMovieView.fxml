@@ -60,6 +60,7 @@
                   <Insets bottom="40.0" left="70.0" right="220.0" />
                </StackPane.margin>
             </TextField>
+            <TextField />
          </children>
       </StackPane>
    </children>

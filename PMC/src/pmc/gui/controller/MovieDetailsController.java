@@ -45,6 +45,8 @@ public class MovieDetailsController implements Initializable {
     private Button btnClose;
 
     MovieDetailsModel model;
+    @FXML
+    private Button WatchMovie;
 
     /**
      * Initializes the controller class.
@@ -57,7 +59,7 @@ public class MovieDetailsController implements Initializable {
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
 //        model.setDescription(textareaDescription);
-//        model.setTitleAndYear(lblTitleAndYear);
+        model.setTitleAndYear(lblTitleAndYear);
 //        model.setGenres(lblGenres);
 //        model.setDirector(lblDirector);
 //        model.setScore(lblScore);

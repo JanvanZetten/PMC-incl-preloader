@@ -26,7 +26,6 @@ import pmc.be.Movie;
  */
 public class MovieDetailsModel {
     
-    private Movie currentMovie;
     BLLManager bllManager;
     
     public void initialize(URL url, ResourceBundle rb) {
@@ -54,7 +53,8 @@ public class MovieDetailsModel {
 
     //Sets the title and year of the movie in one string.
     public void setTitleAndYear(Label lblTitleAndYear) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String titleAndYear = bllManager.getCurrentMovie().getName() + bllManager.getCurrentMovie().getYear() + "";
+        lblTitleAndYear.setText(titleAndYear);
     }
 
     //Sets the description of the movie in the description text area.
@@ -92,10 +92,5 @@ public class MovieDetailsModel {
         content.putString("google.com");
         clipboard.setContent(content);
         
-    }
-    
-    private void getCurrentMovie() {
-        currentMovie = bllManager.getCurrentMovie;
-    }
-    
+    }    
 }
