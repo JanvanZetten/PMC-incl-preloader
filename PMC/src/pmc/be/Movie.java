@@ -98,6 +98,22 @@ public class Movie
         lastView = -1;
     }
 
+    public Movie(int id, String name, int year, int duration, List<Genre> genres, int personalRating, double imdbRating, String directors, int lastView, String filePath, String imdbUrl) {
+        this.id = id;
+        this.name = name;
+        this.year = year;
+        this.duration = duration;
+        this.genres = genres;
+        this.personalRating = personalRating;
+        this.imdbRating = imdbRating;
+        this.directors = directors;
+        this.lastView = lastView;
+        this.filePath = filePath;
+        this.imdbUrl = imdbUrl;
+    }
+    
+    
+
     /**
      * Set imagePath from byte array and saves the imagePath as a file. Requires
      * that the name and year is set. Used to get imagePath from database.
