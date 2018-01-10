@@ -101,10 +101,17 @@ public class MainWindowController implements Initializable
             int duration = param.getValue().getDuration();
             int min = duration % 60;
             int hour = (duration - min) / 60;
+            if (min < 10)
+            {
+                return new ReadOnlyObjectWrapper<>(hour + "t 0" + min + "min");
+            }
             return new ReadOnlyObjectWrapper<>(hour + "t " + min + "min");
         });
+        tblcolTime.setStyle("-fx-alignment: CENTER-RIGHT;");
         tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
+        tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
         tblcolPersonalRating.setCellValueFactory(new PropertyValueFactory("personalRating"));
+        tblcolPersonalRating.setStyle("-fx-alignment: CENTER;");
 
         // Set doubleclick on row.
         tblviewMovies.setRowFactory(tv ->
@@ -123,6 +130,9 @@ public class MainWindowController implements Initializable
         });
 
         // Add test Movie.
+        mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt0468569/", "pmc/Movies/Guy runs into wall.mp4"));
+        mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt1345836/", "pmc/Movies/Guy runs into wall.mp4"));
+        mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt0097965/", "pmc/Movies/Guy runs into wall.mp4"));
         mainModel.addMovieToObsLst(new Movie("http://www.imdb.com/title/tt1570728/?ref_=nv_sr_1", "pmc/Movies/Guy runs into wall.mp4"));
 
         // Set Observable List.
