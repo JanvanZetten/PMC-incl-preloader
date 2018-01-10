@@ -45,11 +45,11 @@ public class MainWindowController implements Initializable
 {
 
     @FXML
-    private MenuBar Menubar;
+    private MenuBar menubar;
     @FXML
     private StackPane stackPaneFiltering;
     @FXML
-    private StackPane StackPaneMovieView;
+    private StackPane stackPaneMovieView;
     @FXML
     private TableView<Movie> tblviewMovies;
     @FXML
@@ -62,17 +62,17 @@ public class MainWindowController implements Initializable
     private TableColumn<Movie, String> tblcolImdbRating;
     @FXML
     private TableColumn<Movie, String> tblcolPersonalRating;
-
-    private MainModel mainModel = new MainModel();
     @FXML
     private Slider slrMinImdb;
     @FXML
     private Slider slrMinPersonal;
 
+    private MainModel mainModel = new MainModel();
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        mainModel.changeMenubarForMac(Menubar, stackPaneFiltering, StackPaneMovieView);
+        mainModel.changeMenubarForMac(menubar, stackPaneFiltering, stackPaneMovieView);
         initializeTableView();
     }
 
@@ -215,7 +215,6 @@ public class MainWindowController implements Initializable
     private void handleMinImdb(MouseEvent event)
     {
         mainModel.setMinImdbRating(slrMinImdb.getValue());
-        System.out.println("IMDB: " + slrMinImdb.getValue());
         mainModel.addToFiltered();
     }
 
@@ -223,7 +222,6 @@ public class MainWindowController implements Initializable
     private void handleMinPersonal(MouseEvent event)
     {
         mainModel.setMinPersonalRating((int) slrMinPersonal.getValue());
-        System.out.println("Personal: " + slrMinPersonal.getValue());
         mainModel.addToFiltered();
     }
 }

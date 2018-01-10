@@ -48,7 +48,7 @@
             </Slider>
          </children>
       </StackPane>
-      <StackPane fx:id="StackPaneMovieView" layoutX="200.0" layoutY="28.0" prefHeight="372.0" prefWidth="425.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+      <StackPane fx:id="stackPaneMovieView" layoutX="200.0" layoutY="28.0" prefHeight="372.0" prefWidth="425.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
             <TableView fx:id="tblviewMovies" prefHeight="200.0" prefWidth="200.0">
               <columns>
@@ -63,7 +63,7 @@
       </StackPane>
       <StackPane prefHeight="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuBar fx:id="Menubar" maxHeight="28.0" minHeight="28.0" prefHeight="28.0" StackPane.alignment="TOP_LEFT">
+            <MenuBar fx:id="menubar" maxHeight="28.0" minHeight="28.0" prefHeight="28.0" StackPane.alignment="TOP_LEFT">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>

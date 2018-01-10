@@ -58,25 +58,6 @@ public class MainModel
     }
 
     /**
-     * Makes the Menubar look nice on Mac. if it is a Mac the Menubar is placed
-     * on the where top of the screen where it normally is placed on a Mac. it
-     * then takes the stackpanes and sets the top anchor to 0 for avoiding empty
-     * space
-     * @param Menubar
-     * @param stackPaneFiltering
-     * @param StackPaneMovieView
-     */
-    public void changeMenubarForMac(MenuBar Menubar, StackPane stackPaneFiltering, StackPane StackPaneMovieView)
-    {
-        if (System.getProperty("os.name").startsWith("Mac"))
-        {
-            Menubar.useSystemMenuBarProperty().set(true);
-            AnchorPane.setTopAnchor(stackPaneFiltering, 0.0);
-            AnchorPane.setTopAnchor(StackPaneMovieView, 0.0);
-        }
-    }
-
-    /**
      * Get movies Observable List.
      * @return movies Observable List.
      */
@@ -109,7 +90,7 @@ public class MainModel
                     meetsRestrictions++;
                 }
             }
-            System.out.println(meetsRestrictions + " " + movieFilters.size());
+
             if (meetsRestrictions == movieFilters.size())
             {
                 filteredMovies.add(movie);
@@ -127,4 +108,25 @@ public class MainModel
         this.minPersonalRating = minPersonalRating;
     }
 
+    /**
+     * Makes the Menubar look nice on Mac. if it is a Mac the Menubar is placed
+     * on the where top of the screen where it normally is placed on a Mac. it
+     * then takes the stackpanes and sets the top anchor to 0 for avoiding empty
+     * space
+     * @param menubar
+     * @param stackPaneFiltering
+     * @param stackPaneMovieView
+     */
+    public void changeMenubarForMac(MenuBar menubar, StackPane stackPaneFiltering, StackPane stackPaneMovieView)
+    {
+        if (System.getProperty("os.name").startsWith("Mac"))
+        {
+            menubar.useSystemMenuBarProperty().set(true);
+            menubar.setMinHeight(0.0);
+            menubar.setPrefHeight(0.0);
+            menubar.setMaxHeight(0.0);
+            AnchorPane.setTopAnchor(stackPaneFiltering, 0.0);
+            AnchorPane.setTopAnchor(stackPaneMovieView, 0.0);
+        }
+    }
 }
