@@ -191,7 +191,33 @@ public class DBManager {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
-    
+
+    void updateMovie(Movie updatedMovie) throws DalExeption {
+        try (Connection con = DBCon.getConnection()) {
+
+            String sql = "UPDATE MOVIE SET name= '?', personalRating= '?', ImdbRating= '?', lastView= '?', filePath= '?', ImdbUrl= '?', year= '?', duration= '?', directors= '?', imageInBytes= '?',";
+
+            PreparedStatement statement = con.prepareStatement(sql);
+
+            statement.setString(1, updatedMovie.getName());
+            statement.setInt(2, updatedMovie.getPersonalRating());
+            statement.setDouble(3, updatedMovie.getImdbRating());
+            statement.setInt(4, updatedMovie.getLastView());
+            statement.setString(5, updatedMovie.getFilePath());
+            statement.setString(6, updatedMovie.getImdbUrl());
+            statement.setInt(7, updatedMovie.getYear());
+            statement.setInt(8, updatedMovie.getDuration());
+            statement.setString(9, updatedMovie.getDirectors());
+
+            if (statement.executeUpdate() == 1) {
+                updateGenresInMovie(updatedMovie.getId(), updatedMovie.getGenres());
+            }
+            throw new DalExeption("Could not update Movie in database");
+        } catch (SQLException ex) {
+            throw new DalExeption(ex.getMessage(), ex.getCause());
+        }
+    }
+
     /**
      * Delete a movie from the database
      *
@@ -279,9 +305,8 @@ public class DBManager {
                     rs.next();
                     int id = rs.getInt(1);
                     keys.add(id);
-                }
-                else{
-                    throw new DalExeption("Could not connect Movie and Genre" );
+                } else {
+                    throw new DalExeption("Could not connect Movie and Genre");
                 }
             }
             return keys;
@@ -290,5 +315,54 @@ public class DBManager {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
 
+    }
+
+    /**
+     * updates the genres in the movie
+     *
+     * @param movieid
+     * @param newGenres
+     * @throws DalExeption
+     */
+    private void updateGenresInMovie(int movieid, List<Genre> newGenres) throws DalExeption {
+        List<Genre> oldGenres = getGenresOfMovie(movieid);
+        boolean test = true;
+        List<Genre> genresToAdd = new ArrayList<>();
+        try (Connection con = DBCon.getConnection()) {
+            for (Genre newGenre : newGenres) {
+                test = true;
+                for (Genre oldGenre : oldGenres) {
+                    if (newGenre.getId() == oldGenre.getId()) {
+                        oldGenres.remove(oldGenre);
+                        test = false;
+                        break;
+                    }
+                }
+
+                if (test) {
+                    genresToAdd.add(newGenre);
+                }
+
+            }
+            addGenresToMovie(movieid, genresToAdd);
+
+            //Delete Genres in oldGenres
+            if (!oldGenres.isEmpty()) {
+                deleteGenresToMovie(movieid, oldGenres);
+            }
+            
+
+        } catch (SQLException ex) {
+            throw new DalExeption(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * delete all the rows in the database where 
+     * @param movieid
+     * @param oldGenres 
+     */
+    private void deleteGenresToMovie(int movieid, List<Genre> genres) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
