@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="386.0" prefWidth="509.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9">
     <stylesheets>
-        <URL value="@AddAndEditMovieCSS.css"/>
+        <URL value="@AddAndEditMovieCSS.css" />
     </stylesheets>
+   <children>
+      <StackPane prefHeight="400.0" prefWidth="507.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Add or Edit Movie" textFill="#ecf0f1" StackPane.alignment="TOP_CENTER">
+               <font>
+                  <Font name="Roboto" size="36.0" />
+               </font>
+               <StackPane.margin>
+                  <Insets top="20.0" />
+               </StackPane.margin>
+            </Label>
+            <Label text="File path:" textFill="#ecf0f1">
+               <StackPane.margin>
+                  <Insets bottom="200.0" right="320.0" />
+               </StackPane.margin>
+            </Label>
+            <TextField editable="false" promptText="Enter the file path of the movie..." snapToPixel="false" StackPane.alignment="CENTER_LEFT">
+               <StackPane.margin>
+                  <Insets bottom="150.0" left="70.0" right="220.0" />
+               </StackPane.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="Browse">
+               <StackPane.margin>
+                  <Insets bottom="150.0" left="150.0" />
+               </StackPane.margin>
+            </Button>
+            <Label alignment="TOP_LEFT" text="IMDb browser link:" textFill="#ecf0f1">
+               <StackPane.margin>
+                  <Insets bottom="85.0" right="268.0" />
+               </StackPane.margin>
+            </Label>
+            <TextField promptText="Enter the IMDb link of the movie...">
+               <StackPane.margin>
+                  <Insets bottom="40.0" left="70.0" right="220.0" />
+               </StackPane.margin>
+            </TextField>
+            <RadioButton mnemonicParsing="false" text="Fill out information manually" textFill="#ecf0f1">
+               <StackPane.margin>
+                  <Insets bottom="40.0" left="270.0" />
+               </StackPane.margin>
+            </RadioButton>
+            <TextField promptText="Enter the name of the movie..." visible="false">
+               <StackPane.margin>
+                  <Insets bottom="40.0" left="70.0" right="220.0" />
+               </StackPane.margin>
+            </TextField>
+         </children>
+      </StackPane>
+   </children>
 </AnchorPane>
