@@ -1,4 +1,4 @@
-# Personal Movie Collection
+# Private Movie Collection
 ## PMC-incl-preloader
 PMC software with preloader
 
