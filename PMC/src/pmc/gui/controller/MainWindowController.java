@@ -133,9 +133,11 @@ public class MainWindowController implements Initializable
                 {
                     Movie currentMovie = row.getItem();
                     mainModel.setCurrentMovie(currentMovie);
-                    System.out.println(currentMovie);
                     handleMovieDetails();
-
+                }
+                else if (event.getClickCount() == 1 && (!row.isEmpty()))
+                {
+                    mainModel.setCurrentMovie(row.getItem());
                 }
             });
             return row;

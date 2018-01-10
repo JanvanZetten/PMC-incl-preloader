@@ -23,7 +23,8 @@ import pmc.gui.model.MovieDetailsModel;
  *
  * @author Alex
  */
-public class MovieDetailsController implements Initializable {
+public class MovieDetailsController implements Initializable
+{
 
     @FXML
     private TextArea textareaDescription;
@@ -43,43 +44,47 @@ public class MovieDetailsController implements Initializable {
     private Button btnCopyLink;
     @FXML
     private Button btnClose;
-
-    MovieDetailsModel model;
     @FXML
     private Button WatchMovie;
+
+    MovieDetailsModel model;
 
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         model = new MovieDetailsModel();
 
 //        model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
 //        model.setDescription(textareaDescription);
-        model.setTitleAndYear(lblTitleAndYear);
+        // Does not work because MainModel and MovieDetailsModel does not use the same BLLManager model.setTitleAndYear(lblTitleAndYear);
 //        model.setGenres(lblGenres);
 //        model.setDirector(lblDirector);
 //        model.setScore(lblScore);
-    }   
+    }
 
     //Plays the movie selected.
     @FXML
-    private void watchMovieAction() throws IOException {
+    private void watchMovieAction() throws IOException
+    {
         model.playMovie();
     }
-    
+
     @FXML
-    private void closeWindowAction() {
+    private void closeWindowAction()
+    {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
-    private void getLinkAction() {
-        model.setClipboard();        
+    private void getLinkAction()
+    {
+        model.setClipboard();
         btnCopyLink.setText("Copied to clipboard");
     }
 
