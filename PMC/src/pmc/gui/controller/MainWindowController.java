@@ -142,6 +142,27 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
+    private void handleNew(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void handleQuit(ActionEvent event)
+    {
+        System.exit(0);
+    }
+
+    @FXML
+    private void handleEdit(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void handleDelete(ActionEvent event)
+    {
+    }
+
+    @FXML
     private void handleAbout(ActionEvent event)
     {
         try
