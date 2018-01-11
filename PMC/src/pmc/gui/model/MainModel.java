@@ -13,12 +13,15 @@ import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -363,4 +366,21 @@ public class MainModel
             alert.showAndWait();
         }
     }
+
+    public void contextMenuHandler(TableView<Movie> tblviewMovies) {
+        
+        //Plays the selected song.
+        MenuItem item1 = new MenuItem("Open Movie");
+        item1.setOnAction((ActionEvent e)
+                -> {
+            System.out.println("Hi");
+            
+        });
+
+        //Sets the created MenuItems into the context menu for the table.
+        final ContextMenu contextMenu = new ContextMenu(item1);
+        contextMenu.setMaxSize(50, 50);
+        tblviewMovies.setContextMenu(contextMenu);
+    }
+    
 }

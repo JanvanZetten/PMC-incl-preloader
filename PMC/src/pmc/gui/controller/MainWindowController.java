@@ -62,6 +62,7 @@ public class MainWindowController implements Initializable
         mainModel.changeMenubarForMac(menubar, stackPaneFiltering, stackPaneMovieView);
         //initializeTableView();
         mainModel.initializeTableView(tblviewMovies, tblcolTitle, tblcolGenre, tblcolTime, tblcolImdbRating, tblcolPersonalRating);
+        handleContextMenu();
     }
     
     @FXML
@@ -118,5 +119,9 @@ public class MainWindowController implements Initializable
     {
         mainModel.setFilterString(txtfldFilter.getText());
         mainModel.addToFiltered();
+    }
+    
+    private void handleContextMenu() {
+        mainModel.contextMenuHandler(tblviewMovies);
     }
 }
