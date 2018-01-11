@@ -154,6 +154,11 @@ public class MainWindowController implements Initializable
         try
         {
             startModalWindow("MovieDetailsView", 620, 394);
+            
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("MovieDetailsView.fxml"));
+            MovieDetailsController cont = new FXMLLoader().getController();
+            
+            cont.setBLLManager(mainModel.getBLLManager());
         }
         catch (IOException ex)
         {

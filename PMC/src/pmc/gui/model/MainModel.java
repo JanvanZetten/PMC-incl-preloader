@@ -287,4 +287,8 @@ public class MainModel
         newStage.setMinHeight(minHeight);
         newStage.showAndWait();
     }
+    
+    public BLLManager getBLLManager() {
+        return bllManager;
+    }
 }
