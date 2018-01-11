@@ -11,9 +11,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import pmc.be.Genre;
+import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
+import pmc.bll.ripManager;
 
 /**
  *
@@ -24,6 +31,7 @@ public class AddMovieModel {
     private Path to;
     private Path from;
     private File selectedFile;
+    private String path;
     BLLManager bll = new BLLManager();
 
     public void browseMovie(TextField textfieldPath) throws IOException {
@@ -44,7 +52,47 @@ public class AddMovieModel {
 //            Files.copy(from, to, REPLACE_EXISTING);
     }}
 
-    public boolean save(String url) {
+    /**
+     * Saves the movie in the database with the given url
+     * @param url imdb url 
+     * @return true if succeded
+     */
+    public boolean save(String url) {  
+
+        if (!(url.isEmpty() && path.isEmpty())) {
+            try {
+                ripManager rip = new ripManager(url);
+
+                List<Genre> genresInMovie = new ArrayList<>();
+                List<Genre> allExistingGenres = bll.getAllGenres();
+
+                boolean found;
+
+                for (String genre : rip.getGenres()) {
+                    found = false;
+                    for (Genre existingGenre : allExistingGenres) {
+                        if (existingGenre.getName().equalsIgnoreCase(genre)) {
+                            genresInMovie.add(existingGenre);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+
+                        genresInMovie.add(bll.addGenre(genre));
+
+                    }
+                }
+
+                bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getImageInBytes());
+
+                return true;
+
+            } catch (BLLException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Could not save Movie:\n" + ex.getMessage(), ButtonType.OK);
+                alert.showAndWait();
+            }
+        }
         return false;
     }
     
