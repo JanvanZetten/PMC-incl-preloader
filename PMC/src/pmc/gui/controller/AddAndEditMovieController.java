@@ -22,18 +22,22 @@ public class AddAndEditMovieController implements Initializable {
 
     @FXML
     private WebView WebView;
+    
+    WebEngine webEngine;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        WebEngine webEngine = WebView.getEngine();
+        webEngine = WebView.getEngine();
         webEngine.load("http://www.imdb.com");
     }    
     
     @FXML
     private void saveMovieAction(ActionEvent event) {
+        String url = webEngine.getLocation();
+        System.out.println(url);
     }
 
     @FXML
