@@ -6,21 +6,18 @@
 package pmc.gui.model;
 
 import java.awt.Desktop;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import pmc.bll.BLLManager;
-import pmc.be.Movie;
 
 /**
  *
@@ -31,6 +28,10 @@ public class MovieDetailsModel {
     BLLManager bllManager;
     
     public void initialize(URL url, ResourceBundle rb) {
+    }
+    
+    public void setBLLManager(BLLManager bllManager) {
+        this.bllManager = bllManager;
     }
 
     //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
@@ -43,9 +44,15 @@ public class MovieDetailsModel {
     
     //Sets the image of the movie poster.
     public void setPosterImage(ImageView imageMoviePoster) {
-        File file = new File("src/pmc/gui/resources/timmy.jpg");
-        Image image = new Image(file.toURI().toString());
-        imageMoviePoster.setImage(image);
+        if (bllManager.getCurrentMovie().getImageInBytes().length != 0) {
+            Image img = new Image(new ByteArrayInputStream(bllManager.getCurrentMovie().getImageInBytes()));
+            imageMoviePoster.setImage(img);
+        }
+        else {
+            File file = new File("src/pmc/gui/resources/noimage.png");
+            Image image = new Image(file.toURI().toString());
+            imageMoviePoster.setImage(image);
+        }
     }
     
     //Sets the image of the rating star.
@@ -113,9 +120,5 @@ public class MovieDetailsModel {
         content.putString(bllManager.getCurrentMovie().getImdbUrl());
         clipboard.setContent(content);
         
-    }    
-    
-    public void setBLLManager(BLLManager bllManager) {
-        this.bllManager = bllManager;
     }
 }
