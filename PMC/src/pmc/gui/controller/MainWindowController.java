@@ -9,11 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +26,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -76,7 +71,8 @@ public class MainWindowController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         mainModel.changeMenubarForMac(menubar, stackPaneFiltering, stackPaneMovieView);
-        initializeTableView();
+        //initializeTableView();
+        mainModel.initializeTableView(tblviewMovies,tblcolTitle,tblcolGenre,tblcolTime,tblcolImdbRating,tblcolPersonalRating);
     }
 
     /**

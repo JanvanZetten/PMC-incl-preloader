@@ -5,13 +5,25 @@
  */
 package pmc.gui.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import pmc.be.Genre;
 import pmc.be.IMDbMovieFilter;
 import pmc.be.Movie;
@@ -178,5 +190,101 @@ public class MainModel
     public void setCurrentMovie(Movie currentMovie)
     {
         bllManager.setCurrentMovie(currentMovie);
+    }
+
+    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating) {
+        // Set values for Table Cells.
+        tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
+        tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
+        {
+            List<Genre> gs = param.getValue().getGenres();
+            String txt = "";
+            if (gs != null)
+            {
+                for (Genre g : gs)
+                {
+                    if (txt.equalsIgnoreCase(""))
+                    {
+                        txt = g.getName();
+                    }
+                    else
+                    {
+                        txt += ", " + g.getName();
+                    }
+                }
+            }
+            return new ReadOnlyObjectWrapper<>(txt);
+        });
+        tblcolTime.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
+        {
+            int duration = param.getValue().getDuration();
+            int min = duration % 60;
+            int hour = (duration - min) / 60;
+            if (min < 10)
+            {
+                return new ReadOnlyObjectWrapper<>(hour + "t 0" + min + "min");
+            }
+            return new ReadOnlyObjectWrapper<>(hour + "t " + min + "min");
+        });
+        tblcolTime.setStyle("-fx-alignment: CENTER-RIGHT;");
+        tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
+        tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
+        tblcolPersonalRating.setCellValueFactory(new PropertyValueFactory("personalRating"));
+        tblcolPersonalRating.setStyle("-fx-alignment: CENTER;");
+
+        // Set doubleclick on row.
+        tblviewMovies.setRowFactory(tv ->
+        {
+            TableRow<Movie> row = new TableRow<>();
+            row.setOnMouseClicked(event ->
+            {
+                if (event.getClickCount() == 2 && (!row.isEmpty()))
+                {
+                    Movie currentMovie = row.getItem();
+                    setCurrentMovie(currentMovie);
+                    handleMovieDetails();
+                }
+                else if (event.getClickCount() == 1 && (!row.isEmpty()))
+                {
+                    mainModel.setCurrentMovie(row.getItem());
+                }
+            });
+            return row;
+        });
+
+
+        // Set Observable List.
+        tblviewMovies.setItems(filteredMovies);
+    }
+    
+    private void handleMovieDetails()
+    {
+        try
+        {
+            startModalWindow("MovieDetailsView", 620, 394);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException("Could not open window!");
+        }
+    }
+    
+    /**
+     * Starts a new window by sending in the name of the view in the parameters.
+     */
+    private void startModalWindow(String windowView, int minWidth, int minHeight) throws IOException
+    {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/" + windowView + ".fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+
+        newStage.setTitle("PMC - " + windowView);
+        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+        newStage.setScene(scene);
+        newStage.setMinWidth(minWidth);
+        newStage.setMinHeight(minHeight);
+        newStage.showAndWait();
     }
 }
