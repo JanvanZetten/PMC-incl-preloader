@@ -151,19 +151,36 @@ public class MainWindowController implements Initializable
 
     private void handleMovieDetails()
     {
-        try
-        {
-            startModalWindow("MovieDetailsView", 620, 394);
+//        try
+//        {
+//            startModalWindow("MovieDetailsView", 620, 394);
             
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("MovieDetailsView.fxml"));
-            MovieDetailsController cont = new FXMLLoader().getController();
+//            Stage newStage = new Stage();
+//        newStage.initModality(Modality.APPLICATION_MODAL);
+//        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
+//        
+//        MovieDetailsController cont = new FXMLLoader().getController();
+//            
+//            cont.setBLLManager(mainModel.getBLLManager());
+//        Parent root = fxLoader.load();
+//        Scene scene = new Scene(root);
+//        
+//        
+//            
+//
+//        newStage.setTitle("PMC - ");
+//        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+//        newStage.setScene(scene);
+//        newStage.setMinWidth(620);
+//        newStage.setMinHeight(394);
+//        newStage.showAndWait();
             
-            cont.setBLLManager(mainModel.getBLLManager());
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException("Could not open window!");
-        }
+            
+//        }
+//        catch (IOException ex)
+//        {
+//            throw new RuntimeException("Could not open window!");
+//        }
     }
 
     @FXML

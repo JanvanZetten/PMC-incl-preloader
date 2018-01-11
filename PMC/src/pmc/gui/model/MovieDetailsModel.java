@@ -31,10 +31,10 @@ public class MovieDetailsModel {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
-    public void determineIMDbLink(Button btnCopyLink) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
+//    public void determineIMDbLink(Button btnCopyLink) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
     //Sets the image of the movie poster.
     public void setPosterImage(ImageView imageMoviePoster) {
@@ -56,25 +56,25 @@ public class MovieDetailsModel {
         lblTitleAndYear.setText(titleAndYear);
     }
 
-    //Sets the description of the movie in the description text area.
-    public void setDescription(TextArea textareaDescription) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    //Sets the different genres associated with the movie.
-    public void setGenres(Label lblGenres) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    //Sets the director of the movie.
-    public void setDirector(Label lblDirector) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    //Sets what score the movie has.
-    public void setScore(Label lblScore) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    //Sets the description of the movie in the description text area.
+//    public void setDescription(TextArea textareaDescription) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    //Sets the different genres associated with the movie.
+//    public void setGenres(Label lblGenres) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    //Sets the director of the movie.
+//    public void setDirector(Label lblDirector) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//    
+//    //Sets what score the movie has.
+//    public void setScore(Label lblScore) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     //Plays the movie upon pressing the "Watch Movie" button.
     public void playMovie() throws IOException {

@@ -49,6 +49,11 @@ public class MovieDetailsController implements Initializable
     private Button WatchMovie;
 
     MovieDetailsModel model;
+    
+    private MovieDetailsController() {
+        model = new MovieDetailsModel();
+        
+    }
 
     /**
      * Initializes the controller class.
@@ -56,12 +61,13 @@ public class MovieDetailsController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        model = new MovieDetailsModel();
+        
 
 //        model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
-        model.setDescription(textareaDescription);
+//        model.setTitleAndYear(lblTitleAndYear);
+//        model.setDescription(textareaDescription);
 //        model.setGenres(lblGenres);
 //        model.setDirector(lblDirector);
 //        model.setScore(lblScore);
