@@ -50,7 +50,8 @@ public class AddMovieModel {
             textfieldPath.setText(selectedFile.getName());
             
 //            Files.copy(from, to, REPLACE_EXISTING);
-    }}
+    }
+}
 
     /**
      * Saves the movie in the database with the given url

@@ -41,6 +41,7 @@ public class AddAndEditMovieController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         webEngine = WebView.getEngine();
         webEngine.load("http://www.imdb.com");
+        model = new AddMovieModel();
     }    
     
     @FXML
