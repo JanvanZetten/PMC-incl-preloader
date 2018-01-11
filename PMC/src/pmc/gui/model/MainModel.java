@@ -288,6 +288,7 @@ public class MainModel
             
             cont.setBLLManager(getBLLManager());
             
+            cont.setElements();
             
             Scene scene = new Scene(root);
         
@@ -297,7 +298,10 @@ public class MainModel
             newStage.setScene(scene);
             newStage.setMinWidth(620);
             newStage.setMinHeight(394);
+            
             newStage.showAndWait();
+            
+            
         }
         catch (IOException ex)
         {
