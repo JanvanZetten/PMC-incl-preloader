@@ -11,7 +11,7 @@ package pmc.bll;
  */
 public class ripManager {
 
-    public ripManager(String ) {
+    public ripManager() {
     }
     
     

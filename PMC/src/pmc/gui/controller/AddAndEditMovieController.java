@@ -5,12 +5,14 @@
  */
 package pmc.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -25,11 +27,13 @@ public class AddAndEditMovieController implements Initializable {
 
     @FXML
     private WebView WebView;
+    @FXML
+    private TextField textfieldPath;
     
     WebEngine webEngine;
     String fileLocation;
     AddMovieModel model;
-
+    
     /**
      * Initializes the controller class.
      */
@@ -51,8 +55,8 @@ public class AddAndEditMovieController implements Initializable {
     }
 
     @FXML
-    private void browseMovieFileAction(ActionEvent event) {
-        model.browseMovie();
+    private void browseMovieFileAction(ActionEvent event) throws IOException {
+        model.browseMovie(textfieldPath);
     }
     
 }
