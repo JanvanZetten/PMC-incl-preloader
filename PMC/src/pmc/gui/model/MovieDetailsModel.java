@@ -29,7 +29,6 @@ public class MovieDetailsModel {
     BLLManager bllManager;
     
     public void initialize(URL url, ResourceBundle rb) {
-        bllManager = new BLLManager();
     }
 
     //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
@@ -93,4 +92,8 @@ public class MovieDetailsModel {
         clipboard.setContent(content);
         
     }    
+    
+    public void setBLLManager(BLLManager bllManager) {
+        this.bllManager = bllManager;
+    }
 }

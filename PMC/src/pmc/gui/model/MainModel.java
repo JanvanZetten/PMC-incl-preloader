@@ -316,4 +316,9 @@ public class MainModel
             alert.showAndWait();
         }
     }
+    
+    
+    public BLLManager getBLLManager() {
+        return bllManager;
+    }
 }

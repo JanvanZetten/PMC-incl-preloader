@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import pmc.bll.BLLManager;
 
 import pmc.gui.model.MovieDetailsModel;
 
@@ -60,8 +61,7 @@ public class MovieDetailsController implements Initializable
 //        model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
-//        model.setDescription(textareaDescription);
-        // Does not work because MainModel and MovieDetailsModel does not use the same BLLManager model.setTitleAndYear(lblTitleAndYear);
+        model.setDescription(textareaDescription);
 //        model.setGenres(lblGenres);
 //        model.setDirector(lblDirector);
 //        model.setScore(lblScore);
@@ -86,6 +86,10 @@ public class MovieDetailsController implements Initializable
     {
         model.setClipboard();
         btnCopyLink.setText("Copied to clipboard");
+    }
+    
+    public void setBLLManager(BLLManager bllManager) {
+        model.setBLLManager(bllManager);
     }
 
 }
