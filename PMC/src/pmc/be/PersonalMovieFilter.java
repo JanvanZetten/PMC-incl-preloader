@@ -27,6 +27,10 @@ public class PersonalMovieFilter implements MovieFilter
         {
             return true;
         }
+        else if (personalRating == -1 && minPersonalRating == 0)
+        {
+            return true;
+        }
         else
         {
             return false;

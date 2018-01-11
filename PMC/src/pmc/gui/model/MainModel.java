@@ -210,7 +210,8 @@ public class MainModel
      * @param tblcolImdbRating fourth colon
      * @param tblcolPersonalRating fifth colon
      */
-    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating){
+    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating)
+    {
         // Set values for Table Cells.
         tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
         tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
@@ -281,30 +282,27 @@ public class MainModel
         {
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
-            
+
             FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
-        
+
             Parent root = fxLoader.load();
-            
+
             MovieDetailsController cont = fxLoader.getController();
-            
-            
+
             cont.setBLLManager(getBLLManager());
-            
+
             cont.setElements();
-            
+
             Scene scene = new Scene(root);
-        
-        
-            newStage.setTitle("PMC - ");
+
+            newStage.setTitle("PMC - Movie Details");
             newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
             newStage.setScene(scene);
             newStage.setMinWidth(620);
             newStage.setMinHeight(394);
-            
+
             newStage.showAndWait();
-            
-            
+
         }
         catch (IOException ex)
         {
@@ -349,32 +347,38 @@ public class MainModel
             alert.showAndWait();
         }
     }
-    
-    
-    public BLLManager getBLLManager() {
+
+    public BLLManager getBLLManager()
+    {
         return bllManager;
     }
 
     /**
      * opens the window for adding a new movie
      */
-    public void newMovie() {
-        try {
+    public void newMovie()
+    {
+        try
+        {
             startModalWindow("AddAndEditMovieView", 500, 500);
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window new Movie:\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }
 
-    public void contextMenuHandler(TableView<Movie> tblviewMovies) {
-        
+    public void contextMenuHandler(TableView<Movie> tblviewMovies)
+    {
+
         //Plays the selected song.
         MenuItem item1 = new MenuItem("Open Movie");
         item1.setOnAction((ActionEvent e)
-                -> {
+                ->
+        {
             System.out.println("Hi");
-            
+
         });
 
         //Sets the created MenuItems into the context menu for the table.
@@ -382,5 +386,5 @@ public class MainModel
         contextMenu.setMaxSize(50, 50);
         tblviewMovies.setContextMenu(contextMenu);
     }
-    
+
 }

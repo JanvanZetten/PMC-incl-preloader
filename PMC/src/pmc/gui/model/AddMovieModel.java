@@ -26,15 +26,17 @@ import pmc.bll.ripManager;
  *
  * @author janvanzetten
  */
-public class AddMovieModel {
-    
+public class AddMovieModel
+{
+
     private Path to;
     private Path from;
     private File selectedFile;
     private String path;
     BLLManager bll = new BLLManager();
 
-    public void browseMovie(TextField textfieldPath) throws IOException {
+    public void browseMovie(TextField textfieldPath) throws IOException
+    {
 //        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(".mp4", ".mpeg4");
         FileChooser fc = new FileChooser();
 //        fc.getExtensionFilters().add(filter);
@@ -44,26 +46,30 @@ public class AddMovieModel {
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "/Movies/" + selectedFile.getName());
             textfieldPath.setText(selectedFile.getName());
             path = ("/Movies/" + selectedFile.getName());
             System.out.println(path);
-            
+
 //            Files.copy(from, to, REPLACE_EXISTING);
+        }
     }
-}
 
     /**
      * Saves the movie in the database with the given url
-     * @param url imdb url 
+     * @param url imdb url
      * @return true if succeded
      */
-    public boolean save(String url) {  
+    public boolean save(String url)
+    {
 
-        if (!(url.isEmpty() && path.isEmpty())) {
-            try {
+        if (!url.isEmpty() && !path.isEmpty())
+        {
+            try
+            {
                 ripManager rip = new ripManager(url);
 
                 List<Genre> genresInMovie = new ArrayList<>();
@@ -71,16 +77,20 @@ public class AddMovieModel {
 
                 boolean found;
 
-                for (String genre : rip.getGenres()) {
+                for (String genre : rip.getGenres())
+                {
                     found = false;
-                    for (Genre existingGenre : allExistingGenres) {
-                        if (existingGenre.getName().equalsIgnoreCase(genre)) {
+                    for (Genre existingGenre : allExistingGenres)
+                    {
+                        if (existingGenre.getName().equalsIgnoreCase(genre))
+                        {
                             genresInMovie.add(existingGenre);
                             found = true;
                             break;
                         }
                     }
-                    if (!found) {
+                    if (!found)
+                    {
 
                         genresInMovie.add(bll.addGenre(genre));
 
@@ -91,12 +101,14 @@ public class AddMovieModel {
 
                 return true;
 
-            } catch (BLLException ex) {
+            }
+            catch (BLLException ex)
+            {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Could not save Movie:\n" + ex.getMessage(), ButtonType.OK);
                 alert.showAndWait();
             }
         }
         return false;
     }
-    
+
 }

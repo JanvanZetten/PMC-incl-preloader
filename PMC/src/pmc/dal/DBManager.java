@@ -22,16 +22,20 @@ import pmc.be.Movie;
  *
  * @author janvanzetten
  */
-public class DBManager {
+public class DBManager
+{
 
     private final DBConnecter DBCon;
 
-    public DBManager() {
+    public DBManager()
+    {
         DBCon = new DBConnecter();
     }
 
-    List<Genre> getAllGenres() throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    List<Genre> getAllGenres() throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             String sql = "SELECT * FROM Genre;";
 
             Statement st = con.createStatement();
@@ -39,7 +43,8 @@ public class DBManager {
 
             List<Genre> genres = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int id = rs.getInt("id");
                 Genre genre = new Genre(
                         id,
@@ -49,7 +54,9 @@ public class DBManager {
             }
 
             return genres;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
@@ -60,8 +67,10 @@ public class DBManager {
      * @return a list of all the movies in the database
      * @throws DalExeption
      */
-    List<Movie> getAllMovies() throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    List<Movie> getAllMovies() throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             String sql = "SELECT * FROM Movie;";
 
             Statement st = con.createStatement();
@@ -69,7 +78,8 @@ public class DBManager {
 
             List<Movie> movies = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int id = rs.getInt("id");
 
                 Movie movie = new Movie(id,
@@ -88,14 +98,16 @@ public class DBManager {
                 //image
                 Blob imageAsBlob;
                 imageAsBlob = rs.getBlob("imageInBytes");
-                System.out.println(Arrays.toString(imageAsBlob.getBytes(1, (int) imageAsBlob.length())));
+                //System.out.println(Arrays.toString(imageAsBlob.getBytes(1, (int) imageAsBlob.length())));
                 movie.setImage(imageAsBlob.getBytes(1, (int) imageAsBlob.length()));
 
                 movies.add(movie);
             }
 
             return movies;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
@@ -107,14 +119,17 @@ public class DBManager {
      * @return the newly made Genre object
      * @throws DalExeption
      */
-    Genre addNewGenre(String name) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    Genre addNewGenre(String name) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             String sql = "INSERT INTO Genre VALUES (?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, name);
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
@@ -122,7 +137,9 @@ public class DBManager {
             }
             throw new DalExeption("New genre could not be made, check database connection");
 
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
@@ -134,8 +151,10 @@ public class DBManager {
      * @return true if deleted succesfully
      * @throws DalExeption
      */
-    boolean deleteGenre(Genre genre) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    boolean deleteGenre(Genre genre) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
 
             String sql = "DELETE Genre WHERE id=?;";
 
@@ -143,20 +162,27 @@ public class DBManager {
 
             statement.setInt(1, genre.getId());
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 throw new DalExeption("Could not delete genre: " + genre.getName());
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
 
     Movie addMovie(String name, String filePath, List<Genre> genres,
             double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             String sql = "INSERT INTO Movie (name, personalRating, ImdbRating, lastView, filePath, ImdbUrl, year, duration, directors, imageInBytes) "
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -174,14 +200,15 @@ public class DBManager {
 
             ByteArrayInputStream bais = new ByteArrayInputStream(imageInBytes);
             statement.setBinaryStream(10, bais, imageInBytes.length);
-            
-            
-            if (statement.executeUpdate() == 1) {
+
+            if (statement.executeUpdate() == 1)
+            {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
 
-                if (addGenresToMovie(id, genres).size() == genres.size()) {
+                if (addGenresToMovie(id, genres).size() == genres.size())
+                {
                     Movie movie = new Movie(id, name, year, duration, genres, personalRating, imdbRating, Directors, -1, filePath, ImdbUrl);
                     movie.setImage(imageInBytes);
                     return movie;
@@ -190,24 +217,29 @@ public class DBManager {
 
             throw new DalExeption("Could not add new Movie to database");
 
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
-     * update a movie in database 
-     * @param updatedMovie the movie object which should have the id of the movie wished to be updated
-     * @throws DalExeption 
+     * update a movie in database
+     * @param updatedMovie the movie object which should have the id of the
+     * movie wished to be updated
+     * @throws DalExeption
      */
-    void updateMovie(Movie updatedMovie) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    void updateMovie(Movie updatedMovie) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
 
             String sql = "UPDATE MOVIE SET name= ?, personalRating= ?, ImdbRating= ?, lastView= ?, filePath= ?, ImdbUrl= ?, "
-                    + "year= ?, duration= ?, directors= ?, imageInBytes= ? WHERE id = ?;" ;
+                    + "year= ?, duration= ?, directors= ?, imageInBytes= ? WHERE id = ?;";
 
             PreparedStatement statement = con.prepareStatement(sql);
-            
+
             statement.setString(1, updatedMovie.getName());
             statement.setInt(2, updatedMovie.getPersonalRating());
             statement.setDouble(3, updatedMovie.getImdbRating());
@@ -217,34 +249,39 @@ public class DBManager {
             statement.setInt(7, updatedMovie.getYear());
             statement.setInt(8, updatedMovie.getDuration());
             statement.setString(9, updatedMovie.getDirectors());
-            
+
             ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
             statement.setBinaryStream(10, bais, updatedMovie.getImageInBytes().length);
-            
+
             statement.setInt(11, updatedMovie.getId());
-            
-            if (statement.executeUpdate() == 1) {
+
+            if (statement.executeUpdate() == 1)
+            {
                 updateGenresInMovie(updatedMovie.getId(), updatedMovie.getGenres());
                 return;
             }
             throw new DalExeption("Could not update Movie in database");
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
-     * Delete a movie from the database 
+     * Delete a movie from the database
      *
      * @param movie the movie to be deleted
      * @return true if deleted succesfully
      * @throws DalExeption
      */
-    boolean deleteMovie(Movie movie) throws DalExeption {
-        
+    boolean deleteMovie(Movie movie) throws DalExeption
+    {
+
         deleteGenresToMovie(movie.getId(), movie.getGenres());
-        
-        try (Connection con = DBCon.getConnection()) {
+
+        try (Connection con = DBCon.getConnection())
+        {
 
             String sql = "DELETE Movie WHERE id=?;";
 
@@ -252,12 +289,17 @@ public class DBManager {
 
             statement.setInt(1, movie.getId());
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 throw new DalExeption("Could not delete movie: " + movie.getName());
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
@@ -269,21 +311,25 @@ public class DBManager {
      * @return a list with genre objects
      * @throws DalExeption
      */
-    private List<Genre> getGenresOfMovie(int Movieid) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    private List<Genre> getGenresOfMovie(int Movieid) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             String sql = "SELECT * FROM GenresInMovie WHERE movieId = " + Movieid + ";";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             List<Genre> genres = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int genreid = rs.getInt("genreId");
 
                 String sql2 = "SELECT * FROM Genre WHERE id = " + genreid + ";";
                 Statement st2 = con.createStatement();
                 ResultSet rs2 = st2.executeQuery(sql2);
-                while (rs2.next()) {
+                while (rs2.next())
+                {
                     int id2 = rs2.getInt("id");
                     Genre genre = new Genre(
                             id2,
@@ -294,7 +340,9 @@ public class DBManager {
             }
 
             return genres;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
 
@@ -307,29 +355,37 @@ public class DBManager {
      * @param genres the list of Genre it should add to the movie
      * @return a list og the combinedlists primarykeys
      */
-    private List<Integer> addGenresToMovie(int movieId, List<Genre> genres) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    private List<Integer> addGenresToMovie(int movieId, List<Genre> genres) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             List<Integer> keys = new ArrayList<>();
             String sql = "INSERT INTO GenresInMovie (movieId, genreId) VALUES (?, ?)";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            for (Genre genre : genres) {
+            for (Genre genre : genres)
+            {
                 statement.setInt(1, movieId);
                 statement.setInt(2, genre.getId());
 
-                if (statement.executeUpdate() == 1) {
+                if (statement.executeUpdate() == 1)
+                {
                     ResultSet rs = statement.getGeneratedKeys();
                     rs.next();
                     int id = rs.getInt(1);
                     keys.add(id);
-                } else {
+                }
+                else
+                {
                     throw new DalExeption("Could not connect Movie and Genre");
                 }
             }
             return keys;
 
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
 
@@ -342,22 +398,28 @@ public class DBManager {
      * @param newGenres
      * @throws DalExeption
      */
-    private void updateGenresInMovie(int movieid, List<Genre> newGenres) throws DalExeption {
+    private void updateGenresInMovie(int movieid, List<Genre> newGenres) throws DalExeption
+    {
         List<Genre> oldGenres = getGenresOfMovie(movieid);
         boolean test = true;
         List<Genre> genresToAdd = new ArrayList<>();
-        try (Connection con = DBCon.getConnection()) {
-            for (Genre newGenre : newGenres) {
+        try (Connection con = DBCon.getConnection())
+        {
+            for (Genre newGenre : newGenres)
+            {
                 test = true;
-                for (Genre oldGenre : oldGenres) {
-                    if (newGenre.getId() == oldGenre.getId()) {
+                for (Genre oldGenre : oldGenres)
+                {
+                    if (newGenre.getId() == oldGenre.getId())
+                    {
                         oldGenres.remove(oldGenre);
                         test = false;
                         break;
                     }
                 }
 
-                if (test) {
+                if (test)
+                {
                     genresToAdd.add(newGenre);
                 }
 
@@ -365,35 +427,42 @@ public class DBManager {
             addGenresToMovie(movieid, genresToAdd);
 
             //Delete Genres in oldGenres
-            if (!oldGenres.isEmpty()) {
+            if (!oldGenres.isEmpty())
+            {
                 deleteGenresToMovie(movieid, oldGenres);
             }
-            
 
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
-     * Delete all the rows in the database where the movieid is the given 
+     * Delete all the rows in the database where the movieid is the given
      * movieid and the genre has the same id as one of the genres in the list
      * @param movieid the movieid from which to delete the genres
      * @param genres the genres to delete from the movie
      */
-    private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DalExeption {
-        try (Connection con = DBCon.getConnection()) {
+    private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DalExeption
+    {
+        try (Connection con = DBCon.getConnection())
+        {
             String sql = "DELETE GenresInMovie WHERE movieId = ? AND genreId = ?;";
-                
+
             PreparedStatement statement = con.prepareStatement(sql);
 
-            for (Genre genre : genres) {
+            for (Genre genre : genres)
+            {
                 statement.setInt(1, movieid);
                 statement.setInt(2, genre.getId());
                 statement.addBatch();
             }
             statement.executeBatch();
-            } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DalExeption(ex.getMessage(), ex.getCause());
         }
     }
