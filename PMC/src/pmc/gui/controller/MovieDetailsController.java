@@ -58,15 +58,14 @@ public class MovieDetailsController implements Initializable {
     }
     
     public void setElements() {
-//        model = new MovieDetailsModel();
-//        model.determineIMDbLink(btnCopyLink);
+        model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
 //        model.setDescription(textareaDescription);
         model.setTitleAndYear(lblTitleAndYear);
-//        model.setGenres(lblGenres);
-//        model.setDirector(lblDirector);
-//        model.setScore(lblScore);
+        model.setGenres(lblGenres);
+        model.setDirector(lblDirector);
+        model.setScore(lblScore);
     }
 
     //Plays the movie selected.
