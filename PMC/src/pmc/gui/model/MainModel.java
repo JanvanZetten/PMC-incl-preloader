@@ -35,6 +35,7 @@ import pmc.be.MovieFilter;
 import pmc.be.PersonalMovieFilter;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
+import pmc.gui.controller.MovieDetailsController;
 
 /**
  *
@@ -275,7 +276,32 @@ public class MainModel
     {
         try
         {
-            startModalWindow("MovieDetailsView", 620, 394);
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
+        
+            Parent root = fxLoader.load();
+            
+            MovieDetailsController cont = fxLoader.getController();
+            
+            
+            cont.setBLLManager(getBLLManager());
+            
+            cont.setElements();
+            
+            Scene scene = new Scene(root);
+        
+        
+            newStage.setTitle("PMC - ");
+            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+            newStage.setScene(scene);
+            newStage.setMinWidth(620);
+            newStage.setMinHeight(394);
+            
+            newStage.showAndWait();
+            
+            
         }
         catch (IOException ex)
         {
