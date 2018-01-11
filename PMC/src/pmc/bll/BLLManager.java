@@ -9,7 +9,7 @@ import java.util.List;
 import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.dal.DALManager;
-import pmc.dal.DalExeption;
+import pmc.dal.DALException;
 import pmc.dal.SelectedItemData;
 
 /**
@@ -49,7 +49,7 @@ public class BLLManager
         {
             return dalManager.getAllGenres();
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -66,7 +66,7 @@ public class BLLManager
         {
             return dalManager.getAllMovies();
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -83,7 +83,7 @@ public class BLLManager
         {
             return dalManager.addGenre(name);
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -113,7 +113,7 @@ public class BLLManager
             return dalManager.addMovie(name, filePath, genres, imdbRating, personalRating,
                     Directors, duration, ImdbUrl, year, imageInBytes);
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -133,7 +133,7 @@ public class BLLManager
         {
             return dalManager.deleteGenre(genre);
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -151,7 +151,7 @@ public class BLLManager
         {
             return dalManager.deleteMovie(movie);
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -168,7 +168,7 @@ public class BLLManager
         {
             dalManager.updateMovie(updatedMovie);
         }
-        catch (DalExeption ex)
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }

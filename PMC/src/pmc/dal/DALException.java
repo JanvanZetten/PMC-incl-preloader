@@ -9,20 +9,20 @@ package pmc.dal;
  *
  * @author janvanzetten
  */
-public class DalExeption extends Exception {
+public class DALException extends Exception {
 
-    public DalExeption() {
+    public DALException() {
     }
 
-    public DalExeption(String message) {
+    public DALException(String message) {
         super(message);
     }
 
-    public DalExeption(String message, Throwable cause) {
+    public DALException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public DalExeption(Throwable cause) {
+    public DALException(Throwable cause) {
         super(cause);
     }
     

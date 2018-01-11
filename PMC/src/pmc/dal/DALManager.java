@@ -19,18 +19,18 @@ public class DALManager {
     /**
      * gets all the genres
      * @return list of genre objects
-     * @throws pmc.dal.DalExeption
+     * @throws pmc.dal.DALException
      */
-    public List<Genre> getAllGenres() throws DalExeption{
+    public List<Genre> getAllGenres() throws DALException{
         return Database.getAllGenres();
     }
     
     /**
      * gets all the movies
      * @return list of movie objects
-     * @throws pmc.dal.DalExeption
+     * @throws pmc.dal.DALException
      */
-    public List<Movie> getAllMovies() throws DalExeption{
+    public List<Movie> getAllMovies() throws DALException{
         return Database.getAllMovies();
     }
     
@@ -39,7 +39,7 @@ public class DALManager {
      * @param name the name of the new Genre
      * @return the newly made genre if it succeds
      */
-    public Genre addGenre(String name) throws DalExeption{
+    public Genre addGenre(String name) throws DALException{
         return Database.addNewGenre(name);
     }
     
@@ -56,11 +56,11 @@ public class DALManager {
      * @param year
      * @param imageInBytes
      * @return a Movie object with lastView of -1
-     * @throws DalExeption 
+     * @throws DALException 
      */
     public Movie addMovie(String name, String filePath, List<Genre> genres,
             double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DalExeption{
+            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DALException{
         
         return Database.addMovie(name, filePath, genres, imdbRating, personalRating, 
                 Directors, duration, ImdbUrl, year, imageInBytes);
@@ -71,9 +71,9 @@ public class DALManager {
      * Delets the given genre. There should be no movies with this genre for it to be deleted 
      * @param genre the genre to delete
      * @return true if the genre is deleted
-     * @throws DalExeption 
+     * @throws DALException 
      */    
-    public boolean deleteGenre(Genre genre) throws DalExeption{
+    public boolean deleteGenre(Genre genre) throws DALException{
         return Database.deleteGenre(genre);
     }
     
@@ -81,18 +81,18 @@ public class DALManager {
      * Deletes the given movie.
      * @param movie the movie to delete
      * @return true if movie is deleted
-     * @throws DalExeption 
+     * @throws DALException 
      */
-    public boolean deleteMovie(Movie movie) throws DalExeption{
+    public boolean deleteMovie(Movie movie) throws DALException{
         return Database.deleteMovie(movie);
     }
     
     /**
      * Updates the movie with the same id as the given movie object
      * @param updatedMovie should be the updated version with the same id
-     * @throws DalExeption 
+     * @throws DALException 
      */
-    public void updateMovie(Movie updatedMovie) throws DalExeption{
+    public void updateMovie(Movie updatedMovie) throws DALException{
         Database.updateMovie(updatedMovie);
     }
     

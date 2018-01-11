@@ -36,12 +36,12 @@ public class IMDbRip
     private byte[] imageInBytes;
 
     /**
-     * Contructor for IMDbRip. Run ripInformationAsFile() method, which rips
+     * Constructor for IMDbRip. Run ripInformationAsFile() method, which rips
      * IMDb URL Movie site.
      * @param imdbUrl IMDb movie site.
-     * @throws RuntimeException
+     * @throws DALException
      */
-    public IMDbRip(String imdbUrl) throws RuntimeException
+    public IMDbRip(String imdbUrl) throws DALException
     {
         rippedAllInformation = false;
         name = null;
@@ -67,8 +67,14 @@ public class IMDbRip
      * rip IMDb Website by reading it as a stream.
      * @param imdbUrl String containing URL.
      */
-    private void ripInformationAsFile(String imdbUrl) throws RuntimeException
+    private void ripInformationAsFile(String imdbUrl) throws DALException
     {
+        // In case the website is not a IMDb Movie URL.
+        if (!imdbUrl.toLowerCase().contains("imdb.com/title/"))
+        {
+            throw new DALException("Not a IMDb movie website! " + imdbUrl);
+        }
+
         try
         {
             // Reading website as file.
@@ -194,7 +200,7 @@ public class IMDbRip
         // In case of an exception throw new exception.
         catch (IOException | NumberFormatException ex)
         {
-            throw new RuntimeException("Error reading information from IMDb! " + ex.getMessage());
+            throw new DALException("Error reading information from IMDb! " + ex.getMessage(), ex.getCause());
         }
     }
 
@@ -203,7 +209,7 @@ public class IMDbRip
      * image.
      * @param imageUrl URL of image.
      */
-    private void handleImage(String imageUrl)
+    private void handleImage(String imageUrl) throws DALException
     {
         // Open stream for image.
         try (InputStream inImg = new URL(imageUrl).openStream())
@@ -228,9 +234,9 @@ public class IMDbRip
 
             //System.out.println("Saved image to: " + image);
         }
-        catch (Exception ex)
+        catch (IOException ex)
         {
-            throw new RuntimeException("Error copying image!");
+            throw new DALException("Error copying image! " + ex.getMessage(), ex.getCause());
         }
 
         // Converts the image to a byte array.
@@ -251,7 +257,7 @@ public class IMDbRip
         }
         catch (IOException ex)
         {
-            throw new RuntimeException("Error turning image into binary data!");
+            throw new DALException("Error turning image into binary data! " + ex.getMessage(), ex.getCause());
         }
     }
 

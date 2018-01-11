@@ -32,7 +32,7 @@ public class DBManager
         DBCon = new DBConnecter();
     }
 
-    List<Genre> getAllGenres() throws DalExeption
+    List<Genre> getAllGenres() throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -57,7 +57,7 @@ public class DBManager
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -65,9 +65,9 @@ public class DBManager
      * For getting all th movies in the database
      *
      * @return a list of all the movies in the database
-     * @throws DalExeption
+     * @throws DALException
      */
-    List<Movie> getAllMovies() throws DalExeption
+    List<Movie> getAllMovies() throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -108,7 +108,7 @@ public class DBManager
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -117,9 +117,9 @@ public class DBManager
      *
      * @param Name the name the new genre should have
      * @return the newly made Genre object
-     * @throws DalExeption
+     * @throws DALException
      */
-    Genre addNewGenre(String name) throws DalExeption
+    Genre addNewGenre(String name) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -135,12 +135,12 @@ public class DBManager
                 int id = rs.getInt(1);
                 return new Genre(id, name);
             }
-            throw new DalExeption("New genre could not be made, check database connection");
+            throw new DALException("New genre could not be made, check database connection");
 
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -149,9 +149,9 @@ public class DBManager
      *
      * @param genre the genre to be deleted
      * @return true if deleted succesfully
-     * @throws DalExeption
+     * @throws DALException
      */
-    boolean deleteGenre(Genre genre) throws DalExeption
+    boolean deleteGenre(Genre genre) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -168,18 +168,18 @@ public class DBManager
             }
             else
             {
-                throw new DalExeption("Could not delete genre: " + genre.getName());
+                throw new DALException("Could not delete genre: " + genre.getName());
             }
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
     Movie addMovie(String name, String filePath, List<Genre> genres,
             double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DalExeption
+            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -215,12 +215,12 @@ public class DBManager
                 }
             }
 
-            throw new DalExeption("Could not add new Movie to database");
+            throw new DALException("Could not add new Movie to database");
 
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -228,9 +228,9 @@ public class DBManager
      * update a movie in database
      * @param updatedMovie the movie object which should have the id of the
      * movie wished to be updated
-     * @throws DalExeption
+     * @throws DALException
      */
-    void updateMovie(Movie updatedMovie) throws DalExeption
+    void updateMovie(Movie updatedMovie) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -260,11 +260,11 @@ public class DBManager
                 updateGenresInMovie(updatedMovie.getId(), updatedMovie.getGenres());
                 return;
             }
-            throw new DalExeption("Could not update Movie in database");
+            throw new DALException("Could not update Movie in database");
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -273,9 +273,9 @@ public class DBManager
      *
      * @param movie the movie to be deleted
      * @return true if deleted succesfully
-     * @throws DalExeption
+     * @throws DALException
      */
-    boolean deleteMovie(Movie movie) throws DalExeption
+    boolean deleteMovie(Movie movie) throws DALException
     {
 
         deleteGenresToMovie(movie.getId(), movie.getGenres());
@@ -295,12 +295,12 @@ public class DBManager
             }
             else
             {
-                throw new DalExeption("Could not delete movie: " + movie.getName());
+                throw new DALException("Could not delete movie: " + movie.getName());
             }
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -309,9 +309,9 @@ public class DBManager
      *
      * @param Movieid the id for the movie from which to find the genres
      * @return a list with genre objects
-     * @throws DalExeption
+     * @throws DALException
      */
-    private List<Genre> getGenresOfMovie(int Movieid) throws DalExeption
+    private List<Genre> getGenresOfMovie(int Movieid) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -343,7 +343,7 @@ public class DBManager
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
 
     }
@@ -355,7 +355,7 @@ public class DBManager
      * @param genres the list of Genre it should add to the movie
      * @return a list og the combinedlists primarykeys
      */
-    private List<Integer> addGenresToMovie(int movieId, List<Genre> genres) throws DalExeption
+    private List<Integer> addGenresToMovie(int movieId, List<Genre> genres) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -378,7 +378,7 @@ public class DBManager
                 }
                 else
                 {
-                    throw new DalExeption("Could not connect Movie and Genre");
+                    throw new DALException("Could not connect Movie and Genre");
                 }
             }
             return keys;
@@ -386,7 +386,7 @@ public class DBManager
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
 
     }
@@ -396,9 +396,9 @@ public class DBManager
      *
      * @param movieid
      * @param newGenres
-     * @throws DalExeption
+     * @throws DALException
      */
-    private void updateGenresInMovie(int movieid, List<Genre> newGenres) throws DalExeption
+    private void updateGenresInMovie(int movieid, List<Genre> newGenres) throws DALException
     {
         List<Genre> oldGenres = getGenresOfMovie(movieid);
         boolean test = true;
@@ -435,7 +435,7 @@ public class DBManager
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -445,7 +445,7 @@ public class DBManager
      * @param movieid the movieid from which to delete the genres
      * @param genres the genres to delete from the movie
      */
-    private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DalExeption
+    private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
@@ -463,7 +463,7 @@ public class DBManager
         }
         catch (SQLException ex)
         {
-            throw new DalExeption(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 }

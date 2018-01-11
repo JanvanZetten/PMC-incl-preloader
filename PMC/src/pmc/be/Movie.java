@@ -5,14 +5,10 @@
  */
 package pmc.be;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import javax.imageio.ImageIO;
+import pmc.dal.DALException;
 import pmc.dal.IMDbRip;
+import pmc.dal.bytes2Image;
 
 /**
  *
@@ -51,8 +47,9 @@ public class Movie
      * Make Movie object from IMDbRip.
      * @param imdbUrl IMDb Movie site.
      * @param filePath Path to movie file.
+     * @throws pmc.dal.DALException
      */
-    public Movie(String imdbUrl, String filePath) throws RuntimeException
+    public Movie(String imdbUrl, String filePath) throws DALException
     {
         IMDbRip imdbRip = new IMDbRip(imdbUrl);
 
@@ -118,38 +115,11 @@ public class Movie
      * that the name and year is set. Used to get imagePath from database.
      * @param imageInBytes Image expressed as byte array.
      */
-    public void setImage(byte[] imageInBytes)
+    public void setImage(byte[] imageInBytes) throws DALException
     {
-        try
-        {
-            // Open stream for given byte array.
-            InputStream in = new ByteArrayInputStream(imageInBytes);
-            BufferedImage imgFromDb = ImageIO.read(in);
-
-            // Create file name.
-            String fileName = "";
-            for (String string : name.split(" "))
-            {
-                fileName += string.replaceAll("\\W+", "") + "_";
-            }
-            fileName += year + ".jpg";
-
-            // Create directory if it is not there.
-            File dir = new File("./images/");
-            dir.mkdir();
-
-            // Write imagePath to file.
-            File outputfile = new File("./images/" + fileName);
-            ImageIO.write(imgFromDb, "jpg", outputfile);
-
-            // Saved data to variables.
-            this.imageInBytes = imageInBytes;
-            this.imagePath = fileName;
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException("Error getting image from binary data!");
-        }
+        bytes2Image b2i = new bytes2Image(name, year, imageInBytes);
+        this.imageInBytes = b2i.getImageInBytes();
+        this.imagePath = b2i.getImagePath();
     }
 
     /**

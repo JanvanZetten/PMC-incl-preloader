@@ -6,19 +6,29 @@
 package pmc.bll;
 
 import java.util.List;
+import pmc.dal.DALException;
 import pmc.dal.IMDbRip;
 
 /**
  *
  * @author janvanzetten
  */
-public class ripManager {
+public class ripManager
+{
     IMDbRip ripper;
 
-    public ripManager(String Url) {
-        ripper = new IMDbRip(Url);
+    public ripManager(String Url) throws BLLException
+    {
+        try
+        {
+            ripper = new IMDbRip(Url);
+        }
+        catch (DALException ex)
+        {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
     }
-    
+
     public boolean rippedAllInformation()
     {
         return ripper.rippedAllInformation();
@@ -63,7 +73,5 @@ public class ripManager {
     {
         return ripper.getImageInBytes();
     }
-    
-    
-    
+
 }
