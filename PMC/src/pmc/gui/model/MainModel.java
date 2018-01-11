@@ -206,7 +206,7 @@ public class MainModel
      * @param tblcolImdbRating  fourth colon
      * @param tblcolPersonalRating fifth colon
      */
-    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating) {
+    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating){
         // Set values for Table Cells.
         tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
         tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
@@ -280,7 +280,9 @@ public class MainModel
         }
         catch (IOException ex)
         {
-            throw new RuntimeException("Could not open window!");
+            ex.printStackTrace();
+//            Alert alert = new Alert(Alert.AlertType.WARNING, "error" + ex.getMessage(), ButtonType.OK);
+//            alert.showAndWait();
         }
     }
     
