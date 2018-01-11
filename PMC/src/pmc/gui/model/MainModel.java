@@ -246,7 +246,7 @@ public class MainModel
                 }
                 else if (event.getClickCount() == 1 && (!row.isEmpty()))
                 {
-                    mainModel.setCurrentMovie(row.getItem());
+                    setCurrentMovie(row.getItem());
                 }
             });
             return row;
