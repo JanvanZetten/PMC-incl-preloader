@@ -16,7 +16,6 @@ public class SelectedItemData {
     private Movie currentMovie;
     
     public SelectedItemData() {
-        
     }
 
     public void setCurrentMovie(Movie currentMovie) {
