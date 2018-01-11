@@ -334,7 +334,7 @@ public class MainModel
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
-    public void startModalWindowMax(String windowView) throws IOException
+    public void startModalWindowMax(String windowView, int minWidth, int minHeight) throws IOException
     {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -345,6 +345,8 @@ public class MainModel
         newStage.setTitle("PMC");
         newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
         newStage.setScene(scene);
+        newStage.setMinWidth(minWidth);
+        newStage.setMinHeight(minHeight);
         newStage.setMaximized(true);
         newStage.showAndWait();
     }
@@ -378,7 +380,7 @@ public class MainModel
     {
         try
         {
-            startModalWindowMax("AddAndEditMovieView");
+            startModalWindowMax("AddAndEditMovieView", 500, 500);
         }
         catch (IOException ex)
         {
