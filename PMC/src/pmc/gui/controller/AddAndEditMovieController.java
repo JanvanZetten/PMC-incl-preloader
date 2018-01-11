@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import pmc.gui.model.addSongModel;
+import pmc.gui.model.AddMovieModel;
 
 /**
  * FXML Controller class
@@ -28,7 +28,7 @@ public class AddAndEditMovieController implements Initializable {
     
     WebEngine webEngine;
     String fileLocation;
-    addSongModel model;
+    AddMovieModel model;
 
     /**
      * Initializes the controller class.

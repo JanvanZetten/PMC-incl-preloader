@@ -11,7 +11,7 @@ import pmc.bll.BLLManager;
  *
  * @author janvanzetten
  */
-public class addSongModel {
+public class AddMovieModel {
     
     BLLManager bll = new BLLManager();
 
