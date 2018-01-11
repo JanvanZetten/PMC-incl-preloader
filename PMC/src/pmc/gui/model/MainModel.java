@@ -351,4 +351,16 @@ public class MainModel
     public BLLManager getBLLManager() {
         return bllManager;
     }
+
+    /**
+     * opens the window for adding a new movie
+     */
+    public void newMovie() {
+        try {
+            startModalWindow("AddAndEditMovieView", 500, 500);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window new Movie:\n" + ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
 }

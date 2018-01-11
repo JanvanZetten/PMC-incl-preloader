@@ -84,6 +84,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void handleNew(ActionEvent event)
     {
+        mainModel.newMovie();
     }
 
     @FXML
