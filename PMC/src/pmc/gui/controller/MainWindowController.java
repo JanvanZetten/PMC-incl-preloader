@@ -63,24 +63,7 @@ public class MainWindowController implements Initializable
         //initializeTableView();
         mainModel.initializeTableView(tblviewMovies, tblcolTitle, tblcolGenre, tblcolTime, tblcolImdbRating, tblcolPersonalRating);
     }
-
-//        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
-//        
-//        MovieDetailsController cont = new FXMLLoader().getController();
-//            
-//            cont.setBLLManager(mainModel.getBLLManager());
-//        Parent root = fxLoader.load();
-//        Scene scene = new Scene(root);
-//        
-//        
-//            
-//
-//        newStage.setTitle("PMC - ");
-//        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-//        newStage.setScene(scene);
-//        newStage.setMinWidth(620);
-//        newStage.setMinHeight(394);
-//        newStage.showAndWait();
+    
     @FXML
     private void handleNew(ActionEvent event)
     {
