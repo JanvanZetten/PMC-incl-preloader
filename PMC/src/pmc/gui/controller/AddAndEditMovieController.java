@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 /**
@@ -27,7 +28,8 @@ public class AddAndEditMovieController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        WebEngine webEngine = WebView.getEngine();
+        webEngine.load("http://www.imdb.com");
     }    
     
     @FXML
@@ -36,6 +38,7 @@ public class AddAndEditMovieController implements Initializable {
 
     @FXML
     private void browseMovieFileAction(ActionEvent event) {
+        
     }
     
 }
