@@ -67,4 +67,10 @@ public class Genre
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    
 }
