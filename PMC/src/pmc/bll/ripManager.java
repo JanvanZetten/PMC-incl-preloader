@@ -5,14 +5,19 @@
  */
 package pmc.bll;
 
+import pmc.dal.IMDbRip;
+
 /**
  *
  * @author janvanzetten
  */
 public class ripManager {
+    IMDbRip ripper;
 
-    public ripManager(String ) {
+    public ripManager(String Url) {
+        ripper = new IMDbRip(Url);
     }
+    
     
     
     
