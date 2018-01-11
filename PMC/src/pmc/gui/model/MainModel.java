@@ -200,10 +200,10 @@ public class MainModel
     /**
      * setup of the tableview
      * @param tblviewMovies the table
-     * @param tblcolTitle   first colon
+     * @param tblcolTitle first colon
      * @param tblcolGenre second colon
      * @param tblcolTime third colon
-     * @param tblcolImdbRating  fourth colon
+     * @param tblcolImdbRating fourth colon
      * @param tblcolPersonalRating fifth colon
      */
     public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating){
@@ -266,12 +266,11 @@ public class MainModel
             return row;
         });
 
-
         // Set Observable List.
         tblviewMovies.setItems(filteredMovies);
         getAllMovies();
     }
-    
+
     private void handleMovieDetails()
     {
         try
@@ -285,11 +284,11 @@ public class MainModel
 //            alert.showAndWait();
         }
     }
-    
+
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
-    private void startModalWindow(String windowView, int minWidth, int minHeight) throws IOException
+    public void startModalWindow(String windowView, int minWidth, int minHeight) throws IOException
     {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -304,16 +303,19 @@ public class MainModel
         newStage.setMinHeight(minHeight);
         newStage.showAndWait();
     }
-    
+
     /**
-     * Gets all the movies and stores them in the movie list
-     * and adds them to the filtered list.
-     * if error shows it will show an alert message.
+     * Gets all the movies and stores them in the movie list and adds them to
+     * the filtered list. if error shows it will show an alert message.
      */
-    private void getAllMovies(){
-        try {
+    private void getAllMovies()
+    {
+        try
+        {
             changeMoviesInObsLst(bllManager.getAllMovies());
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
