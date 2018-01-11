@@ -322,7 +322,7 @@ public class MainModel
         Parent root = fxLoader.load();
         Scene scene = new Scene(root);
 
-        newStage.setTitle("PMC - " + windowView);
+        newStage.setTitle("PMC");
         newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
         newStage.setScene(scene);
         newStage.setMinWidth(minWidth);
