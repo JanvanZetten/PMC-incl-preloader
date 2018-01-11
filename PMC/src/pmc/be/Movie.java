@@ -130,7 +130,7 @@ public class Movie
             String fileName = "";
             for (String string : name.split(" "))
             {
-                fileName += string + "_";
+                fileName += string.replaceAll("\\W+", "") + "_";
             }
             fileName += year + ".jpg";
 

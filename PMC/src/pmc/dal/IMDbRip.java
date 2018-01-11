@@ -82,6 +82,7 @@ public class IMDbRip
                 int wasImage = 0;
                 String inputLine;
 
+                //System.out.println("START");
                 // Check each line.
                 while ((inputLine = in.readLine()) != null)
                 {
@@ -119,9 +120,17 @@ public class IMDbRip
                     else if (wasDuration > 0)
                     {
                         String txt = inputLine.trim();
-                        int hour = Integer.parseInt(txt.split("h")[0].trim()) * 60;
-                        int min = Integer.parseInt(txt.split("h")[1].split("min")[0].trim());
-                        duration = hour + min;
+                        if (txt.toLowerCase().contains("h"))
+                        {
+                            int hour = Integer.parseInt(txt.split("h")[0].trim()) * 60;
+                            int min = Integer.parseInt(txt.split("h")[1].split("min")[0].trim());
+                            duration = hour + min;
+                        }
+                        else
+                        {
+                            int min = Integer.parseInt(txt.split("min")[0].trim());
+                            duration = min;
+                        }
                         //System.out.println("Duration: " + duration);
                         wasDuration = 0;
                     }
@@ -149,7 +158,7 @@ public class IMDbRip
                             directors += ", " + inputLine.split(">")[2].split("<")[0].trim();
                         }
 
-                        //System.out.println("Director " + (directors.size()) + ": " + directors.get(directors.size() - 1));
+                        //System.out.println("Director " + directors);
                         wasDirector = 0;
                     }
 
@@ -161,6 +170,7 @@ public class IMDbRip
                     else if (wasSummary)
                     {
                         summary = inputLine.trim();
+                        //System.out.println("Summary: " + summary);
                         wasSummary = false;
                     }
 
@@ -179,28 +189,12 @@ public class IMDbRip
                         wasImage = 0;
                     }
                 }
-
-                // If all variables are set it ripped all information.
-                if (name != null
-                        && year != 0
-                        && duration != 0
-                        && genres.size() > 0
-                        && rating != 0.0
-                        && directors != null
-                        && imagePath != null)
-                {
-                    rippedAllInformation = true;
-                }
-                else
-                {
-                    throw new RuntimeException("Not an IMDb movie page!");
-                }
             }
         }
         // In case of an exception throw new exception.
-        catch (Exception ex)
+        catch (IOException | NumberFormatException ex)
         {
-            throw new RuntimeException("Error reading information from IMDb!");
+            throw new RuntimeException("Error reading information from IMDb! " + ex.getMessage());
         }
     }
 
@@ -218,7 +212,7 @@ public class IMDbRip
             String fileName = "";
             for (String string : name.split(" "))
             {
-                fileName += string + "_";
+                fileName += string.replaceAll("\\W+", "") + "_";
             }
             fileName += year + imageUrl.substring(imageUrl.length() - 4);
 
