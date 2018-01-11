@@ -31,7 +31,6 @@ public class AddAndEditMovieController implements Initializable {
     private TextField textfieldPath;
     
     WebEngine webEngine;
-    String fileLocation;
     AddMovieModel model;
     
     /**

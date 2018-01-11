@@ -35,12 +35,12 @@ public class AddMovieModel {
     BLLManager bll = new BLLManager();
 
     public void browseMovie(TextField textfieldPath) throws IOException {
-//        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("mp4", "mpeg4");
+//        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(".mp4", ".mpeg4");
         FileChooser fc = new FileChooser();
 //        fc.getExtensionFilters().add(filter);
         String currentDir = System.getProperty("user.dir") + File.separator;
         File dir = new File(currentDir);
-//        fc.setInitialDirectory(dir);
+        fc.setInitialDirectory(dir);
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
 
@@ -48,6 +48,8 @@ public class AddMovieModel {
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "/Movies/" + selectedFile.getName());
             textfieldPath.setText(selectedFile.getName());
+            path = ("/Movies/" + selectedFile.getName());
+            System.out.println(path);
             
 //            Files.copy(from, to, REPLACE_EXISTING);
     }
