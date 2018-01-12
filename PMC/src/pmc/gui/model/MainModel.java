@@ -413,7 +413,7 @@ public class MainModel {
     }
 
     /**
-     * does everything needed for deleting the current movie
+     * does everything needed for deleting the current movie incl making a confirmation window
      */
     public void deleteMovie() {
         Movie movieToDelete = bllManager.getCurrentMovie();
