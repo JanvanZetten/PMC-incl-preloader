@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="384.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MovieDetailsController">
+<AnchorPane id="AnchorPane" prefHeight="384.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MovieDetailsController">
    <children>
       <StackPane layoutX="-1.0" prefHeight="49.0" prefWidth="480.0" style="-fx-background-color: #2c3e50;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -67,12 +67,12 @@
             </Label>
             <Button fx:id="btnClose" mnemonicParsing="false" onAction="#closeWindowAction" text="Close" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
-                  <Insets bottom="15.0" left="105.0" />
+                  <Insets bottom="15.0" left="113.0" />
                </StackPane.margin>
             </Button>
             <Button fx:id="btnCopyLink" mnemonicParsing="false" onAction="#getLinkAction" text="Copy IMDb page to clipboard" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
-                  <Insets bottom="15.0" left="160.0" />
+                  <Insets bottom="15.0" left="171.0" />
                </StackPane.margin>
             </Button>
          </children>

@@ -8,8 +8,6 @@ package pmc.gui.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -365,6 +363,10 @@ public class MainModel {
         tblviewMovies.setContextMenu(contextMenu);
     }
 
+    /**
+     * Gets all the genres and puts them into the vbox as chekboxes with the genres name as label
+     * @param genreVBox the checkbox for putting them in
+     */
     public void initializeGenre(VBox genreVBox) {
         List<Genre> allGenres = null;
         try {
@@ -375,14 +377,31 @@ public class MainModel {
         }
         if (allGenres != null) {
             for (Genre allGenre : allGenres) {
-                
+
                 genreFilterList.add(new CheckBox(allGenre.getName()));
-                
+
             }
             genreVBox.getChildren().addAll(genreFilterList);
-        } 
-        
-
         }
 
     }
+
+    /**
+     * checks if at least one of the genre chekboxes is set selcted if it is it will filter the shown list.
+     */
+    public void checkGenreFilter() {
+        List<CheckBox> selected = new ArrayList<>();
+        for (CheckBox checkBox : genreFilterList) {
+            if (checkBox.isSelected()){
+                for (Movie movie : movies) {
+                    for (Genre genre : movie.getGenres()) {
+                        if (genre.getName().equalsIgnoreCase(checkBox.getText())){
+                            //TODO add to filterd
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
