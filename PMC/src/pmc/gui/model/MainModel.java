@@ -38,6 +38,7 @@ import pmc.be.MovieFilter;
 import pmc.be.PersonalMovieFilter;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
+import pmc.gui.controller.AddAndEditMovieController;
 import pmc.gui.controller.MovieDetailsController;
 
 /**
@@ -332,26 +333,6 @@ public class MainModel
     }
 
     /**
-     * Starts a new window by sending in the name of the view in the parameters.
-     */
-    public void startModalWindowMax(String windowView, int minWidth, int minHeight) throws IOException
-    {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/" + windowView + ".fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-
-        newStage.setTitle("PMC");
-        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-        newStage.setScene(scene);
-        newStage.setMinWidth(minWidth);
-        newStage.setMinHeight(minHeight);
-        newStage.setMaximized(true);
-        newStage.showAndWait();
-    }
-
-    /**
      * Gets all the movies and stores them in the movie list and adds them to
      * the filtered list. if error shows it will show an alert message.
      */
@@ -380,7 +361,23 @@ public class MainModel
     {
         try
         {
-            startModalWindowMax("AddAndEditMovieView", 500, 500);
+
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AddAndEditMovieView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+
+            AddAndEditMovieController cont = fxLoader.getController();
+            cont.setupStageDependant(newStage);
+
+            newStage.setTitle("PMC");
+            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+            newStage.setScene(scene);
+            newStage.setMinWidth(500);
+            newStage.setMinHeight(500);
+            newStage.setMaximized(true);
+            newStage.showAndWait();
         }
         catch (IOException ex)
         {

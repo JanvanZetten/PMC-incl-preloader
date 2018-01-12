@@ -75,6 +75,12 @@ public class IMDbRip
             throw new DALException("Not a IMDb movie website! " + imdbUrl);
         }
 
+        // Removes unneccesary tags.
+        if (imdbUrl.toLowerCase().contains("?"))
+        {
+            imdbUrl = imdbUrl.split("?")[0];
+        }
+
         try
         {
             // Reading website as file.

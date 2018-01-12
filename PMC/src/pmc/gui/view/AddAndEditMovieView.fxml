@@ -58,9 +58,9 @@
                   <Insets left="5.0" />
                </StackPane.margin>
             </Label>
-            <ProgressBar fx:id="pbLoading" maxHeight="7.0" minHeight="7.0" prefHeight="7.0" progress="0.0" StackPane.alignment="TOP_CENTER">
+            <ProgressBar fx:id="pbLoading" maxHeight="6.0" minHeight="6.0" prefHeight="6.0" progress="0.0" StackPane.alignment="TOP_CENTER">
                <StackPane.margin>
-                  <Insets top="28.0" />
+                  <Insets top="35.0" />
                </StackPane.margin>
             </ProgressBar>
          </children>
