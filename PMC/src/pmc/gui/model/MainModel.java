@@ -12,6 +12,8 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +28,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -36,6 +39,7 @@ import pmc.be.IMDbMovieFilter;
 import pmc.be.Movie;
 import pmc.be.MovieFilter;
 import pmc.be.PersonalMovieFilter;
+import pmc.be.GenreMovieFilter;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.gui.controller.AddAndEditMovieController;
@@ -55,12 +59,14 @@ public class MainModel {
     private List<CheckBox> genreFilterList;
 
     private BLLManager bllManager;
+    private List<String> selectedGenres;
 
     public MainModel() {
         bllManager = new BLLManager();
         this.movies = FXCollections.observableArrayList();
         this.filteredMovies = FXCollections.observableArrayList();
         genreFilterList = new ArrayList();
+        selectedGenres = new ArrayList();
         minImdbRating = 0.0;
         minPersonalRating = 0;
         filterString = "";
@@ -100,15 +106,18 @@ public class MainModel {
         List<MovieFilter> movieFilters = new ArrayList<>();
         MovieFilter imdbMovieFilter = new IMDbMovieFilter(0.0, minImdbRating);;
         MovieFilter personalMovieFilter = new PersonalMovieFilter(0, minPersonalRating);;
+        MovieFilter genreMovieFilter = new GenreMovieFilter(null, null);
 
         movieFilters.add(imdbMovieFilter);
         movieFilters.add(personalMovieFilter);
+        movieFilters.add(genreMovieFilter);
 
         filteredMovies.clear();
 
         for (Movie movie : movies) {
             movieFilters.set(0, new IMDbMovieFilter(movie.getImdbRating(), minImdbRating));
             movieFilters.set(1, new PersonalMovieFilter(movie.getPersonalRating(), minPersonalRating));
+            movieFilters.set(2, new GenreMovieFilter(movie.getGenres(), selectedGenres));
 
             int meetsRestrictions = 0;
             for (MovieFilter movieFilter : movieFilters) {
@@ -364,7 +373,9 @@ public class MainModel {
     }
 
     /**
-     * Gets all the genres and puts them into the vbox as chekboxes with the genres name as label
+     * Gets all the genres and puts them into the vbox as chekboxes with the
+     * genres name as label
+     *
      * @param genreVBox the checkbox for putting them in
      */
     public void initializeGenre(VBox genreVBox) {
@@ -377,8 +388,9 @@ public class MainModel {
         }
         if (allGenres != null) {
             for (Genre allGenre : allGenres) {
-
-                genreFilterList.add(new CheckBox(allGenre.getName()));
+                CheckBox checkbox = new CheckBox(allGenre.getName());
+                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
+                genreFilterList.add(checkbox);
 
             }
             genreVBox.getChildren().addAll(genreFilterList);
@@ -387,21 +399,19 @@ public class MainModel {
     }
 
     /**
-     * checks if at least one of the genre chekboxes is set selcted if it is it will filter the shown list.
+     * checks if at least one of the genre chekboxes is set selcted if it is it
+     * will filter the shown list.
      */
-    public void checkGenreFilter() {
+    private void checkGenreFilter() {
+        selectedGenres.clear();
         List<CheckBox> selected = new ArrayList<>();
         for (CheckBox checkBox : genreFilterList) {
-            if (checkBox.isSelected()){
-                for (Movie movie : movies) {
-                    for (Genre genre : movie.getGenres()) {
-                        if (genre.getName().equalsIgnoreCase(checkBox.getText())){
-                            //TODO add to filterd
-                        }
-                    }
-                }
+            if (checkBox.isSelected()) {
+                selectedGenres.add(checkBox.getText());
             }
         }
+        addToFiltered();
+
     }
 
 }

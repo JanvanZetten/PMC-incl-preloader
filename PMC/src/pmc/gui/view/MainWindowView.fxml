@@ -64,7 +64,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="200.0" />
                </StackPane.margin>
                <content>
-                  <VBox fx:id="genreVBox" onMouseReleased="#checkForGenreFilter" prefWidth="140.0" />
+                  <VBox fx:id="genreVBox" prefWidth="140.0" />
                </content>
             </ScrollPane>
          </children>

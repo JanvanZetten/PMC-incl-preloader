@@ -137,8 +137,4 @@ public class MainWindowController implements Initializable
         mainModel.contextMenuHandler(tblviewMovies);
     }
 
-    @FXML
-    private void checkForGenreFilter(MouseEvent event) {
-        mainModel.checkGenreFilter();
-    }
 }
