@@ -3,14 +3,13 @@
     Author     : Alex
 */
 .progress-bar .bar {
-    -fx-padding: 1px;
-    -fx-background-insets: 1;
+    -fx-padding: 2px;
+    -fx-background-insets: 0;
     -fx-background-color: #e74c3c;
 }
 
 .progress-bar > .track {
     -fx-text-box-border: #2c3e50;
+    -fx-background-insets: 0;
     -fx-control-inner-background: #2c3e50;
-    -fx-arc-height: 0;
-    -fx-arc-width: 0;
 }
