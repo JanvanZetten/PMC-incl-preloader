@@ -11,6 +11,7 @@ import java.util.List;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,9 +48,10 @@ import pmc.gui.controller.MovieDetailsController;
  */
 public class MainModel
 {
-
+    private TableView<Movie> tblview;
     private ObservableList<Movie> movies;
     private ObservableList<Movie> filteredMovies;
+    private SortedList<Movie> sortedMovies;
     private double minImdbRating;
     private int minPersonalRating;
     private String filterString;
@@ -62,6 +64,7 @@ public class MainModel
         bllManager = new BLLManager();
         this.movies = FXCollections.observableArrayList();
         this.filteredMovies = FXCollections.observableArrayList();
+        this.sortedMovies = new SortedList(filteredMovies);
         genreFilterList = new ArrayList();
         minImdbRating = 0.0;
         minPersonalRating = 0;
@@ -147,6 +150,7 @@ public class MainModel
                 }
             }
         }
+
     }
 
     public void setFilterString(String filterString)
@@ -204,6 +208,7 @@ public class MainModel
      */
     public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating)
     {
+        tblview = tblviewMovies;
         // Set values for Table Cells.
         tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
         tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param)
@@ -268,8 +273,11 @@ public class MainModel
         });
 
         // Set Observable List.
-        tblviewMovies.setItems(filteredMovies);
+        tblviewMovies.setItems(sortedMovies);
+        sortedMovies.comparatorProperty().bind(tblviewMovies.comparatorProperty());
+
         getAllMovies();
+
     }
 
     private void handleMovieDetails()
