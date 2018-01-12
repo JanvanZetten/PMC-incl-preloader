@@ -90,7 +90,7 @@ public class AddAndEditMovieController implements Initializable {
     private void saveMovieAction(ActionEvent event) {
         String url = webEngine.getLocation();
 
-        Movie newMovie = model.save(url);
+        Movie newMovie = model.save(url, mainModel);
         
         if (newMovie != null) {
             mainModel.addMovieToObsLst(newMovie);

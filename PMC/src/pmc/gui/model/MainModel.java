@@ -64,6 +64,7 @@ public class MainModel {
 
     private BLLManager bllManager;
     private List<String> selectedGenres;
+    private VBox genreVBox;
 
     public MainModel() {
         bllManager = new BLLManager();
@@ -363,9 +364,16 @@ public class MainModel {
             System.out.println("Hi");
 
         });
+        //Plays the selected song.
+        MenuItem item2 = new MenuItem("Delete Movie");
+        item2.setOnAction((ActionEvent e)
+                -> {
+            deleteMovie();
+
+        });
 
         //Sets the created MenuItems into the context menu for the table.
-        final ContextMenu contextMenu = new ContextMenu(item1);
+        final ContextMenu contextMenu = new ContextMenu(item1,item2);
         contextMenu.setMaxSize(50, 50);
         tblviewMovies.setContextMenu(contextMenu);
     }
@@ -377,6 +385,7 @@ public class MainModel {
      * @param genreVBox the checkbox for putting them in
      */
     public void initializeGenre(VBox genreVBox) {
+        this.genreVBox = genreVBox;
         List<Genre> allGenres = null;
         try {
             allGenres = bllManager.getAllGenres();
@@ -394,6 +403,34 @@ public class MainModel {
             genreVBox.getChildren().addAll(genreFilterList);
         }
 
+    }
+    
+    /**
+     * adds a genre.
+     * remember to call initilaze before this is called
+     * @param name
+     * @return the newly made genre
+     */
+    public Genre addGenre(String name){
+        Genre newGenre;
+        try {
+            newGenre = bllManager.addGenre(name);
+        
+        if (newGenre != null){
+            CheckBox checkbox = new CheckBox(newGenre.getName());
+                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
+                genreFilterList.add(checkbox);
+                genreVBox.getChildren().clear();
+                genreVBox.getChildren().addAll(genreFilterList);
+                return newGenre;
+        }
+        
+        } catch (BLLException ex) {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alertError.showAndWait();
+        }
+        return null;
+       
     }
 
     /**

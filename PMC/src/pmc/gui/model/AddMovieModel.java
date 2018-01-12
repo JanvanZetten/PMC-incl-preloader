@@ -63,7 +63,7 @@ public class AddMovieModel
      * @param url imdb url
      * @return true if succeded
      */
-    public Movie save(String url)
+    public Movie save(String url, MainModel mainModel)
     {
         // Removes unneccesary tags.
         if (url.toLowerCase().contains("?"))
@@ -99,7 +99,7 @@ public class AddMovieModel
                     if (!found)
                     {
 
-                        genresInMovie.add(bll.addGenre(genre));
+                        genresInMovie.add(mainModel.addGenre(genre));
 
                     }
                 }
