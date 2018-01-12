@@ -23,15 +23,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import pmc.be.Movie;
 import pmc.gui.model.AddMovieModel;
+import pmc.gui.model.MainModel;
 
 /**
  * FXML Controller class
  *
  * @author janvanzetten
  */
-public class AddAndEditMovieController implements Initializable
-{
+public class AddAndEditMovieController implements Initializable {
 
     @FXML
     private TextField textfieldPath;
@@ -45,13 +46,13 @@ public class AddAndEditMovieController implements Initializable
     private WebEngine webEngine;
     private AddMovieModel model;
     private Worker<Void> worker;
+    private MainModel mainModel;
 
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         model = new AddMovieModel();
         webEngine = WebView.getEngine();
 
@@ -63,17 +64,12 @@ public class AddAndEditMovieController implements Initializable
 
         // Hide the progress bar when the site is not loading.
         webEngine.getLoadWorker().stateProperty().addListener(
-                new ChangeListener<State>()
-        {
+                new ChangeListener<State>() {
             @Override
-            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue)
-            {
-                if (newValue == State.SUCCEEDED)
-                {
+            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+                if (newValue == State.SUCCEEDED) {
                     pbLoading.setVisible(false);
-                }
-                else if (newValue == State.RUNNING)
-                {
+                } else if (newValue == State.RUNNING) {
                     pbLoading.setVisible(true);
                 }
             }
@@ -87,15 +83,17 @@ public class AddAndEditMovieController implements Initializable
     /**
      * Button action which execute the save method in model. If the movie was
      * saved the window is closed.
+     *
      * @param event
      */
     @FXML
-    private void saveMovieAction(ActionEvent event)
-    {
+    private void saveMovieAction(ActionEvent event) {
         String url = webEngine.getLocation();
 
-        if (model.save(url))
-        {
+        Movie newMovie = model.save(url);
+        
+        if (newMovie != null) {
+            mainModel.addMovieToObsLst(newMovie);
             Button button = (Button) event.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
             stage.close();
@@ -103,34 +101,35 @@ public class AddAndEditMovieController implements Initializable
     }
 
     @FXML
-    private void browseMovieFileAction(ActionEvent event) throws IOException
-    {
+    private void browseMovieFileAction(ActionEvent event) throws IOException {
         model.browseMovie(textfieldPath);
+    }
+
+    /**
+     * for giving the controller the main model used på the mainwindow
+     *
+     * @param mainModelInstance
+     */
+    public void setMainModel(MainModel mainModelInstance) {
+        mainModel = mainModelInstance;
     }
 
     /**
      * Bind width of progress bar to the stage width. Sets topbar text.
      */
-    public void setupStageDependant(Stage stage)
-    {
+    public void setupStageDependant(Stage stage) {
         pbLoading.prefWidthProperty().bind(stage.widthProperty());
 
         // Save button is only active if the the webview is in a IMDb Movie site.
-        worker.stateProperty().addListener(new ChangeListener<State>()
-        {
+        worker.stateProperty().addListener(new ChangeListener<State>() {
             @Override
-            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue)
-            {
-                if (newValue == Worker.State.SUCCEEDED)
-                {
+            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+                if (newValue == Worker.State.SUCCEEDED) {
                     stage.setTitle("PMC - " + webEngine.getLocation());
-                    if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/"))
-                    {
+                    if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/")) {
                         btnSave.setDisable(false);
                     }
-                }
-                else
-                {
+                } else {
                     btnSave.setDisable(true);
                 }
             }

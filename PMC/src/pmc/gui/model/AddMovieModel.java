@@ -7,10 +7,8 @@ package pmc.gui.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Alert;
@@ -18,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import pmc.be.Genre;
+import pmc.be.Movie;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.ripManager;
@@ -63,7 +62,7 @@ public class AddMovieModel
      * @param url imdb url
      * @return true if succeded
      */
-    public boolean save(String url)
+    public Movie save(String url)
     {
         // Removes unneccesary tags.
         if (url.toLowerCase().contains("?"))
@@ -104,9 +103,9 @@ public class AddMovieModel
                     }
                 }
 
-                bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getImageInBytes());
+                Movie newMovie = bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getImageInBytes());
 
-                return true;
+                return newMovie;
 
             }
             catch (BLLException ex)
@@ -115,7 +114,7 @@ public class AddMovieModel
                 alert.showAndWait();
             }
         }
-        return false;
+        return null;
     }
 
 }
