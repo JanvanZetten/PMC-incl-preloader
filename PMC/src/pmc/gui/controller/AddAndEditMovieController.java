@@ -55,13 +55,13 @@ public class AddAndEditMovieController implements Initializable
         model = new AddMovieModel();
         webEngine = WebView.getEngine();
 
-        // A Worker load the page
+        // A Worker load the page.
         worker = webEngine.getLoadWorker();
 
-        // Bind the progress property of ProgressBar
-        // with progress property of Worker
+        // Bind the progress property of ProgressBar with progress property of Worker.
         pbLoading.progressProperty().bind(worker.progressProperty());
 
+        // Hide the progress bar when the site is not loading.
         webEngine.getLoadWorker().stateProperty().addListener(
                 new ChangeListener<State>()
         {
@@ -84,18 +84,16 @@ public class AddAndEditMovieController implements Initializable
         webEngine.load("http://www.imdb.com");
     }
 
+    /**
+     * Button action which execute the save method in model. If the movie was
+     * saved the window is closed.
+     * @param event
+     */
     @FXML
     private void saveMovieAction(ActionEvent event)
     {
         String url = webEngine.getLocation();
 
-        // Removes unneccesary tags.
-        if (url.toLowerCase().contains("?"))
-        {
-            url = url.split("\\?")[0];
-        }
-
-        System.out.println(url);
         if (model.save(url))
         {
             Button button = (Button) event.getSource();
@@ -111,13 +109,13 @@ public class AddAndEditMovieController implements Initializable
     }
 
     /**
-     * Bind width of progress bar to stage width. Set topbar text.
+     * Bind width of progress bar to the stage width. Sets topbar text.
      */
     public void setupStageDependant(Stage stage)
     {
         pbLoading.prefWidthProperty().bind(stage.widthProperty());
 
-        // Listening to the status of worker
+        // Save button is only active if the the webview is in a IMDb Movie site.
         worker.stateProperty().addListener(new ChangeListener<State>()
         {
             @Override

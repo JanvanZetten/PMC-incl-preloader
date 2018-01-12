@@ -65,6 +65,13 @@ public class AddMovieModel
      */
     public boolean save(String url)
     {
+        // Removes unneccesary tags.
+        if (url.toLowerCase().contains("?"))
+        {
+            url = url.split("\\?")[0];
+        }
+
+        System.out.println(url);
 
         if (!url.isEmpty() && !path.isEmpty())
         {
