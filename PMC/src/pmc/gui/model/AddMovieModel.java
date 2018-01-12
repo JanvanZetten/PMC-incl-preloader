@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -103,6 +104,7 @@ public class AddMovieModel
                     }
                 }
 
+                System.out.println(Arrays.toString(rip.getImageInBytes()));
                 Movie newMovie = bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getImageInBytes());
 
                 return newMovie;
