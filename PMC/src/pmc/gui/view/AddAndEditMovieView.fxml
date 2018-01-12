@@ -45,7 +45,7 @@
                   <Insets bottom="37.0" top="35.0" />
                </StackPane.margin>
             </WebView>
-            <Button mnemonicParsing="false" onAction="#saveMovieAction" prefHeight="27.0" prefWidth="72.0" text="Save" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveMovieAction" prefHeight="27.0" prefWidth="72.0" text="Save" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets bottom="5.0" right="5.0" />
                </StackPane.margin>

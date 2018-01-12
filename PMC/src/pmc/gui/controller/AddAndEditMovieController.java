@@ -39,6 +39,8 @@ public class AddAndEditMovieController implements Initializable
     private ProgressBar pbLoading;
     @FXML
     private WebView WebView;
+    @FXML
+    private Button btnSave;
 
     private WebEngine webEngine;
     private AddMovieModel model;
@@ -77,6 +79,8 @@ public class AddAndEditMovieController implements Initializable
             }
         });
 
+        btnSave.setDisable(true);
+
         webEngine.load("http://www.imdb.com");
     }
 
@@ -84,6 +88,13 @@ public class AddAndEditMovieController implements Initializable
     private void saveMovieAction(ActionEvent event)
     {
         String url = webEngine.getLocation();
+
+        // Removes unneccesary tags.
+        if (url.toLowerCase().contains("?"))
+        {
+            url = url.split("\\?")[0];
+        }
+
         System.out.println(url);
         if (model.save(url))
         {
@@ -115,6 +126,14 @@ public class AddAndEditMovieController implements Initializable
                 if (newValue == Worker.State.SUCCEEDED)
                 {
                     stage.setTitle("PMC - " + webEngine.getLocation());
+                    if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/"))
+                    {
+                        btnSave.setDisable(false);
+                    }
+                }
+                else
+                {
+                    btnSave.setDisable(true);
                 }
             }
         });

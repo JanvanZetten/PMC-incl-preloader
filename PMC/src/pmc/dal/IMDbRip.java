@@ -78,7 +78,7 @@ public class IMDbRip
         // Removes unneccesary tags.
         if (imdbUrl.toLowerCase().contains("?"))
         {
-            imdbUrl = imdbUrl.split("?")[0];
+            imdbUrl = imdbUrl.split("\\?")[0];
         }
 
         try
