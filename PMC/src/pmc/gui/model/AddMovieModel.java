@@ -37,9 +37,9 @@ public class AddMovieModel
 
     public void browseMovie(TextField textfieldPath) throws IOException
     {
-//        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(".mp4", ".mpeg4");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("MPEG4 Video Files", "*.mp4", "*.mpeg4");
         FileChooser fc = new FileChooser();
-//        fc.getExtensionFilters().add(filter);
+        fc.getExtensionFilters().add(filter);
         String currentDir = System.getProperty("user.dir") + File.separator;
         File dir = new File(currentDir);
         fc.setInitialDirectory(dir);
