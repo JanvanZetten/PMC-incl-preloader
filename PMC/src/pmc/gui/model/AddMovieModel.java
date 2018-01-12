@@ -118,4 +118,8 @@ public class AddMovieModel
         return false;
     }
 
+    public boolean pathSet()
+    {
+        return path != null;
+    }
 }

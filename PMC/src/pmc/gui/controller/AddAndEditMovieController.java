@@ -106,6 +106,7 @@ public class AddAndEditMovieController implements Initializable
     private void browseMovieFileAction(ActionEvent event) throws IOException
     {
         model.browseMovie(textfieldPath);
+        isAllDataSet();
     }
 
     /**
@@ -124,10 +125,7 @@ public class AddAndEditMovieController implements Initializable
                 if (newValue == Worker.State.SUCCEEDED)
                 {
                     stage.setTitle("PMC - " + webEngine.getLocation());
-                    if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/"))
-                    {
-                        btnSave.setDisable(false);
-                    }
+                    isAllDataSet();
                 }
                 else
                 {
@@ -135,5 +133,16 @@ public class AddAndEditMovieController implements Initializable
                 }
             }
         });
+    }
+
+    /**
+     * Checks if needed data, for saving, is set.
+     */
+    private void isAllDataSet()
+    {
+        if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/") && model.pathSet())
+        {
+            btnSave.setDisable(false);
+        }
     }
 }
