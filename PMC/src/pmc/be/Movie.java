@@ -117,9 +117,12 @@ public class Movie
      */
     public void setImage(byte[] imageInBytes) throws DALException
     {
-        bytes2Image b2i = new bytes2Image(name, year, imageInBytes);
-        this.imageInBytes = b2i.getImageInBytes();
-        this.imagePath = b2i.getImagePath();
+        if (imageInBytes.length != 0)
+        {
+            bytes2Image b2i = new bytes2Image(name, year, imageInBytes);
+            this.imageInBytes = b2i.getImageInBytes();
+            this.imagePath = b2i.getImagePath();
+        }
     }
 
     /**

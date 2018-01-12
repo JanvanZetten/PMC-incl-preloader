@@ -198,8 +198,18 @@ public class DBManager
             statement.setInt(8, duration);
             statement.setString(9, Directors);
 
-            ByteArrayInputStream bais = new ByteArrayInputStream(imageInBytes);
-            statement.setBinaryStream(10, bais, imageInBytes.length);
+            if (imageInBytes != null)
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(imageInBytes);
+                statement.setBinaryStream(10, bais, imageInBytes.length);
+            }
+            else
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(new byte[]
+                {
+                });
+                statement.setBinaryStream(10, bais, 0);
+            }
 
             if (statement.executeUpdate() == 1)
             {
@@ -249,6 +259,19 @@ public class DBManager
             statement.setInt(7, updatedMovie.getYear());
             statement.setInt(8, updatedMovie.getDuration());
             statement.setString(9, updatedMovie.getDirectors());
+
+            if (updatedMovie.getImageInBytes() != null)
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
+                statement.setBinaryStream(10, bais, updatedMovie.getImageInBytes().length);
+            }
+            else
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(new byte[]
+                {
+                });
+                statement.setBinaryStream(10, bais, 0);
+            }
 
             ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
             statement.setBinaryStream(10, bais, updatedMovie.getImageInBytes().length);
