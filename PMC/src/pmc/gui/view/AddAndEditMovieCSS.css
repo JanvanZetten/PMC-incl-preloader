@@ -13,3 +13,16 @@
     -fx-background-insets: 0;
     -fx-control-inner-background: #2c3e50;
 }
+
+.button {
+    -fx-background-color: #2980B9;
+    -fx-text-fill: #ECF0F1;
+}
+
+.button:hover {
+    -fx-background-color: #3498DB;
+}
+
+.button:pressed{
+    -fx-background-color: #e74c3c;
+}

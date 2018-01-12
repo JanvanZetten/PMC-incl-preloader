@@ -2,7 +2,7 @@
     Created on : 09-01-2018, 10:20:26
     Author     : Alex
 */
-
+/*
 .button {
     -fx-background-color: 
         linear-gradient(#f2f2f2, #d6d6d6),
@@ -16,5 +16,19 @@
 
 .button:pressed{
     -fx-background-color: #E74C3C;
+}
+*/
+
+.button {
+    -fx-background-color: #2980B9;
+    -fx-text-fill: #ECF0F1;
+}
+
+.button:hover {
+    -fx-background-color: #3498DB;
+}
+
+.button:pressed{
+    -fx-background-color: #e74c3c;
 }
 
