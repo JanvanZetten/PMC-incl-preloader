@@ -8,8 +8,6 @@ package pmc.gui.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -344,6 +342,8 @@ public class MainModel
         }
         catch (BLLException ex)
         {
+            System.out.println("error: Check database Connection!!");
+            ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
@@ -370,6 +370,7 @@ public class MainModel
 
             AddAndEditMovieController cont = fxLoader.getController();
             cont.setupStageDependant(newStage);
+            cont.setMainModel(this);
 
             newStage.setTitle("PMC");
             newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
