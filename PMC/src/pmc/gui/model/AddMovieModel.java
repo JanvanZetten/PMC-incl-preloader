@@ -117,4 +117,8 @@ public class AddMovieModel
         return null;
     }
 
+    public boolean pathSet()
+    {
+        return path != null;
+    }
 }

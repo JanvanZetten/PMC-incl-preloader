@@ -103,6 +103,7 @@ public class AddAndEditMovieController implements Initializable {
     @FXML
     private void browseMovieFileAction(ActionEvent event) throws IOException {
         model.browseMovie(textfieldPath);
+        isAllDataSet();
     }
 
     /**
@@ -126,13 +127,22 @@ public class AddAndEditMovieController implements Initializable {
             public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
                 if (newValue == Worker.State.SUCCEEDED) {
                     stage.setTitle("PMC - " + webEngine.getLocation());
-                    if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/")) {
-                        btnSave.setDisable(false);
-                    }
+                    isAllDataSet();
                 } else {
                     btnSave.setDisable(true);
                 }
             }
         });
+    }
+
+    /**
+     * Checks if needed data, for saving, is set.
+     */
+    private void isAllDataSet()
+    {
+        if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/") && model.pathSet())
+        {
+            btnSave.setDisable(false);
+        }
     }
 }
