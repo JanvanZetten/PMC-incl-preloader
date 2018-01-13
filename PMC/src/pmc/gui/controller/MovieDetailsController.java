@@ -72,6 +72,7 @@ public class MovieDetailsController implements Initializable {
     @FXML
     private void watchMovieAction() throws IOException {
         model.playMovie();
+        model.setNewLastView();
     }
 
     @FXML

@@ -10,13 +10,22 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 
 /**
@@ -143,5 +152,18 @@ public class MovieDetailsModel
         content.putString(bllManager.getCurrentMovie().getImdbUrl());
         clipboard.setContent(content);
 
+    }
+
+    public void setNewLastView() {
+        String date = LocalDate.now().toString();
+        date = date.replaceAll("-", "");
+        int dateAsInt = Integer.parseInt(date);       
+        bllManager.getCurrentMovie().setLastView(dateAsInt);
+        try {
+            bllManager.updateMovie(bllManager.getCurrentMovie());
+        } catch (BLLException ex) {
+             Alert alertError = new Alert(Alert.AlertType.ERROR, "could not save new date to database", ButtonType.OK);
+             alertError.showAndWait();
+        }
     }
 }
