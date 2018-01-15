@@ -27,6 +27,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
+import pmc.bll.MoviePlayer;
 
 /**
  *
@@ -36,6 +37,7 @@ public class MovieDetailsModel
 {
 
     BLLManager bllManager;
+    MoviePlayer mp;
 
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -44,6 +46,7 @@ public class MovieDetailsModel
     public void setBLLManager(BLLManager bllManager)
     {
         this.bllManager = bllManager;
+        this.mp = new MoviePlayer();
     }
 
     //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
@@ -136,12 +139,21 @@ public class MovieDetailsModel
     }
 
     //Plays the movie upon pressing the "Watch Movie" button.
-    public void playMovie() throws IOException
+    public void playMovie()
     {
-        String currentDir = System.getProperty("user.dir") + File.separator;
-        File dir = new File(currentDir);
+        //String currentDir = System.getProperty("user.dir") + File.separator;
+        //File dir = new File(currentDir);
 
-        Desktop.getDesktop().open(new File(dir + "\\Movies\\Guy runs into wall.mp4"));
+        //Desktop.getDesktop().open(new File(dir + bllManager.getCurrentMovie().getFilePath()));
+        try
+        {
+            mp.playMovie(bllManager.getCurrentMovie());
+        }
+        catch (BLLException ex)
+        {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, "Launching movie: " + ex.getMessage(), ButtonType.OK);
+            alertError.showAndWait();
+        }
     }
 
     //Sets the user's clipboard to contain the IMDb link.
@@ -154,16 +166,20 @@ public class MovieDetailsModel
 
     }
 
-    public void setNewLastView() {
+    public void setNewLastView()
+    {
         String date = LocalDate.now().toString();
         date = date.replaceAll("-", "");
-        int dateAsInt = Integer.parseInt(date);       
+        int dateAsInt = Integer.parseInt(date);
         bllManager.getCurrentMovie().setLastView(dateAsInt);
-        try {
+        try
+        {
             bllManager.updateMovie(bllManager.getCurrentMovie());
-        } catch (BLLException ex) {
-             Alert alertError = new Alert(Alert.AlertType.ERROR, "could not save new date to database", ButtonType.OK);
-             alertError.showAndWait();
+        }
+        catch (BLLException ex)
+        {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, "could not save new date to database", ButtonType.OK);
+            alertError.showAndWait();
         }
     }
 }
