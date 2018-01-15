@@ -16,6 +16,7 @@ import pmc.dal.IMDbRip;
 public class ripManager
 {
     IMDbRip ripper;
+    
 
     public ripManager(String Url) throws BLLException
     {
@@ -72,6 +73,10 @@ public class ripManager
     public byte[] getImageInBytes()
     {
         return ripper.getImageInBytes();
+    }
+    
+    public String getSummary(){
+        return ripper.getSummary();
     }
 
 }

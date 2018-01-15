@@ -65,12 +65,12 @@ public class MovieDetailsController implements Initializable
         model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
-//        model.setDescription(textareaDescription);
+        model.setDescription(textareaDescription);
         model.setTitleAndYear(lblTitleAndYear);
         model.setGenres(lblGenres);
         model.setDirector(lblDirector);
         model.setScore(lblScore);
-        model.tellLastSeen();
+        
     }
 
     //Plays the movie selected.

@@ -104,8 +104,8 @@ public class AddMovieModel
                     }
                 }
 
-                System.out.println(Arrays.toString(rip.getImageInBytes()));
-                Movie newMovie = bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getImageInBytes());
+                //System.out.println(Arrays.toString(rip.getImageInBytes()));
+                Movie newMovie = bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getSummary(), rip.getImageInBytes());
 
                 return newMovie;
 

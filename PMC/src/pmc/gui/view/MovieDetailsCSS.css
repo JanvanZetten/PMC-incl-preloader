@@ -23,8 +23,5 @@
   .text-area{
       -fx-border-color: transparent;
       -fx-background-color:  #ecf0f1;
+      -fx-text-fill: #ecf0f1;
   }
-  
-  .text-area *.text {
-    -fx-text-color: #ecf0f1;
-}
