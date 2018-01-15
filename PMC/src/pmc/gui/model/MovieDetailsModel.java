@@ -5,18 +5,11 @@
  */
 package pmc.gui.model;
 
-import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -128,13 +121,17 @@ public class MovieDetailsModel
     //Sets what score the movie has.
     public void setScore(Label lblScore)
     {
-        if (bllManager.getCurrentMovie().getImdbRating() != -1)
-        {
-            lblScore.setText(bllManager.getCurrentMovie().getImdbRating() + "");
-        }
-        else
-        {
-            lblScore.setText("0");
+        if (bllManager.getCurrentMovie().getPersonalRating() == -1) {
+            if (bllManager.getCurrentMovie().getImdbRating() != -1)
+            {
+                lblScore.setText(bllManager.getCurrentMovie().getImdbRating() + "");
+            }
+            else
+            {
+                lblScore.setText("N/A");
+            }}
+        else {
+            lblScore.setText(bllManager.getCurrentMovie().getPersonalRating()+ "");
         }
     }
 

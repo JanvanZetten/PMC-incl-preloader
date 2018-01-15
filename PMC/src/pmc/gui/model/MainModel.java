@@ -232,7 +232,13 @@ public class MainModel {
         tblcolTime.setStyle("-fx-alignment: CENTER-RIGHT;");
         tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
         tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
-        tblcolPersonalRating.setCellValueFactory(new PropertyValueFactory("personalRating"));
+        tblcolPersonalRating.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) -> {
+            if (param.getValue().getPersonalRating() == -1) {
+                return new ReadOnlyObjectWrapper<>("None");
+            } else {
+                return new ReadOnlyObjectWrapper<>(param.getValue().getPersonalRating() + "");
+            }
+        });
         tblcolPersonalRating.setStyle("-fx-alignment: CENTER;");
         
         
@@ -366,7 +372,7 @@ public class MainModel {
 
         });
         //changes the current movie
-        MenuItem item3 = new MenuItem("Change Personalrating");
+        MenuItem item3 = new MenuItem("Change Personal rating");
         item3.setOnAction((ActionEvent e)
                 -> {
             changeRating();
