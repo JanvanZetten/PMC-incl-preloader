@@ -518,6 +518,10 @@ public class MainModel {
         }
     }
 
+    /**
+     * Updates the updated movie in the observable lists: movies and filtredMovies
+     * @param Updatedmovie 
+     */
     private void updateMovieList(Movie Updatedmovie) {
         for (Movie movy : movies) {
             if (movy.getId() == Updatedmovie.getId()){
