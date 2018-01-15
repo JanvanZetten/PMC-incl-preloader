@@ -94,7 +94,7 @@ public class EditMovieController implements Initializable
                 return;
             }
             emm.setValues(txtfldName.getText(), yearInInt, txtfldDirectors.getText(), txtareaSummary.getText());
-            emm.updateMovie();
+            emm.updateMovie(btnUpdate);
         }
         else
         {

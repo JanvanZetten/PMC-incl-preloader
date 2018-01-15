@@ -7,12 +7,12 @@ package pmc.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.bll.BLLException;
@@ -43,7 +43,7 @@ public class EditMovieModel
     /**
      * Runs updateMovie in BLLManager if all values are set.
      */
-    public void updateMovie()
+    public void updateMovie(Button btnUpdate)
     {
         Movie movie = bllManager.getCurrentMovie();
         movie.setName(name);
@@ -54,10 +54,13 @@ public class EditMovieModel
         {
             newGenres.add(genres.get(selectedGenre));
         }
-        if (newGenres.size() < 0)
+
+        if (newGenres.size() > 0)
         {
             movie.setGenres(newGenres);
-
+        }
+        else
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "No genre is selected!", ButtonType.OK);
             alert.showAndWait();
             return;
@@ -68,6 +71,8 @@ public class EditMovieModel
         try
         {
             bllManager.updateMovie(movie);
+            Stage stage = (Stage) btnUpdate.getScene().getWindow();
+            stage.close();
         }
         catch (BLLException ex)
         {
@@ -121,10 +126,7 @@ public class EditMovieModel
             alert.showAndWait();
             return;
         }
-        for (Genre genre : movie.getGenres())
-        {
-            System.out.println(genre.getName());
-        }
+
         if (genres != null)
         {
             for (Genre genre : genres)
