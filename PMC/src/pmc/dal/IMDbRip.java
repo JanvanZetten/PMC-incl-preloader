@@ -14,7 +14,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
-//import javafx.scene.web.WebView;
 
 /**
  *
@@ -22,7 +21,6 @@ import javax.imageio.ImageIO;
  */
 public class IMDbRip
 {
-    //private WebView webView;
     private boolean rippedAllInformation;
 
     private String name;
@@ -50,16 +48,6 @@ public class IMDbRip
         summary = null;
         imagePath = null;
 
-        /*
-        //Working with JavaFX WebView
-        this.webView = new WebView();
-        webView.getEngine().getLoadWorker().progressProperty().addListener(
-                (o,old, progress) -> {
-                    Document doc = webView.getEngine().getDocument();
-                    ripInformation(doc);
-                });
-        webView.getEngine().load(imdbUrl);
-         */
         ripInformationAsFile(imdbUrl);
     }
 
@@ -202,6 +190,7 @@ public class IMDbRip
                     }
                 }
             }
+            rippedAllInformation = true;
         }
         // In case of an exception throw new exception.
         catch (IOException | NumberFormatException ex)
@@ -267,147 +256,6 @@ public class IMDbRip
         }
     }
 
-    /**
-     * Rip all information using JavaFX WebView.
-     * @return
-     */
-    /*
-    private void ripInformation(Document doc)
-    {
-        if (doc != null && !rippedAllInformation)
-        {
-            try
-            {
-                String txt;
-                Element field;
-
-                field = (Element) XPathFactory.newInstance().newXPath().evaluate(
-                        //"//*[@id='navbar-form']//*[@name='q']",
-                        "//*[@itemprop='name']",
-                        doc, XPathConstants.NODE);
-                if (field != null)
-                {
-                    txt = field.getTextContent().trim();
-                    System.out.println("Before: " + txt);
-                    String[] txtArr = txt.split("\\(");
-                    name = txtArr[0].substring(0, txtArr[0].length() - 1);
-                    year = txtArr[1].substring(0, txtArr[1].length() - 1);
-                    System.out.println("Name: " + name);
-                    System.out.println("Year: " + year);
-                }
-
-                if (field == null)
-                {
-                    System.out.println("NOT GOOD");
-                    throw new RuntimeException("Not a IMDb movie URL!");
-                }
-
-                field = (Element) XPathFactory.newInstance().newXPath().evaluate(
-                        "//*[@itemprop='duration']",
-                        doc, XPathConstants.NODE);
-                if (field != null)
-                {
-                    duration = field.getTextContent().trim();
-                    System.out.println("Duration: " + duration);
-                }
-
-                if (field == null)
-                {
-                    System.out.println("NOT GOOD");
-                    throw new RuntimeException("Not a IMDb movie URL!");
-                }
-
-                NodeList nodeArr = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
-                        "//*[@itemprop='genre']",
-                        doc, XPathConstants.NODESET);
-                genres = new ArrayList<>();
-                for (int i = 0; i < nodeArr.getLength() - 1; i++)
-                {
-                    Element el = (Element) nodeArr.item(i);
-                    txt = el.getTextContent().trim();
-                    genres.add(txt);
-                    System.out.println("Genre " + (i + 1) + ": " + txt);
-                }
-
-                field = (Element) XPathFactory.newInstance().newXPath().evaluate(
-                        "//*[@itemprop='ratingValue']",
-                        doc, XPathConstants.NODE);
-                if (field != null)
-                {
-                    rating = field.getTextContent().trim();
-                    System.out.println("Rating: " + rating);
-                }
-
-                if (field == null)
-                {
-                    System.out.println("NOT GOOD");
-                    throw new RuntimeException("Not a IMDb movie URL!");
-                }
-
-                nodeArr = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
-                        "//*[@itemprop='director']",
-                        doc, XPathConstants.NODESET);
-                directors = new ArrayList<>();
-                for (int i = 0; i < nodeArr.getLength(); i++)
-                {
-                    Element el = (Element) nodeArr.item(i);
-                    txt = el.getTextContent().trim();
-                    directors.add(txt);
-                    System.out.println("Director " + (i + 1) + ": " + txt);
-                }
-
-                if (field == null)
-                {
-                    System.out.println("NOT GOOD");
-                    throw new RuntimeException("Not a IMDb movie URL!");
-                }
-
-                field = (Element) XPathFactory.newInstance().newXPath().evaluate(
-                        "//*[@itemprop='image']",
-                        doc, XPathConstants.NODE);
-                if (field != null && name != null && year != null)
-                {
-                    String imageUrl = field.getAttributes().getNamedItem("src").getNodeValue();
-                    System.out.println("Image URL: " + imageUrl);
-                    try (InputStream in = new URL(imageUrl).openStream())
-                    {
-                        String fileName = "";
-                        for (String string : name.split(" "))
-                        {
-                            fileName += string + "_";
-                        }
-                        fileName += year + imageUrl.substring(imageUrl.length() - 4);
-
-                        File dir = new File("./images/");
-                        dir.mkdir();
-                        Files.copy(in, Paths.get("./images/" + fileName), StandardCopyOption.REPLACE_EXISTING);
-                        image = "./images/" + fileName;
-                        System.out.println("Saved image to " + image);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new RuntimeException("Error copying image!");
-                    }
-                }
-
-                if (field != null)
-                {
-                    System.out.println("GOOD");
-                    rippedAllInformation = true;
-                }
-                else
-                {
-                    System.out.println("NOT GOOD");
-                    throw new RuntimeException("Not a IMDb movie URL!");
-                }
-            }
-            catch (XPathException e)
-            {
-                throw new RuntimeException("Error ripping information from IMDb!");
-            }
-        }
-    }
-     */
     /**
      * If all information was ripped as expected.
      * @return
