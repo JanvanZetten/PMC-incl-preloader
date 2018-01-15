@@ -32,7 +32,7 @@ import pmc.gui.model.MainModel;
  *
  * @author janvanzetten
  */
-public class AddAndEditMovieController implements Initializable {
+public class AddMovieController implements Initializable {
 
     @FXML
     private TextField textfieldPath;

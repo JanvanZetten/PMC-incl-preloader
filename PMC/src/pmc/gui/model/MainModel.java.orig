@@ -46,7 +46,7 @@ import pmc.be.GenreMovieFilter;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
-import pmc.gui.controller.AddMovieController;
+import pmc.gui.controller.AddAndEditMovieController;
 import pmc.gui.controller.MovieDetailsController;
 
 /**
@@ -450,11 +450,11 @@ public class MainModel
 
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AddMovieView.fxml"));
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AddAndEditMovieView.fxml"));
             Parent root = fxLoader.load();
             Scene scene = new Scene(root);
 
-            AddMovieController cont = fxLoader.getController();
+            AddAndEditMovieController cont = fxLoader.getController();
             cont.setupStageDependant(newStage);
             cont.setMainModel(this);
 
@@ -473,6 +473,39 @@ public class MainModel
         }
     }
 
+<<<<<<< HEAD
+    public void contextMenuHandler(TableView<Movie> tblviewMovies) {
+
+        //Plays the selected song.
+        MenuItem item1 = new MenuItem("Open Movie");
+        item1.setOnAction((ActionEvent e)
+                -> {
+            handleMovieDetails();
+
+        });
+        //Delets the selected song.
+        MenuItem item2 = new MenuItem("Delete Movie");
+        item2.setOnAction((ActionEvent e)
+                -> {
+            deleteMovie();
+
+        });
+        //changes the current movie
+        MenuItem item3 = new MenuItem("Change Personal rating");
+        item3.setOnAction((ActionEvent e)
+                -> {
+            changeRating();
+
+        });
+
+        //Sets the created MenuItems into the context menu for the table.
+        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
+        contextMenu.setMaxSize(50, 50);
+        tblviewMovies.setContextMenu(contextMenu);
+    }
+
+=======
+>>>>>>> b215ade45a6dedb11138a6f5878c40cc9bdc026f
     /**
      * Gets all the genres and puts them into the vbox as chekboxes with the
      * genres name as label

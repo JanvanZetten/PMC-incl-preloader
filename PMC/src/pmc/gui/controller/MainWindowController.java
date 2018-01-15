@@ -66,11 +66,8 @@ public class MainWindowController implements Initializable
         //initializeTableView();
         mainModel.initializeTableView(tblviewMovies, tblcolTitle, tblcolGenre, tblcolTime, tblcolImdbRating, tblcolPersonalRating);
         mainModel.initializeGenre(genreVBox);
-        handleContextMenu();
-        
-        
     }
-    
+
     @FXML
     private void handleNew(ActionEvent event)
     {
@@ -127,9 +124,4 @@ public class MainWindowController implements Initializable
         mainModel.setFilterString(txtfldFilter.getText());
         mainModel.addToFiltered();
     }
-    
-    private void handleContextMenu() {
-        mainModel.contextMenuHandler(tblviewMovies);
-    }
-
 }
