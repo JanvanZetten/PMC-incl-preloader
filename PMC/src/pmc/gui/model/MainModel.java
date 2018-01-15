@@ -36,6 +36,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import pmc.be.Genre;
 import pmc.be.IMDbMovieFilter;
 import pmc.be.Movie;
@@ -65,6 +66,7 @@ public class MainModel {
     private BLLManager bllManager;
     private List<String> selectedGenres;
     private VBox genreVBox;
+    private TableRow<Movie> selectedRow;
 
     public MainModel() {
         bllManager = new BLLManager();
@@ -231,6 +233,8 @@ public class MainModel {
         tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
         tblcolPersonalRating.setCellValueFactory(new PropertyValueFactory("personalRating"));
         tblcolPersonalRating.setStyle("-fx-alignment: CENTER;");
+        
+        
 
         // Set doubleclick on row.
         tblviewMovies.setRowFactory(tv
@@ -239,8 +243,6 @@ public class MainModel {
             row.setOnMouseClicked(event
                     -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Movie currentMovie = row.getItem();
-                    setCurrentMovie(currentMovie);
                     handleMovieDetails();
                 } else if (event.getClickCount() == 1 && (!row.isEmpty())) {
                     setCurrentMovie(row.getItem());
@@ -252,26 +254,19 @@ public class MainModel {
         // Set Observable List.
         tblviewMovies.setItems(sortedMovies);
         sortedMovies.comparatorProperty().bind(tblviewMovies.comparatorProperty());
-
         getAllMovies();
-
     }
 
     private void handleMovieDetails() {
         try {
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
-
             FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
-
             Parent root = fxLoader.load();
 
             MovieDetailsController cont = fxLoader.getController();
-
             cont.setBLLManager(getBLLManager());
-
             cont.setElements();
-
             Scene scene = new Scene(root);
 
             newStage.setTitle("PMC - Movie Details");
@@ -284,8 +279,6 @@ public class MainModel {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-//            Alert alert = new Alert(Alert.AlertType.WARNING, "error" + ex.getMessage(), ButtonType.OK);
-//            alert.showAndWait();
         }
     }
 
@@ -361,7 +354,7 @@ public class MainModel {
         MenuItem item1 = new MenuItem("Open Movie");
         item1.setOnAction((ActionEvent e)
                 -> {
-            System.out.println("Hi");
+            handleMovieDetails();
 
         });
         //Plays the selected song.
