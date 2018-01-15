@@ -29,6 +29,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -364,16 +365,23 @@ public class MainModel {
             System.out.println("Hi");
 
         });
-        //Plays the selected song.
+        //Delets the selected song.
         MenuItem item2 = new MenuItem("Delete Movie");
         item2.setOnAction((ActionEvent e)
                 -> {
             deleteMovie();
 
         });
+        //changes the current movie
+        MenuItem item3 = new MenuItem("Change Personalrating");
+        item3.setOnAction((ActionEvent e)
+                -> {
+            changeRating();
+
+        });
 
         //Sets the created MenuItems into the context menu for the table.
-        final ContextMenu contextMenu = new ContextMenu(item1,item2);
+        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
         contextMenu.setMaxSize(50, 50);
         tblviewMovies.setContextMenu(contextMenu);
     }
@@ -404,33 +412,33 @@ public class MainModel {
         }
 
     }
-    
+
     /**
-     * adds a genre.
-     * remember to call initilaze before this is called
+     * adds a genre. remember to call initilaze before this is called
+     *
      * @param name
      * @return the newly made genre
      */
-    public Genre addGenre(String name){
+    public Genre addGenre(String name) {
         Genre newGenre;
         try {
             newGenre = bllManager.addGenre(name);
-        
-        if (newGenre != null){
-            CheckBox checkbox = new CheckBox(newGenre.getName());
+
+            if (newGenre != null) {
+                CheckBox checkbox = new CheckBox(newGenre.getName());
                 checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
                 genreFilterList.add(checkbox);
                 genreVBox.getChildren().clear();
                 genreVBox.getChildren().addAll(genreFilterList);
                 return newGenre;
-        }
-        
+            }
+
         } catch (BLLException ex) {
             Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             alertError.showAndWait();
         }
         return null;
-       
+
     }
 
     /**
@@ -450,7 +458,8 @@ public class MainModel {
     }
 
     /**
-     * does everything needed for deleting the current movie incl making a confirmation window
+     * does everything needed for deleting the current movie incl making a
+     * confirmation window
      */
     public void deleteMovie() {
         Movie movieToDelete = bllManager.getCurrentMovie();
@@ -473,4 +482,45 @@ public class MainModel {
         bllManager.setCurrentMovie(tblview.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Opens a dialog box for changing the personal rating of the current movie, and assigns this value to the current movies personal rating.
+     */
+    private void changeRating() {
+        int before = bllManager.getCurrentMovie().getPersonalRating();
+        while(true) {
+            TextInputDialog TID = new TextInputDialog();
+            TID.setTitle("Personalrating:");
+            TID.setContentText("Rating from 0 to 10");
+            Optional<String> input = TID.showAndWait();
+            if (input.isPresent()) {
+                try {
+                    int i = Integer.parseInt(input.get());
+                    if (i<0 || i>10){
+                        throw new NumberFormatException();
+                    }
+                    bllManager.getCurrentMovie().setPersonalRating(i);
+                    bllManager.updateMovie(bllManager.getCurrentMovie());
+                    updateMovieList(bllManager.getCurrentMovie());
+                    return;
+                } catch (NumberFormatException e) {
+                    Alert alertError = new Alert(Alert.AlertType.WARNING, "Not a number between 0 and 10", ButtonType.OK);
+                    alertError.showAndWait();
+                } catch (BLLException ex) {
+                    bllManager.getCurrentMovie().setPersonalRating(before);
+                    Alert alertError = new Alert(Alert.AlertType.WARNING, "Could not change rating\n" + ex.getMessage(), ButtonType.OK);
+                    alertError.showAndWait();
+                    return;
+                }
+            }
+        }
+    }
+
+    private void updateMovieList(Movie Updatedmovie) {
+        for (Movie movy : movies) {
+            if (movy.getId() == Updatedmovie.getId()){
+                movy = Updatedmovie;        
+            }
+        }
+        addToFiltered();
+    }
 }
