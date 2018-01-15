@@ -27,8 +27,8 @@ public class PMC extends Application
     @Override
     public void init() throws Exception
     {
-//        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/DeletePopupView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("gui/view/DeletePopupView.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("gui/view/MovieDetailsView.fxml"));
 
         scene = new Scene(root);
