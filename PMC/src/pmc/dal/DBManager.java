@@ -215,7 +215,7 @@ public class DBManager {
         try (Connection con = DBCon.getConnection()) {
 
             String sql = "UPDATE MOVIE SET name= ?, personalRating= ?, ImdbRating= ?, lastView= ?, filePath= ?, ImdbUrl= ?, "
-                    + "year= ?, duration= ?, directors= ?, description= ? imageInBytes= ? WHERE id = ?;";
+                    + "year= ?, duration= ?, directors= ?, description= ?, imageInBytes= ? WHERE id = ?;";
 
             PreparedStatement statement = con.prepareStatement(sql);
 
