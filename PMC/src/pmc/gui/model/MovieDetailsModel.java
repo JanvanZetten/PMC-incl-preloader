@@ -157,4 +157,8 @@ public class MovieDetailsModel
         clipboard.setContent(content);
 
     }
+
+    public void tellLastSeen() {
+        System.out.println(bllManager.getCurrentMovie().getLastView());
+    }
 }

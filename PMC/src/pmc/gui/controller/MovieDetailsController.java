@@ -70,6 +70,7 @@ public class MovieDetailsController implements Initializable
         model.setGenres(lblGenres);
         model.setDirector(lblDirector);
         model.setScore(lblScore);
+        model.tellLastSeen();
     }
 
     //Plays the movie selected.
