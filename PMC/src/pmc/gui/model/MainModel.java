@@ -46,7 +46,7 @@ import pmc.be.GenreMovieFilter;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
-import pmc.gui.controller.AddAndEditMovieController;
+import pmc.gui.controller.AddMovieController;
 import pmc.gui.controller.MovieDetailsController;
 
 /**
@@ -450,11 +450,11 @@ public class MainModel
 
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AddAndEditMovieView.fxml"));
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AddMovieView.fxml"));
             Parent root = fxLoader.load();
             Scene scene = new Scene(root);
 
-            AddAndEditMovieController cont = fxLoader.getController();
+            AddMovieController cont = fxLoader.getController();
             cont.setupStageDependant(newStage);
             cont.setMainModel(this);
 
