@@ -148,4 +148,8 @@ public class MovieDetailsModel {
             textareaDescription.setWrapText(true);
         }
     }
+
+    public void tellLastSeen() {
+        System.out.println(bllManager.getCurrentMovie().getLastView());
+    }
 }

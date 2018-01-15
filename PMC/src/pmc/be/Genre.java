@@ -68,9 +68,23 @@ public class Genre
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return name;
     }
 
-    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof Genre)
+        {
+            if (obj != null)
+            {
+                Genre objG = (Genre) obj;
+                return objG.getId() == this.getId();
+            }
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

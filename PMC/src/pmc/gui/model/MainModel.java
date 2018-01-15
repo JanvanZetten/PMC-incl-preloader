@@ -47,6 +47,7 @@ import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
 import pmc.gui.controller.AddMovieController;
+import pmc.gui.controller.EditMovieController;
 import pmc.gui.controller.MovieDetailsController;
 
 /**
@@ -264,10 +265,14 @@ public class MainModel
         tblcolTime.setStyle("-fx-alignment: CENTER-RIGHT;");
         tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
         tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
-        tblcolPersonalRating.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) -> {
-            if (param.getValue().getPersonalRating() == -1) {
+        tblcolPersonalRating.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) ->
+        {
+            if (param.getValue().getPersonalRating() == -1)
+            {
                 return new ReadOnlyObjectWrapper<>("None");
-            } else {
+            }
+            else
+            {
                 return new ReadOnlyObjectWrapper<>(param.getValue().getPersonalRating() + "");
             }
         });
@@ -469,6 +474,34 @@ public class MainModel
         catch (IOException ex)
         {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window new Movie:\n" + ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    public void editMovie()
+    {
+        try
+        {
+
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/EditMovieView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+
+            EditMovieController cont = fxLoader.getController();
+            cont.setup(bllManager);
+
+            newStage.setTitle("PMC - Edit");
+            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+            newStage.setScene(scene);
+            newStage.setMinWidth(620);
+            newStage.setMinHeight(394);
+            newStage.showAndWait();
+        }
+        catch (IOException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window Edit Movie:\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }

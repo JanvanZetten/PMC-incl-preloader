@@ -83,6 +83,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void handleEdit(ActionEvent event)
     {
+        mainModel.editMovie();
     }
 
     @FXML
