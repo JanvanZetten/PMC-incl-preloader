@@ -9,10 +9,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import pmc.be.Movie;
 
 /**
@@ -28,6 +24,12 @@ public class MoviePlayer
         bllManager = new BLLManager();
     }
 
+    /**
+     * Creates the absolute path for the movie and launch it. The last viewed
+     * date is set.
+     * @param movie wanted to play.
+     * @throws BLLException
+     */
     public void playMovie(Movie movie) throws BLLException
     {
         String currentDir = System.getProperty("user.dir") + File.separator;
@@ -45,9 +47,14 @@ public class MoviePlayer
         setLastViewed(movie);
     }
 
+    /**
+     * Get the current date and removes symbols so that it can be saves as an
+     * integer. Sets the last viewed date.
+     * @param movie
+     * @throws BLLException
+     */
     private void setLastViewed(Movie movie) throws BLLException
     {
-
         String date = LocalDate.now().toString();
         date = date.replaceAll("-", "");
         int dateAsInt = Integer.parseInt(date);
