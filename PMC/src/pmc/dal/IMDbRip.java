@@ -21,6 +21,8 @@ import javax.imageio.ImageIO;
  */
 public class IMDbRip
 {
+    private final String _NODIRECTOR = "None";
+
     private boolean rippedAllInformation;
 
     private String name;
@@ -292,6 +294,10 @@ public class IMDbRip
 
     public String getDirectors()
     {
+        if (directors == null)
+        {
+            return _NODIRECTOR;
+        }
         return directors;
     }
 
