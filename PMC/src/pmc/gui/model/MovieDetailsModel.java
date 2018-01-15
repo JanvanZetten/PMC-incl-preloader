@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
@@ -26,45 +27,35 @@ import pmc.bll.MoviePlayer;
  *
  * @author Alex
  */
-public class MovieDetailsModel
-{
+public class MovieDetailsModel {
 
     BLLManager bllManager;
     MoviePlayer mp;
 
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void setBLLManager(BLLManager bllManager)
-    {
+    public void setBLLManager(BLLManager bllManager) {
         this.bllManager = bllManager;
         this.mp = new MoviePlayer();
     }
 
     //Removes the "Copy IMBd link to clipboard" button if no IMDb link is present.
-    public void determineIMDbLink(Button btnCopyLink)
-    {
-        if (bllManager.getCurrentMovie().getImdbUrl().isEmpty())
-        {
+    public void determineIMDbLink(Button btnCopyLink) {
+        if (bllManager.getCurrentMovie().getImdbUrl().isEmpty()) {
             btnCopyLink.setDisable(true);
             btnCopyLink.setText("No IMDb link found");
         }
     }
 
     //Sets the image of the movie poster.
-    public void setPosterImage(ImageView imageMoviePoster)
-    {
-        if (bllManager.getCurrentMovie().getImageInBytes() != null)
-        {
-            if (bllManager.getCurrentMovie().getImageInBytes().length != 0)
-            {
+    public void setPosterImage(ImageView imageMoviePoster) {
+        if (bllManager.getCurrentMovie().getImageInBytes() != null) {
+            if (bllManager.getCurrentMovie().getImageInBytes().length != 0) {
                 Image img = new Image(new ByteArrayInputStream(bllManager.getCurrentMovie().getImageInBytes()));
                 imageMoviePoster.setImage(img);
             }
-        }
-        else
-        {
+        } else {
             File file = new File("src/pmc/gui/resources/noimage.png");
             Image image = new Image(file.toURI().toString());
             imageMoviePoster.setImage(image);
@@ -72,16 +63,14 @@ public class MovieDetailsModel
     }
 
     //Sets the image of the rating star.
-    public void setRatingImage(ImageView imageMoviePoster)
-    {
+    public void setRatingImage(ImageView imageMoviePoster) {
         File file = new File("src/pmc/gui/resources/star.png");
         Image image = new Image(file.toURI().toString());
         imageMoviePoster.setImage(image);
     }
 
     //Sets the title and year of the movie in one string.
-    public void setTitleAndYear(Label lblTitleAndYear)
-    {
+    public void setTitleAndYear(Label lblTitleAndYear) {
         String titleAndYear = bllManager.getCurrentMovie().getName() + ", " + bllManager.getCurrentMovie().getYear();
         lblTitleAndYear.setText(titleAndYear);
     }
@@ -92,66 +81,49 @@ public class MovieDetailsModel
 //    }
     //Sets the different genres associated with the movie and removes the first
     //and last character from the string, as they contain [ and ] respectively.
-    public void setGenres(Label lblGenres)
-    {
-        if (!bllManager.getCurrentMovie().getGenres().toString().isEmpty())
-        {
+    public void setGenres(Label lblGenres) {
+        if (!bllManager.getCurrentMovie().getGenres().toString().isEmpty()) {
             String string = bllManager.getCurrentMovie().getGenres().toString();
             lblGenres.setText(string.substring(1, string.length() - 1));
-        }
-        else
-        {
+        } else {
             lblGenres.setText("No genres found");
         }
     }
 
     //Sets the director of the movie.
-    public void setDirector(Label lblDirector)
-    {
-        if (!bllManager.getCurrentMovie().getDirectors().isEmpty())
-        {
+    public void setDirector(Label lblDirector) {
+        if (!bllManager.getCurrentMovie().getDirectors().isEmpty()) {
             lblDirector.setText(bllManager.getCurrentMovie().getDirectors());
-        }
-        else
-        {
+        } else {
             lblDirector.setText("No director found");
         }
     }
 
     //Sets what score the movie has.
-    public void setScore(Label lblScore)
-    {
-        if (bllManager.getCurrentMovie().getImdbRating() != -1)
-        {
+    public void setScore(Label lblScore) {
+        if (bllManager.getCurrentMovie().getImdbRating() != -1) {
             lblScore.setText(bllManager.getCurrentMovie().getImdbRating() + "");
-        }
-        else
-        {
+        } else {
             lblScore.setText("0");
         }
     }
 
     //Plays the movie upon pressing the "Watch Movie" button.
-    public void playMovie()
-    {
+    public void playMovie() {
         //String currentDir = System.getProperty("user.dir") + File.separator;
         //File dir = new File(currentDir);
 
         //Desktop.getDesktop().open(new File(dir + bllManager.getCurrentMovie().getFilePath()));
-        try
-        {
+        try {
             mp.playMovie(bllManager.getCurrentMovie());
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alertError = new Alert(Alert.AlertType.ERROR, "Launching movie: " + ex.getMessage(), ButtonType.OK);
             alertError.showAndWait();
         }
     }
 
     //Sets the user's clipboard to contain the IMDb link.
-    public void setClipboard()
-    {
+    public void setClipboard() {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();
         content.putString(bllManager.getCurrentMovie().getImdbUrl());
@@ -159,20 +131,25 @@ public class MovieDetailsModel
 
     }
 
-    public void setNewLastView()
-    {
+    public void setNewLastView() {
         String date = LocalDate.now().toString();
         date = date.replaceAll("-", "");
         int dateAsInt = Integer.parseInt(date);
         bllManager.getCurrentMovie().setLastView(dateAsInt);
-        try
-        {
+        try {
             bllManager.updateMovie(bllManager.getCurrentMovie());
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alertError = new Alert(Alert.AlertType.ERROR, "could not save new date to database", ButtonType.OK);
             alertError.showAndWait();
+        }
+    }
+
+    public void setDescription(TextArea textareaDescription) {
+        String summary = bllManager.getCurrentMovie().getSummary();
+        System.out.println(summary);
+        if (summary != null) {
+            textareaDescription.setText(summary);
+            textareaDescription.setWrapText(true);
         }
     }
 }

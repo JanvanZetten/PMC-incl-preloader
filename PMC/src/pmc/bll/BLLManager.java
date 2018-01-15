@@ -119,6 +119,36 @@ public class BLLManager
         }
 
     }
+    
+    /**
+     * Make a new Movie
+     * @param name
+     * @param filePath
+     * @param genres
+     * @param imdbRating
+     * @param personalRating
+     * @param Directors
+     * @param duration
+     * @param ImdbUrl
+     * @param year
+     * @param imageInBytes
+     * @return a Movie object with lastView of -1
+     * @throws BLLException
+     */
+    public Movie addMovie(String name, String filePath, List<Genre> genres,
+            double imdbRating, int personalRating, String Directors,
+            int duration, String ImdbUrl, int year, String summary, byte[] imageInBytes) throws BLLException
+    {
+        try
+        {
+            return dalManager.addMovie(name, filePath, genres, imdbRating, personalRating, Directors, duration, ImdbUrl, year, summary, imageInBytes);
+        }
+        catch (DALException ex)
+        {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+
+    }
 
     /**
      * Deletes the given genre. There should be no movies with this genre for it

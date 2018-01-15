@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import pmc.be.Genre;
 import pmc.be.Movie;
@@ -94,6 +93,10 @@ public class DBManager
                 movie.setDuration(rs.getInt("duration"));
                 movie.setImdbUrl(rs.getString("ImdbUrl"));
                 movie.setYear(rs.getInt("year"));
+                String description = rs.getString("description");
+                if (description != null){
+                    movie.setSummary(description);
+                }
 
                 //image
                 Blob imageAsBlob;
@@ -179,12 +182,12 @@ public class DBManager
 
     Movie addMovie(String name, String filePath, List<Genre> genres,
             double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws DALException
+            int duration, String ImdbUrl, int year, byte[] imageInBytes, String description) throws DALException
     {
         try (Connection con = DBCon.getConnection())
         {
-            String sql = "INSERT INTO Movie (name, personalRating, ImdbRating, lastView, filePath, ImdbUrl, year, duration, directors, imageInBytes) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Movie (name, personalRating, ImdbRating, lastView, filePath, ImdbUrl, year, duration, directors, description, imageInBytes) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -197,18 +200,19 @@ public class DBManager
             statement.setInt(7, year);
             statement.setInt(8, duration);
             statement.setString(9, Directors);
+            statement.setString(10, description);
 
             if (imageInBytes != null)
             {
                 ByteArrayInputStream bais = new ByteArrayInputStream(imageInBytes);
-                statement.setBinaryStream(10, bais, imageInBytes.length);
+                statement.setBinaryStream(11, bais, imageInBytes.length);
             }
             else
             {
                 ByteArrayInputStream bais = new ByteArrayInputStream(new byte[]
                 {
                 });
-                statement.setBinaryStream(10, bais, 0);
+                statement.setBinaryStream(11, bais, 0);
             }
 
             if (statement.executeUpdate() == 1)
@@ -220,6 +224,7 @@ public class DBManager
                 if (addGenresToMovie(id, genres).size() == genres.size())
                 {
                     Movie movie = new Movie(id, name, year, duration, genres, personalRating, imdbRating, Directors, -1, filePath, ImdbUrl);
+                    movie.setSummary(description);
                     movie.setImage(imageInBytes);
                     return movie;
                 }
@@ -246,7 +251,7 @@ public class DBManager
         {
 
             String sql = "UPDATE MOVIE SET name= ?, personalRating= ?, ImdbRating= ?, lastView= ?, filePath= ?, ImdbUrl= ?, "
-                    + "year= ?, duration= ?, directors= ?, imageInBytes= ? WHERE id = ?;";
+                    + "year= ?, duration= ?, directors= ?, description= ? imageInBytes= ? WHERE id = ?;";
 
             PreparedStatement statement = con.prepareStatement(sql);
 
@@ -259,24 +264,25 @@ public class DBManager
             statement.setInt(7, updatedMovie.getYear());
             statement.setInt(8, updatedMovie.getDuration());
             statement.setString(9, updatedMovie.getDirectors());
+            statement.setString(10, updatedMovie.getSummary());
 
             if (updatedMovie.getImageInBytes() != null)
             {
                 ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
-                statement.setBinaryStream(10, bais, updatedMovie.getImageInBytes().length);
+                statement.setBinaryStream(11, bais, updatedMovie.getImageInBytes().length);
             }
             else
             {
                 ByteArrayInputStream bais = new ByteArrayInputStream(new byte[]
                 {
                 });
-                statement.setBinaryStream(10, bais, 0);
+                statement.setBinaryStream(11, bais, 0);
             }
 
             ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
-            statement.setBinaryStream(10, bais, updatedMovie.getImageInBytes().length);
+            statement.setBinaryStream(11, bais, updatedMovie.getImageInBytes().length);
 
-            statement.setInt(11, updatedMovie.getId());
+            statement.setInt(12, updatedMovie.getId());
 
             if (statement.executeUpdate() == 1)
             {
