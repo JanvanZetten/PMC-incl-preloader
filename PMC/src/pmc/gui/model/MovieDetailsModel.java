@@ -141,7 +141,7 @@ public class MovieDetailsModel
         String currentDir = System.getProperty("user.dir") + File.separator;
         File dir = new File(currentDir);
 
-        Desktop.getDesktop().open(new File(dir + "\\Movies\\Guy runs into wall.mp4"));
+        Desktop.getDesktop().open(new File(dir + bllManager.getCurrentMovie().getFilePath()));
     }
 
     //Sets the user's clipboard to contain the IMDb link.
