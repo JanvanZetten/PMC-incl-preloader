@@ -512,6 +512,9 @@ public class MainModel {
                     return;
                 }
             }
+            else{
+                return;
+            }
         }
     }
 
