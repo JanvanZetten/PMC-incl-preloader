@@ -447,6 +447,11 @@ public class IMDbRip
         return directors;
     }
 
+    public String getSummary()
+    {
+        return summary;
+    }
+
     public String getImagePath()
     {
         return imagePath;
