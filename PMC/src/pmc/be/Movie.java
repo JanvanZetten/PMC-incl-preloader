@@ -7,7 +7,6 @@ package pmc.be;
 
 import java.util.List;
 import pmc.dal.DALException;
-import pmc.dal.IMDbRip;
 import pmc.dal.bytes2Image;
 
 /**
@@ -33,6 +32,8 @@ public class Movie
 
     private String directors;
 
+    private String summary;
+
     private int lastView;
 
     private String filePath;
@@ -42,40 +43,6 @@ public class Movie
     private byte[] imageInBytes;
 
     private String imdbUrl;
-
-    /**
-     * Make Movie object from IMDbRip.
-     * @param imdbUrl IMDb Movie site.
-     * @param filePath Path to movie file.
-     * @throws pmc.dal.DALException
-     */
-    public Movie(String imdbUrl, String filePath) throws DALException
-    {
-        IMDbRip imdbRip = new IMDbRip(imdbUrl);
-
-        if (imdbRip.rippedAllInformation())
-        {
-            this.name = imdbRip.getName();
-            this.year = imdbRip.getYear();
-            this.duration = imdbRip.getDuration();
-
-            List<String> gs = imdbRip.getGenres();
-            for (String g : gs)
-            {
-            }
-
-            this.imdbRating = imdbRip.getRating();
-            this.directors = imdbRip.getDirectors();
-            this.filePath = filePath;
-            this.imagePath = imdbRip.getImagePath();
-            this.imageInBytes = imdbRip.getImageInBytes();
-            this.imdbUrl = imdbUrl;
-        }
-        else
-        {
-            throw new RuntimeException("Error did not get all information from IMDb URL!");
-        }
-    }
 
     /**
      * the constructor for the Movie object
@@ -302,6 +269,16 @@ public class Movie
         this.directors = directors;
     }
 
+    public String getSummary()
+    {
+        return summary;
+    }
+
+    public void setSummary(String summary)
+    {
+        this.summary = summary;
+    }
+
     public String getImage()
     {
         return imagePath;
@@ -335,6 +312,6 @@ public class Movie
     @Override
     public String toString()
     {
-        return "Movie{" + "id=" + id + ", name=" + name + ", year=" + year + ", duration=" + duration + ", genres=" + genres + ", personalRating=" + personalRating + ", imdbRating=" + imdbRating + ", directors=" + directors + ", lastView=" + lastView + ", filePath=" + filePath + ", imagePath=" + imagePath + ", imdbUrl=" + imdbUrl + '}';
+        return "Movie{" + "id=" + id + ", name=" + name + ", year=" + year + ", duration=" + duration + ", genres=" + genres + ", personalRating=" + personalRating + ", imdbRating=" + imdbRating + ", directors=" + directors + ", summary=" + summary + ", lastView=" + lastView + ", filePath=" + filePath + ", imagePath=" + imagePath + ", imdbUrl=" + imdbUrl + '}';
     }
 }
