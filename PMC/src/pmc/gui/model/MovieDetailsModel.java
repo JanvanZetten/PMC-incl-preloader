@@ -136,7 +136,10 @@ public class MovieDetailsModel {
 
     }
 
-    
+    /**
+     * Sets the description in the text area, if it is not null
+     * @param textareaDescription 
+     */
     public void setDescription(TextArea textareaDescription) {
         String summary = bllManager.getCurrentMovie().getSummary();
         System.out.println(summary);
