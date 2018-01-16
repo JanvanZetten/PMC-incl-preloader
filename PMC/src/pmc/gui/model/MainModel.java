@@ -482,6 +482,12 @@ public class MainModel
 
     public void editMovie()
     {
+        if (bllManager.getCurrentMovie() == null)
+        {
+            Alert alertError = new Alert(Alert.AlertType.WARNING, "You have to select a movie!", ButtonType.OK);
+            alertError.showAndWait();
+            return;
+        }
         try
         {
 
@@ -599,6 +605,12 @@ public class MainModel
      */
     public void deleteMovie()
     {
+        if (bllManager.getCurrentMovie() == null)
+        {
+            Alert alertError = new Alert(Alert.AlertType.WARNING, "You have to select a movie!", ButtonType.OK);
+            alertError.showAndWait();
+            return;
+        }
         Movie movieToDelete = bllManager.getCurrentMovie();
         //make sure user wnt to delete
         Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete: " + movieToDelete.getName() + "?");
@@ -688,28 +700,34 @@ public class MainModel
         addToFiltered();
     }
 
-    
     /**
-     * Opens a input dialog for the new genre and it will then make a new genre in database if it is not existing yet
+     * Opens a input dialog for the new genre and it will then make a new genre
+     * in database if it is not existing yet
      */
-    public void newGenre() {
+    public void newGenre()
+    {
         TextInputDialog TID = new TextInputDialog();
-            TID.setTitle("New Genre");
-            TID.setContentText("Name of new Genre");
-            Optional<String> input = TID.showAndWait();
-            if (input.isPresent()){
-                addGenre(input.get());
-            }
-        
+        TID.setTitle("New Genre");
+        TID.setContentText("Name of new Genre");
+        Optional<String> input = TID.showAndWait();
+        if (input.isPresent())
+        {
+            addGenre(input.get());
+        }
+
     }
 
     /**
      * Deletes all unused genres from the list and from the database
      */
-    public void deleteUnusedGenres() {
-        try {
+    public void deleteUnusedGenres()
+    {
+        try
+        {
             List<Integer> deletedIds = bllManager.deleteUnusedGenres();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Logger.getLogger(MainModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
