@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -684,5 +686,25 @@ public class MainModel
             }
         }
         addToFiltered();
+    }
+
+    public void newGenre() {
+        TextInputDialog TID = new TextInputDialog();
+            TID.setTitle("New Genre");
+            TID.setContentText("Name of new Genre");
+            Optional<String> input = TID.showAndWait();
+            if (input.isPresent()){
+            try {
+                bllManager.addGenre(input.get());
+            } catch (BLLException ex) {
+                Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+                alertError.showAndWait();
+            }
+            }
+        
+    }
+
+    public void deleteGenre() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

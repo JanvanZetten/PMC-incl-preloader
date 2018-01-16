@@ -125,4 +125,14 @@ public class MainWindowController implements Initializable
         mainModel.setFilterString(txtfldFilter.getText());
         mainModel.addToFiltered();
     }
+
+    @FXML
+    private void handleNewGenre(ActionEvent event) {
+        mainModel.newGenre();
+    }
+
+    @FXML
+    private void handleDeleteGenre(ActionEvent event) {
+        mainModel.deleteGenre();
+    }
 }

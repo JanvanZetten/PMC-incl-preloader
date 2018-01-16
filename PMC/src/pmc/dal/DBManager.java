@@ -443,4 +443,27 @@ public class DBManager {
         }
 
     }
+
+    
+    /**
+     * true if no Genre in database with the given name
+     * @param name
+     * @return
+     * @throws DALException 
+     */
+    boolean checkForExistingGenre(String name) throws DALException {
+        try (Connection con = DBCon.getConnection()) {
+            String sql = "SELECT id FROM Genre WHERE name = ?";
+
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, name);
+
+            ResultSet rs = statement.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
 }

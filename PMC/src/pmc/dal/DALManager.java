@@ -44,7 +44,11 @@ public class DALManager {
      * @return the newly made genre if it succeds
      */
     public Genre addGenre(String name) throws DALException {
-        return Database.addNewGenre(name);
+        if (Database.checkForExistingGenre(name)) {
+            return Database.addNewGenre(name);
+        } else {
+            throw new DALException("Genre already exists");
+        }
     }
 
     /**
@@ -95,8 +99,7 @@ public class DALManager {
         if (Database.checkForMovie(name, ImdbUrl)) {
 
             return Database.addMovie(name, filePath, genres, imdbRating, personalRating, Directors, duration, ImdbUrl, year, imageInBytes, summary);
-        }
-        else{
+        } else {
             throw new DALException("Movie with name or imdb link already exists");
         }
     }
