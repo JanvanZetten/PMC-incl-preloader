@@ -56,7 +56,8 @@ import pmc.gui.controller.MovieDetailsController;
  *
  * @author janvanzetten
  */
-public class MainModel {
+public class MainModel
+{
 
     private TableView<Movie> tblview;
     private ObservableList<Movie> movies;
@@ -74,7 +75,8 @@ public class MainModel {
     private VBox genreVBox;
     private TableRow<Movie> selectedRow;
 
-    public MainModel() {
+    public MainModel()
+    {
         bllManager = new BLLManager();
         mp = new MoviePlayer();
         this.movies = FXCollections.observableArrayList();
@@ -92,7 +94,8 @@ public class MainModel {
      *
      * @param movie to add.
      */
-    public void addMovieToObsLst(Movie movie) {
+    public void addMovieToObsLst(Movie movie)
+    {
         movies.add(movie);
         addToFiltered();
     }
@@ -102,7 +105,8 @@ public class MainModel {
      *
      * @param movies list to change to.
      */
-    public void changeMoviesInObsLst(List<Movie> movies) {
+    public void changeMoviesInObsLst(List<Movie> movies)
+    {
         this.movies.clear();
         this.movies.addAll(movies);
         addToFiltered();
@@ -113,11 +117,13 @@ public class MainModel {
      *
      * @return movies Observable List.
      */
-    public ObservableList<Movie> getFilteredMovies() {
+    public ObservableList<Movie> getFilteredMovies()
+    {
         return filteredMovies;
     }
 
-    public void addToFiltered() {
+    public void addToFiltered()
+    {
         List<MovieFilter> movieFilters = new ArrayList<>();
         MovieFilter imdbMovieFilter = new IMDbMovieFilter(0.0, minImdbRating);;
         MovieFilter personalMovieFilter = new PersonalMovieFilter(0, minPersonalRating);;
@@ -129,26 +135,35 @@ public class MainModel {
 
         filteredMovies.clear();
 
-        for (Movie movie : movies) {
+        for (Movie movie : movies)
+        {
             movieFilters.set(0, new IMDbMovieFilter(movie.getImdbRating(), minImdbRating));
             movieFilters.set(1, new PersonalMovieFilter(movie.getPersonalRating(), minPersonalRating));
             movieFilters.set(2, new GenreMovieFilter(movie.getGenres(), selectedGenres));
 
             int meetsRestrictions = 0;
-            for (MovieFilter movieFilter : movieFilters) {
-                if (movieFilter.meetsRestrictions()) {
+            for (MovieFilter movieFilter : movieFilters)
+            {
+                if (movieFilter.meetsRestrictions())
+                {
                     meetsRestrictions++;
                 }
             }
 
-            if (meetsRestrictions == movieFilters.size()) {
-                if (filterString.equalsIgnoreCase("") || filterString == null) {
+            if (meetsRestrictions == movieFilters.size())
+            {
+                if (filterString.equalsIgnoreCase("") || filterString == null)
+                {
                     filteredMovies.add(movie);
-                } else {
-                    for (String string : filterString.split(" ")) {
+                }
+                else
+                {
+                    for (String string : filterString.split(" "))
+                    {
                         if (movie.getName().toLowerCase().contains(string.toLowerCase())
                                 || String.valueOf(movie.getYear()).toLowerCase().contains(string.toLowerCase())
-                                || movie.getDirectors().toLowerCase().contains(string.toLowerCase())) {
+                                || movie.getDirectors().toLowerCase().contains(string.toLowerCase()))
+                        {
                             filteredMovies.add(movie);
                             break;
                         }
@@ -159,15 +174,18 @@ public class MainModel {
 
     }
 
-    public void setFilterString(String filterString) {
+    public void setFilterString(String filterString)
+    {
         this.filterString = filterString;
     }
 
-    public void setMinImdbRating(double minImdbRating) {
+    public void setMinImdbRating(double minImdbRating)
+    {
         this.minImdbRating = minImdbRating;
     }
 
-    public void setMinPersonalRating(int minPersonalRating) {
+    public void setMinPersonalRating(int minPersonalRating)
+    {
         this.minPersonalRating = minPersonalRating;
     }
 
@@ -181,8 +199,10 @@ public class MainModel {
      * @param stackPaneFiltering
      * @param stackPaneMovieView
      */
-    public void changeMenubarForMac(MenuBar menubar, StackPane stackPaneFiltering, StackPane stackPaneMovieView) {
-        if (System.getProperty("os.name").startsWith("Mac")) {
+    public void changeMenubarForMac(MenuBar menubar, StackPane stackPaneFiltering, StackPane stackPaneMovieView)
+    {
+        if (System.getProperty("os.name").startsWith("Mac"))
+        {
             menubar.useSystemMenuBarProperty().set(true);
             menubar.setMinHeight(0.0);
             menubar.setPrefHeight(0.0);
@@ -192,7 +212,8 @@ public class MainModel {
         }
     }
 
-    public void setCurrentMovie(Movie currentMovie) {
+    public void setCurrentMovie(Movie currentMovie)
+    {
         bllManager.setCurrentMovie(currentMovie);
     }
 
@@ -206,19 +227,26 @@ public class MainModel {
      * @param tblcolImdbRating fourth colon
      * @param tblcolPersonalRating fifth colon
      */
-    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating) {
+    public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating)
+    {
         tblview = tblviewMovies;
         // Set values for Table Cells.
         tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
         tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param)
-                -> {
+                ->
+        {
             List<Genre> gs = param.getValue().getGenres();
             String txt = "";
-            if (gs != null) {
-                for (Genre g : gs) {
-                    if (txt.equalsIgnoreCase("")) {
+            if (gs != null)
+            {
+                for (Genre g : gs)
+                {
+                    if (txt.equalsIgnoreCase(""))
+                    {
                         txt = g.getName();
-                    } else {
+                    }
+                    else
+                    {
                         txt += ", " + g.getName();
                     }
                 }
@@ -226,11 +254,13 @@ public class MainModel {
             return new ReadOnlyObjectWrapper<>(txt);
         });
         tblcolTime.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param)
-                -> {
+                ->
+        {
             int duration = param.getValue().getDuration();
             int min = duration % 60;
             int hour = (duration - min) / 60;
-            if (min < 10) {
+            if (min < 10)
+            {
                 return new ReadOnlyObjectWrapper<>(hour + "t 0" + min + "min");
             }
             return new ReadOnlyObjectWrapper<>(hour + "t " + min + "min");
@@ -239,10 +269,14 @@ public class MainModel {
         tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
         tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
         tblcolPersonalRating.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param)
-                -> {
-            if (param.getValue().getPersonalRating() == -1) {
+                ->
+        {
+            if (param.getValue().getPersonalRating() == -1)
+            {
                 return new ReadOnlyObjectWrapper<>("None");
-            } else {
+            }
+            else
+            {
                 return new ReadOnlyObjectWrapper<>(param.getValue().getPersonalRating() + "");
             }
         });
@@ -250,13 +284,18 @@ public class MainModel {
 
         // Set doubleclick on row.
         tblviewMovies.setRowFactory(tv
-                -> {
+                ->
+        {
             TableRow<Movie> row = new TableRow<>();
             row.setOnMouseClicked(event
-                    -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    ->
+            {
+                if (event.getClickCount() == 2 && (!row.isEmpty()))
+                {
                     handleMovieDetails();
-                } else if (event.getClickCount() == 1 && (!row.isEmpty())) {
+                }
+                else if (event.getClickCount() == 1 && (!row.isEmpty()))
+                {
                     setCurrentMovie(row.getItem());
                 }
             });
@@ -265,12 +304,17 @@ public class MainModel {
 
             //Plays the selected movie.
             final MenuItem item1 = new MenuItem("Play Movie");
-            item1.setOnAction(new EventHandler<ActionEvent>() {
+            item1.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent event) {
-                    try {
+                public void handle(ActionEvent event)
+                {
+                    try
+                    {
                         mp.playMovie(bllManager.getCurrentMovie());
-                    } catch (BLLException ex) {
+                    }
+                    catch (BLLException ex)
+                    {
                         Alert alertError = new Alert(Alert.AlertType.ERROR, "Launching movie: " + ex.getMessage(), ButtonType.OK);
                         alertError.showAndWait();
                     }
@@ -279,27 +323,33 @@ public class MainModel {
 
             //Show details of the selected movie.
             final MenuItem item2 = new MenuItem("Open Movie");
-            item2.setOnAction(new EventHandler<ActionEvent>() {
+            item2.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent event) {
+                public void handle(ActionEvent event)
+                {
                     handleMovieDetails();
                 }
             });
 
             //Changes the current movie
             final MenuItem item3 = new MenuItem("Change Personalrating");
-            item3.setOnAction(new EventHandler<ActionEvent>() {
+            item3.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent event) {
+                public void handle(ActionEvent event)
+                {
                     changeRating();
                 }
             });
 
             //Deletes the selected song.
             final MenuItem item4 = new MenuItem("Delete Movie");
-            item4.setOnAction(new EventHandler<ActionEvent>() {
+            item4.setOnAction(new EventHandler<ActionEvent>()
+            {
                 @Override
-                public void handle(ActionEvent event) {
+                public void handle(ActionEvent event)
+                {
                     deleteMovie();
                 }
             });
@@ -327,8 +377,10 @@ public class MainModel {
         getAllMovies();
     }
 
-    private void handleMovieDetails() {
-        try {
+    private void handleMovieDetails()
+    {
+        try
+        {
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
@@ -347,7 +399,9 @@ public class MainModel {
 
             newStage.showAndWait();
 
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             ex.printStackTrace();
         }
     }
@@ -355,7 +409,8 @@ public class MainModel {
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
-    public void startModalWindow(String windowView, int minWidth, int minHeight) throws IOException {
+    public void startModalWindow(String windowView, int minWidth, int minHeight) throws IOException
+    {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/" + windowView + ".fxml"));
@@ -374,10 +429,14 @@ public class MainModel {
      * Gets all the movies and stores them in the movie list and adds them to
      * the filtered list. if error shows it will show an alert message.
      */
-    private void getAllMovies() {
-        try {
+    private void getAllMovies()
+    {
+        try
+        {
             changeMoviesInObsLst(bllManager.getAllMovies());
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             System.out.println("error: Check database Connection!!");
             ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
@@ -385,15 +444,18 @@ public class MainModel {
         }
     }
 
-    public BLLManager getBLLManager() {
+    public BLLManager getBLLManager()
+    {
         return bllManager;
     }
 
     /**
      * opens the window for adding a new movie
      */
-    public void newMovie() {
-        try {
+    public void newMovie()
+    {
+        try
+        {
 
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -412,13 +474,14 @@ public class MainModel {
             newStage.setMinHeight(500);
             newStage.setMaximized(true);
             newStage.showAndWait();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window new Movie:\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }
 
-<<<<<<< HEAD
     public void editMovie()
     {
         if (bllManager.getCurrentMovie() == null)
@@ -429,11 +492,6 @@ public class MainModel {
         }
         try
         {
-=======
-    public void editMovie() {
-        try {
->>>>>>> 4c22d3880dd197a96e835a5e48328f4343bac11f
-
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/EditMovieView.fxml"));
@@ -449,7 +507,9 @@ public class MainModel {
             newStage.setMinWidth(620);
             newStage.setMinHeight(394);
             newStage.showAndWait();
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window Edit Movie:\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
@@ -461,16 +521,21 @@ public class MainModel {
      *
      * @param genreVBox the checkbox for putting them in
      */
-    public void initializeGenre(VBox genreVBox) {
+    public void initializeGenre(VBox genreVBox)
+    {
         this.genreVBox = genreVBox;
         allGenres = null;
-        try {
+        try
+        {
             allGenres = bllManager.getAllGenres();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load Genres, check internet connection:\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
-        if (allGenres != null) {
+        if (allGenres != null)
+        {
             updateGenresInVBox(allGenres);
         }
 
@@ -482,12 +547,15 @@ public class MainModel {
      * @param name
      * @return the newly made genre
      */
-    public Genre addGenre(String name) {
+    public Genre addGenre(String name)
+    {
         Genre newGenre;
-        try {
+        try
+        {
             newGenre = bllManager.addGenre(name);
 
-            if (newGenre != null) {
+            if (newGenre != null)
+            {
 //                CheckBox checkbox = new CheckBox(newGenre.getName());
 //                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
 //                genreFilterList.add(checkbox);
@@ -499,16 +567,20 @@ public class MainModel {
                 return newGenre;
             }
 
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             alertError.showAndWait();
         }
         return null;
     }
 
-    private void updateGenresInVBox(List<Genre> genres) {
+    private void updateGenresInVBox(List<Genre> genres)
+    {
         genreFilterList.clear();
-        for (Genre genre : genres) {
+        for (Genre genre : genres)
+        {
             CheckBox checkbox = new CheckBox(genre.getName());
             checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
             genreFilterList.add(checkbox);
@@ -522,11 +594,14 @@ public class MainModel {
      * checks if at least one of the genre chekboxes is set selcted if it is it
      * will filter the shown list.
      */
-    private void checkGenreFilter() {
+    private void checkGenreFilter()
+    {
         selectedGenres.clear();
         List<CheckBox> selected = new ArrayList<>();
-        for (CheckBox checkBox : genreFilterList) {
-            if (checkBox.isSelected()) {
+        for (CheckBox checkBox : genreFilterList)
+        {
+            if (checkBox.isSelected())
+            {
                 selectedGenres.add(checkBox.getText());
             }
         }
@@ -538,7 +613,6 @@ public class MainModel {
      * does everything needed for deleting the current movie incl making a
      * confirmation window
      */
-<<<<<<< HEAD
     public void deleteMovie()
     {
         if (bllManager.getCurrentMovie() == null)
@@ -547,21 +621,23 @@ public class MainModel {
             alertError.showAndWait();
             return;
         }
-=======
-    public void deleteMovie() {
->>>>>>> 4c22d3880dd197a96e835a5e48328f4343bac11f
         Movie movieToDelete = bllManager.getCurrentMovie();
         //make sure user wnt to delete
         Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete: " + movieToDelete.getName() + "?");
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK)
+        {
 
-            try {
-                if (bllManager.deleteMovie(movieToDelete)) {
+            try
+            {
+                if (bllManager.deleteMovie(movieToDelete))
+                {
                     movies.remove(movieToDelete);
                     filteredMovies.remove(movieToDelete);
                 }
-            } catch (BLLException ex) {
+            }
+            catch (BLLException ex)
+            {
                 Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
                 alertError.showAndWait();
             }
@@ -574,33 +650,44 @@ public class MainModel {
      * Opens a dialog box for changing the personal rating of the current movie,
      * and assigns this value to the current movies personal rating.
      */
-    private void changeRating() {
+    private void changeRating()
+    {
         int before = bllManager.getCurrentMovie().getPersonalRating();
-        while (true) {
+        while (true)
+        {
             TextInputDialog TID = new TextInputDialog();
             TID.setTitle("Personalrating:");
             TID.setContentText("Rating from 0 to 10");
             Optional<String> input = TID.showAndWait();
-            if (input.isPresent()) {
-                try {
+            if (input.isPresent())
+            {
+                try
+                {
                     int i = Integer.parseInt(input.get());
-                    if (i < 0 || i > 10) {
+                    if (i < 0 || i > 10)
+                    {
                         throw new NumberFormatException();
                     }
                     bllManager.getCurrentMovie().setPersonalRating(i);
                     bllManager.updateMovie(bllManager.getCurrentMovie());
                     updateMovieList(bllManager.getCurrentMovie());
                     return;
-                } catch (NumberFormatException e) {
+                }
+                catch (NumberFormatException e)
+                {
                     Alert alertError = new Alert(Alert.AlertType.WARNING, "Not a number between 0 and 10", ButtonType.OK);
                     alertError.showAndWait();
-                } catch (BLLException ex) {
+                }
+                catch (BLLException ex)
+                {
                     bllManager.getCurrentMovie().setPersonalRating(before);
                     Alert alertError = new Alert(Alert.AlertType.WARNING, "Could not change rating\n" + ex.getMessage(), ButtonType.OK);
                     alertError.showAndWait();
                     return;
                 }
-            } else {
+            }
+            else
+            {
                 return;
             }
         }
@@ -612,9 +699,12 @@ public class MainModel {
      *
      * @param Updatedmovie
      */
-    private void updateMovieList(Movie Updatedmovie) {
-        for (Movie movy : movies) {
-            if (movy.getId() == Updatedmovie.getId()) {
+    private void updateMovieList(Movie Updatedmovie)
+    {
+        for (Movie movy : movies)
+        {
+            if (movy.getId() == Updatedmovie.getId())
+            {
                 movy = Updatedmovie;
             }
         }
@@ -631,12 +721,8 @@ public class MainModel {
         TID.setTitle("New Genre");
         TID.setContentText("Name of new Genre");
         Optional<String> input = TID.showAndWait();
-<<<<<<< HEAD
         if (input.isPresent())
         {
-=======
-        if (input.isPresent()) {
->>>>>>> 4c22d3880dd197a96e835a5e48328f4343bac11f
             addGenre(input.get());
         }
 
@@ -650,25 +736,23 @@ public class MainModel {
         try
         {
             List<Integer> deletedIds = bllManager.deleteUnusedGenres();
-<<<<<<< HEAD
-        }
-        catch (BLLException ex)
-        {
-            Logger.getLogger(MainModel.class.getName()).log(Level.SEVERE, null, ex);
-=======
-            for (Integer deletedId : deletedIds) {
-                for (Genre allGenre : allGenres) {
-                    if (allGenre.getId() == deletedId) {
+            for (Integer deletedId : deletedIds)
+            {
+                for (Genre allGenre : allGenres)
+                {
+                    if (allGenre.getId() == deletedId)
+                    {
                         allGenres.remove(allGenre);
                         break;
                     }
                 }
             }
             updateGenresInVBox(allGenres);
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             alertError.showAndWait();
->>>>>>> 4c22d3880dd197a96e835a5e48328f4343bac11f
         }
     }
 }
