@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -554,6 +552,7 @@ public class MainModel {
         int before = bllManager.getCurrentMovie().getPersonalRating();
         while (true) {
             TextInputDialog TID = new TextInputDialog();
+            TID.setHeaderText("");
             TID.setTitle("Personalrating:");
             TID.setContentText("Rating from 0 to 10");
             Optional<String> input = TID.showAndWait();
