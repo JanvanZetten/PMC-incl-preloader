@@ -97,7 +97,7 @@
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleEdit" text="Edit movie" />
                     <MenuItem mnemonicParsing="false" onAction="#handleDelete" text="Delete movie" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleDeleteGenre" text="Delete genre" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDeleteGenre" text="Delete unused genres" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

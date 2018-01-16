@@ -133,6 +133,6 @@ public class MainWindowController implements Initializable
 
     @FXML
     private void handleDeleteGenre(ActionEvent event) {
-        mainModel.deleteGenre();
+        mainModel.deleteUnusedGenres();
     }
 }

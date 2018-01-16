@@ -703,8 +703,14 @@ public class MainModel
         
     }
 
-    public void deleteGenre() {
-        
-        
+    /**
+     * Deletes all unused genres from the list and from the database
+     */
+    public void deleteUnusedGenres() {
+        try {
+            List<Integer> deletedIds = bllManager.deleteUnusedGenres();
+        } catch (BLLException ex) {
+            Logger.getLogger(MainModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

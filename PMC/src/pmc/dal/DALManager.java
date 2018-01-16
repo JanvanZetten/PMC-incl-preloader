@@ -8,6 +8,7 @@ package pmc.dal;
 import java.util.List;
 import pmc.be.Genre;
 import pmc.be.Movie;
+import pmc.bll.BLLManager;
 
 /**
  *
@@ -135,6 +136,15 @@ public class DALManager {
      */
     public void updateMovie(Movie updatedMovie) throws DALException {
         Database.updateMovie(updatedMovie);
+    }
+
+    /**
+     * delets all unused genres
+     * @return a list of deleted ids
+     * @throws pmc.dal.DALException 
+     */
+    public List<Integer> deleteUnusedGenres() throws DALException {
+        return Database.deleteUnusedGenres();
     }
 
 }

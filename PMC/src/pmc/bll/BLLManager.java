@@ -6,6 +6,8 @@
 package pmc.bll;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.dal.DALManager;
@@ -200,6 +202,19 @@ public class BLLManager
         }
         catch (DALException ex)
         {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * delete unused genres
+     * @return a list of ids of the deleted genres
+     * @throws BLLException 
+     */
+    public List<Integer> deleteUnusedGenres() throws BLLException {
+        try {
+            return dalManager.deleteUnusedGenres();
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
