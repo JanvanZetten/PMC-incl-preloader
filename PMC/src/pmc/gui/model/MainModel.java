@@ -688,23 +688,23 @@ public class MainModel
         addToFiltered();
     }
 
+    
+    /**
+     * Opens a input dialog for the new genre and it will then make a new genre in database if it is not existing yet
+     */
     public void newGenre() {
         TextInputDialog TID = new TextInputDialog();
             TID.setTitle("New Genre");
             TID.setContentText("Name of new Genre");
             Optional<String> input = TID.showAndWait();
             if (input.isPresent()){
-            try {
-                bllManager.addGenre(input.get());
-            } catch (BLLException ex) {
-                Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alertError.showAndWait();
-            }
+                addGenre(input.get());
             }
         
     }
 
     public void deleteGenre() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
     }
 }
