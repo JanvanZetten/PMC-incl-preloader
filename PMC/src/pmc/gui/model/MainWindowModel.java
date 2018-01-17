@@ -517,8 +517,7 @@ public class MainWindowModel
             {
                 if (bllManager.deleteMovie(movieToDelete))
                 {
-                    movies.remove(movieToDelete);
-                    filteredMovies.remove(movieToDelete);
+                    removeMovieFromTable(movieToDelete);
                 }
             }
             catch (BLLException ex)
@@ -529,6 +528,11 @@ public class MainWindowModel
 
         }
         bllManager.setCurrentMovie(tblview.getSelectionModel().getSelectedItem());
+    }
+    
+    public void removeMovieFromTable(Movie movieToDelete) {
+        movies.remove(movieToDelete);
+        filteredMovies.remove(movieToDelete);
     }
 
     /**
@@ -755,8 +759,14 @@ public class MainWindowModel
         newStage.showAndWait();
     }
 
-    private void startDeletePopupWindow() throws IOException
+    public void startDeletePopupWindow() throws IOException
     {
+        try {
+            bllManager.setOutdatedMovies();
+        } catch (DALException ex) {
+            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/DeletePopupView.fxml"));
@@ -775,4 +785,6 @@ public class MainWindowModel
 
         newStage.showAndWait();
     }
+
+   
 }

@@ -8,6 +8,8 @@ package pmc.gui.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +26,9 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pmc.be.Movie;
+import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
+import pmc.gui.controller.MainWindowController;
 
 /**
  *
@@ -34,20 +38,17 @@ public class DeletePopupModel {
 
     BLLManager bllManager;
 
-    public DeletePopupModel() {        
+    public DeletePopupModel() {
     }
-    
+
     public void setList(ListView<HBoxCell> tblMovies) {
         List<HBoxCell> tbl = new ArrayList<>();
         List<Movie> movies = bllManager.getTBDeletedList();
-        
-//        movies = new ArrayList<>();
-        
+
         System.out.println(movies.size());
-//        System.out.println(movies.get(1));
-        
-        for (int i = 0; i < 2; i++) {
-            tbl.add(new HBoxCell("name", "Delete", "  ", "Ignore"));
+
+        for (int i = 0; i < movies.size(); i++) {
+            tbl.add(new HBoxCell(movies.get(i).getName(), "Delete", "  ", "Ignore", movies.get(i)));
         }
 
         ObservableList<HBoxCell> ol = FXCollections.observableArrayList();
@@ -58,15 +59,15 @@ public class DeletePopupModel {
     public void setBLLManager(BLLManager bllManager) {
         this.bllManager = bllManager;
     }
-    
-    public static class HBoxCell extends HBox {
+
+    public class HBoxCell extends HBox {
 
         Label label = new Label();
         Button button1 = new Button();
         Label filler = new Label();
         Button button2 = new Button();
 
-        HBoxCell(String labelText, String buttonText1, String fillerText, String buttonText2) {
+        HBoxCell(String labelText, String buttonText1, String fillerText, String buttonText2, Movie movie) {
             super();
 
             label.setText(labelText);
@@ -77,16 +78,30 @@ public class DeletePopupModel {
             button1.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("WORKS");
+                    button1.setText("Are you sure?");
+                    if (button1.getText().equals("Are you sure?")) {
+                    try {
+                        bllManager.deleteMovie(movie);
+                    } catch (BLLException ex) {
+                        Logger.getLogger(DeletePopupModel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MainWindowView.fxml"));
+                        MainWindowController cont = fxLoader.getController();
+                        cont.updateTable(movie);
+                        button1.setText("Deleted");
+                    }
+
                 }
             });
 
             filler.setText(fillerText);
+
             button2.setText(buttonText2);
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("WORKS TOO");
+                    movie.setLastView(movie.getLastView() + 20000);
+                    button2.setText("Ignored");
                 }
             });
 
