@@ -284,9 +284,18 @@ public class DBManager
                 statement.setBinaryStream(11, bais, 0);
             }
 
-            ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
-            statement.setBinaryStream(11, bais, updatedMovie.getImageInBytes().length);
-
+            if (updatedMovie.getImageInBytes() != null)
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(updatedMovie.getImageInBytes());
+                statement.setBinaryStream(11, bais, updatedMovie.getImageInBytes().length);
+            }
+            else
+            {
+                ByteArrayInputStream bais = new ByteArrayInputStream(new byte[]
+                {
+                });
+                statement.setBinaryStream(11, bais, 0);
+            }
             statement.setInt(12, updatedMovie.getId());
 
             if (statement.executeUpdate() == 1)
