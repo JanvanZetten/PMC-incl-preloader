@@ -17,16 +17,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import pmc.be.Movie;
 import pmc.bll.BLLManager;
 import pmc.gui.model.EditMovieModel;
+import pmc.be.ControllerSetup;
 
 /**
  * FXML Controller class
  *
  * @author Asbamz
  */
-public class EditMovieController implements Initializable
+public class EditMovieController implements Initializable, ControllerSetup
 {
     @FXML
     private Label lblTopBar;
@@ -52,22 +54,6 @@ public class EditMovieController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }
-
-    /**
-     * Setup Controller and Model.
-     * @param bllManager
-     */
-    public void setup(BLLManager bllManager)
-    {
-        emm = new EditMovieModel(bllManager);
-        Movie movie = emm.getMovie();
-        lblTopBar.setText("Edit - " + movie.getName());
-        txtfldName.setText(movie.getName());
-        txtfldYear.setText(String.valueOf(movie.getYear()));
-        txtfldDirectors.setText(movie.getDirectors());
-        txtareaSummary.setText(movie.getSummary());
-        emm.initializeGenre(vboxGenre);
     }
 
     /**
@@ -101,5 +87,18 @@ public class EditMovieController implements Initializable
             Alert alertError = new Alert(Alert.AlertType.WARNING, "Not all values are set!", ButtonType.OK);
             alertError.showAndWait();
         }
+    }
+
+    @Override
+    public void setup(Stage thisStage, BLLManager bllManager)
+    {
+        emm = new EditMovieModel(bllManager);
+        Movie movie = emm.getMovie();
+        lblTopBar.setText("Edit - " + movie.getName());
+        txtfldName.setText(movie.getName());
+        txtfldYear.setText(String.valueOf(movie.getYear()));
+        txtfldDirectors.setText(movie.getDirectors());
+        txtareaSummary.setText(movie.getSummary());
+        emm.initializeGenre(vboxGenre);
     }
 }

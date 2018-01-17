@@ -16,15 +16,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import pmc.bll.BLLManager;
-
 import pmc.gui.model.MovieDetailsModel;
+import pmc.be.ControllerSetup;
 
 /**
  * FXML Controller class
  *
  * @author Alex
  */
-public class MovieDetailsController implements Initializable
+public class MovieDetailsController implements Initializable, ControllerSetup
 {
 
     @FXML
@@ -62,20 +62,6 @@ public class MovieDetailsController implements Initializable
         model = new MovieDetailsModel();
     }
 
-    public void setElements(BLLManager bllManager)
-    {
-        model.setBLLManager(bllManager);
-        model.determineIMDbLink(btnCopyLink);
-        model.setPosterImage(imageMoviePoster);
-        model.setRatingImage(imageRatingStar);
-        model.setDescription(textareaDescription);
-        model.setTitleAndYear(lblTitleAndYear);
-        model.setGenres(lblGenres);
-        model.setDirector(lblDirector);
-        model.setScore(lblImdb, lblPersonal);
-        
-    }
-
     //Plays the movie selected.
     @FXML
     private void watchMovieAction() throws IOException
@@ -96,6 +82,20 @@ public class MovieDetailsController implements Initializable
     {
         model.setClipboard();
         btnCopyLink.setText("Copied to clipboard");
+    }
+
+    @Override
+    public void setup(Stage thisStage, BLLManager bllManager)
+    {
+        model.setBLLManager(bllManager);
+        model.determineIMDbLink(btnCopyLink);
+        model.setPosterImage(imageMoviePoster);
+        model.setRatingImage(imageRatingStar);
+        model.setDescription(textareaDescription);
+        model.setTitleAndYear(lblTitleAndYear);
+        model.setGenres(lblGenres);
+        model.setDirector(lblDirector);
+        model.setScore(lblImdb, lblPersonal);
     }
 
 }

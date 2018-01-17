@@ -8,7 +8,6 @@ package pmc.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -19,20 +18,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import pmc.be.Movie;
+import pmc.bll.BLLManager;
 import pmc.gui.model.AddMovieModel;
 import pmc.gui.model.MainWindowModel;
+import pmc.be.ControllerSetup;
 
 /**
  * FXML Controller class
  *
  * @author janvanzetten
  */
-public class AddMovieController implements Initializable {
+public class AddMovieController implements Initializable, ControllerSetup
+{
 
     @FXML
     private TextField textfieldPath;
@@ -52,7 +53,8 @@ public class AddMovieController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         model = new AddMovieModel();
         webEngine = WebView.getEngine();
 
@@ -64,12 +66,17 @@ public class AddMovieController implements Initializable {
 
         // Hide the progress bar when the site is not loading.
         webEngine.getLoadWorker().stateProperty().addListener(
-                new ChangeListener<State>() {
+                new ChangeListener<State>()
+        {
             @Override
-            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-                if (newValue == State.SUCCEEDED) {
+            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue)
+            {
+                if (newValue == State.SUCCEEDED)
+                {
                     pbLoading.setVisible(false);
-                } else if (newValue == State.RUNNING) {
+                }
+                else if (newValue == State.RUNNING)
+                {
                     pbLoading.setVisible(true);
                 }
             }
@@ -87,12 +94,14 @@ public class AddMovieController implements Initializable {
      * @param event
      */
     @FXML
-    private void saveMovieAction(ActionEvent event) {
+    private void saveMovieAction(ActionEvent event)
+    {
         String url = webEngine.getLocation();
 
         Movie newMovie = model.save(url, mainModel);
-        
-        if (newMovie != null) {
+
+        if (newMovie != null)
+        {
             mainModel.addMovieToObsLst(newMovie);
             Button button = (Button) event.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
@@ -101,7 +110,8 @@ public class AddMovieController implements Initializable {
     }
 
     @FXML
-    private void browseMovieFileAction(ActionEvent event) throws IOException {
+    private void browseMovieFileAction(ActionEvent event) throws IOException
+    {
         model.browseMovie(textfieldPath);
         isAllDataSet();
     }
@@ -111,28 +121,9 @@ public class AddMovieController implements Initializable {
      *
      * @param mainModelInstance
      */
-    public void setMainModel(MainWindowModel mainModelInstance) {
+    public void setMainModel(MainWindowModel mainModelInstance)
+    {
         mainModel = mainModelInstance;
-    }
-
-    /**
-     * Bind width of progress bar to the stage width. Sets topbar text.
-     */
-    public void setupStageDependant(Stage stage) {
-        pbLoading.prefWidthProperty().bind(stage.widthProperty());
-
-        // Save button is only active if the the webview is in a IMDb Movie site.
-        worker.stateProperty().addListener(new ChangeListener<State>() {
-            @Override
-            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-                if (newValue == Worker.State.SUCCEEDED) {
-                    stage.setTitle("PMC - " + webEngine.getLocation());
-                    isAllDataSet();
-                } else {
-                    btnSave.setDisable(true);
-                }
-            }
-        });
     }
 
     /**
@@ -144,5 +135,32 @@ public class AddMovieController implements Initializable {
         {
             btnSave.setDisable(false);
         }
+    }
+
+    /**
+     * Bind width of progress bar to the stage width. Sets topbar text.
+     */
+    @Override
+    public void setup(Stage thisStage, BLLManager bllManager)
+    {
+        pbLoading.prefWidthProperty().bind(thisStage.widthProperty());
+
+        // Save button is only active if the the webview is in a IMDb Movie site.
+        worker.stateProperty().addListener(new ChangeListener<State>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue)
+            {
+                if (newValue == Worker.State.SUCCEEDED)
+                {
+                    thisStage.setTitle("PMC - " + webEngine.getLocation());
+                    isAllDataSet();
+                }
+                else
+                {
+                    btnSave.setDisable(true);
+                }
+            }
+        });
     }
 }

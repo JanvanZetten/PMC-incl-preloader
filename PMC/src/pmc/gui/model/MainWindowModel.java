@@ -6,13 +6,9 @@
 package pmc.gui.model;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -55,6 +51,7 @@ import pmc.gui.controller.AddMovieController;
 import pmc.gui.controller.DeletePopupController;
 import pmc.gui.controller.EditMovieController;
 import pmc.gui.controller.MovieDetailsController;
+import pmc.be.ControllerSetup;
 
 /**
  *
@@ -529,8 +526,9 @@ public class MainWindowModel
         }
         bllManager.setCurrentMovie(tblview.getSelectionModel().getSelectedItem());
     }
-    
-    public void removeMovieFromTable(Movie movieToDelete) {
+
+    public void removeMovieFromTable(Movie movieToDelete)
+    {
         movies.remove(movieToDelete);
         filteredMovies.remove(movieToDelete);
     }
@@ -648,30 +646,7 @@ public class MainWindowModel
 
     private void startMovieDetailsWIndow()
     {
-        try
-        {
-            Stage newStage = new Stage();
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MovieDetailsView.fxml"));
-            Parent root = fxLoader.load();
-
-            MovieDetailsController cont = fxLoader.getController();
-            cont.setElements(bllManager);
-            Scene scene = new Scene(root);
-
-            newStage.setTitle("PMC - Movie Details");
-            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-            newStage.setScene(scene);
-            newStage.setMinWidth(620);
-            newStage.setMinHeight(394);
-
-            newStage.showAndWait();
-
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
+        startModalWindowWithSetup("MovieDetailsView", "Movie Details", 620, 394, false);
     }
 
     public void startEditMovieWindow()
@@ -682,29 +657,8 @@ public class MainWindowModel
             alertError.showAndWait();
             return;
         }
-        try
-        {
-            Stage newStage = new Stage();
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/EditMovieView.fxml"));
-            Parent root = fxLoader.load();
-            Scene scene = new Scene(root);
 
-            EditMovieController cont = fxLoader.getController();
-            cont.setup(bllManager);
-
-            newStage.setTitle("PMC - Edit");
-            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-            newStage.setScene(scene);
-            newStage.setMinWidth(620);
-            newStage.setMinHeight(394);
-            newStage.showAndWait();
-        }
-        catch (IOException ex)
-        {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window Edit Movie:\n" + ex.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-        }
+        startModalWindowWithSetup("EditMovieView", "Edit Movie", 620, 394, false);
     }
 
     /**
@@ -712,30 +666,33 @@ public class MainWindowModel
      */
     public void startNewMovieWindow()
     {
+        startModalWindowWithSetup("AddMovieView", "Add Movie", 500, 500, true);
+    }
+
+    /**
+     * Starts a new window by sending in the name of the view in the parameters.
+     */
+    public void startModalWindow(String windowView, String windowName, int minWidth, int minHeight, boolean maximized)
+    {
         try
         {
-
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AddMovieView.fxml"));
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AboutView.fxml"));
             Parent root = fxLoader.load();
             Scene scene = new Scene(root);
 
-            AddMovieController cont = fxLoader.getController();
-            cont.setupStageDependant(newStage);
-            cont.setMainModel(this);
-
-            newStage.setTitle("PMC");
+            newStage.setTitle("PMC - " + windowName);
             newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
             newStage.setScene(scene);
-            newStage.setMinWidth(500);
-            newStage.setMinHeight(500);
-            newStage.setMaximized(true);
+            newStage.setMinWidth(330);
+            newStage.setMinHeight(310);
+            newStage.setMaximized(maximized);
             newStage.showAndWait();
         }
         catch (IOException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window new Movie:\n" + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window " + windowName + ":\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -743,48 +700,47 @@ public class MainWindowModel
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
-    public void startAboutWindow(String windowView, int minWidth, int minHeight) throws IOException
+    public void startModalWindowWithSetup(String windowView, String windowName, int minWidth, int minHeight, boolean maximized)
     {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AboutView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
+        try
+        {
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/" + windowView + ".fxml"));
+            Parent root = fxLoader.load();
 
-        newStage.setTitle("PMC About");
-        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-        newStage.setScene(scene);
-        newStage.setMinWidth(330);
-        newStage.setMinHeight(310);
-        newStage.showAndWait();
+            ControllerSetup cont = fxLoader.getController();
+            cont.setup(newStage, bllManager);
+
+            Scene scene = new Scene(root);
+            newStage.setTitle("PMC - " + windowName);
+            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+            newStage.setScene(scene);
+            newStage.setMinWidth(minWidth);
+            newStage.setMinHeight(minHeight);
+            newStage.setMaximized(maximized);
+            newStage.showAndWait();
+        }
+        catch (IOException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window " + windowName + ":\n" + ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
-    public void startDeletePopupWindow() throws IOException
+    public void startDeletePopupWindow()
     {
-        try {
+        try
+        {
             bllManager.setOutdatedMovies();
-        } catch (DALException ex) {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (DALException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not get outdated movies:\n" + ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
         }
 
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/DeletePopupView.fxml"));
-        Parent root = fxLoader.load();
-
-        DeletePopupController cont = fxLoader.getController();
-        cont.setBLLManager(bllManager);
-        cont.setup();
-        Scene scene = new Scene(root);
-
-        newStage.setTitle("PMC - Movie Details");
-        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-        newStage.setScene(scene);
-        newStage.setMinWidth(620);
-        newStage.setMinHeight(394);
-
-        newStage.showAndWait();
+        startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
     }
 
-   
 }

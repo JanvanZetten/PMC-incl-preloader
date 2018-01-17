@@ -8,8 +8,6 @@ package pmc.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import pmc.be.Movie;
-import pmc.dal.DALException;
 import pmc.gui.model.MainWindowModel;
 
 /**
@@ -103,14 +100,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void handleAbout(ActionEvent event)
     {
-        try
-        {
-            mainModel.startAboutWindow("AboutView", 330, 310);
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException("Could not open window!");
-        }
+        mainModel.startModalWindow("AboutView", "About", 330, 310, false);
     }
 
     @FXML
@@ -146,7 +136,8 @@ public class MainWindowController implements Initializable
         mainModel.deleteUnusedGenres();
     }
 
-    public void updateTable(Movie movie) {
+    public void updateTable(Movie movie)
+    {
         mainModel.removeMovieFromTable(movie);
     }
 }

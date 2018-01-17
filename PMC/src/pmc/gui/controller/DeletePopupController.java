@@ -17,17 +17,19 @@ import javafx.stage.Stage;
 import pmc.bll.BLLManager;
 import pmc.gui.model.DeletePopupModel;
 import pmc.gui.model.DeletePopupModel.HBoxCell;
+import pmc.be.ControllerSetup;
 
 /**
  * FXML Controller class
  *
  * @author Alex
  */
-public class DeletePopupController implements Initializable {
+public class DeletePopupController implements Initializable, ControllerSetup
+{
 
     @FXML
     private ListView<HBoxCell> tblMovies;
-    
+
     DeletePopupModel model;
     @FXML
     private Button btnDone;
@@ -36,26 +38,24 @@ public class DeletePopupController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        model = new DeletePopupModel();
-        
-    }
-    
-    public void setup()
+    public void initialize(URL url, ResourceBundle rb)
     {
-        
-        model.setList(tblMovies);
+        model = new DeletePopupModel();
+
     }
 
     @FXML
-    private void handleDoneAction(ActionEvent event) throws IOException {
+    private void handleDoneAction(ActionEvent event) throws IOException
+    {
         Stage stage = (Stage) btnDone.getScene().getWindow();
         stage.close();
-        
-        
+
     }
 
-    public void setBLLManager(BLLManager bllManager) {
+    @Override
+    public void setup(Stage thisStage, BLLManager bllManager)
+    {
         model.setBLLManager(bllManager);
+        model.setList(tblMovies);
     }
 }
