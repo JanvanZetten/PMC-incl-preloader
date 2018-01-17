@@ -10,7 +10,7 @@ import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.dal.DALManager;
 import pmc.dal.DALException;
-import pmc.dal.SelectedItemData;
+import pmc.dal.ItemData;
 
 /**
  *
@@ -20,22 +20,22 @@ public class BLLManager
 {
 
     DALManager dalManager;
-    SelectedItemData SID;
+    ItemData ID;
 
     public BLLManager()
     {
         dalManager = new DALManager();
-        SID = new SelectedItemData();
+        ID = new ItemData();
     }
 
     public void setCurrentMovie(Movie currentMovie)
     {
-        SID.setCurrentMovie(currentMovie);
+        ID.setCurrentMovie(currentMovie);
     }
 
     public Movie getCurrentMovie()
     {
-        return SID.getCurrentMovie();
+        return ID.getCurrentMovie();
     }
 
     /**
@@ -201,6 +201,14 @@ public class BLLManager
         catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    public void getOutdatedMovies() throws DALException 
+    {
+        for (int i = 0; i < dalManager.getAllMovies().size(); i++) 
+        {
+//            Movie currentMovie = 
         }
     }
 }

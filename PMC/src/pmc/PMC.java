@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import pmc.bll.BLLManager;
+
 /**
  *
  * @author janvanzetten
@@ -27,10 +29,10 @@ public class PMC extends Application
     @Override
     public void init() throws Exception
     {
-//        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/DeletePopupView.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("gui/view/MovieDetailsView.fxml"));
-
+        BLLManager bllManager = new BLLManager();
+        bllManager.getOutdatedMovies();
+        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWIndowView.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("gui/view/DeletePopupView.fxml"));
         scene = new Scene(root);
 
     }
