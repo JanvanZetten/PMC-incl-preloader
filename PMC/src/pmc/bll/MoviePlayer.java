@@ -39,7 +39,7 @@ public class MoviePlayer
         {
             Desktop.getDesktop().open(new File(dir + movie.getFilePath()));
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }

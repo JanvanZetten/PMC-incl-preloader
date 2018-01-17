@@ -26,7 +26,7 @@
                         <Insets left="5.0" top="5.0" />
                     </StackPane.margin>
                 </Label>
-                <TextField fx:id="textfieldPath" prefHeight="27.0" prefWidth="419.0" promptText="Browse for your movie file..." StackPane.alignment="TOP_LEFT">
+                <TextField fx:id="textfieldPath" editable="false" prefHeight="27.0" prefWidth="419.0" promptText="Browse for your movie file..." StackPane.alignment="TOP_LEFT">
                     <StackPane.margin>
                         <Insets left="5.0" right="85.0" top="35.0" />
                     </StackPane.margin>

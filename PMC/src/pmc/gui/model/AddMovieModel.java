@@ -7,8 +7,10 @@ package pmc.gui.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.*;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Alert;
@@ -27,6 +29,7 @@ import pmc.bll.RipManager;
  */
 public class AddMovieModel
 {
+    private final String MOVIE_DIR = "/Movies/";
 
     private Path to;
     private Path from;
@@ -44,17 +47,7 @@ public class AddMovieModel
         fc.setInitialDirectory(dir);
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
-
-        if (selectedFile != null)
-        {
-            from = Paths.get(selectedFile.toURI());
-            to = Paths.get(dir + "/Movies/" + selectedFile.getName());
-            textfieldPath.setText(selectedFile.getName());
-            path = ("/Movies/" + selectedFile.getName());
-            System.out.println(path);
-
-//            Files.copy(from, to, REPLACE_EXISTING);
-        }
+        textfieldPath.setText(selectedFile.getAbsolutePath());
     }
 
     /**
@@ -70,10 +63,40 @@ public class AddMovieModel
             url = url.split("\\?")[0];
         }
 
-        System.out.println(url);
-
-        if (!url.isEmpty() && !path.isEmpty())
+        //System.out.println(url);
+        if (!url.isEmpty() && selectedFile != null)
         {
+
+            if (selectedFile != null)
+            {
+                from = Paths.get(selectedFile.toURI());
+
+                try
+                {
+                    String currentDir = System.getProperty("user.dir") + File.separator;
+                    String fileName = selectedFile.getName().split("\\.")[0];
+                    String extension = "." + selectedFile.getName().split("\\.")[1];
+                    String newFilename;
+                    File f = new File(currentDir + MOVIE_DIR + fileName + extension);
+                    int version = 1;
+                    while (f.exists())
+                    {
+                        newFilename = fileName + version;
+                        f = new File(currentDir + MOVIE_DIR + newFilename + extension);
+                        version++;
+                    }
+                    to = Paths.get(currentDir + MOVIE_DIR + f.getName());
+                    Files.copy(from, to, REPLACE_EXISTING);
+                    path = MOVIE_DIR + f.getName();
+                }
+                catch (IOException ex)
+                {
+                    Alert alertError = new Alert(Alert.AlertType.ERROR, "Could not copy movie file: " + ex.getMessage(), ButtonType.OK);
+                    alertError.showAndWait();
+                    return null;
+                }
+            }
+
             try
             {
                 RipManager rip = new RipManager(url);
@@ -120,6 +143,6 @@ public class AddMovieModel
 
     public boolean pathSet()
     {
-        return path != null;
+        return selectedFile != null;
     }
 }
