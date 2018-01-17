@@ -145,4 +145,8 @@ public class MainWindowController implements Initializable
     {
         mainModel.deleteUnusedGenres();
     }
+
+    public void updateTable(Movie movie) {
+        mainModel.removeMovieFromTable(movie);
+    }
 }

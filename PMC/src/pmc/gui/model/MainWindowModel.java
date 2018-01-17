@@ -517,8 +517,7 @@ public class MainWindowModel
             {
                 if (bllManager.deleteMovie(movieToDelete))
                 {
-                    movies.remove(movieToDelete);
-                    filteredMovies.remove(movieToDelete);
+                    removeMovieFromTable(movieToDelete);
                 }
             }
             catch (BLLException ex)
@@ -529,6 +528,11 @@ public class MainWindowModel
 
         }
         bllManager.setCurrentMovie(tblview.getSelectionModel().getSelectedItem());
+    }
+    
+    public void removeMovieFromTable(Movie movieToDelete) {
+        movies.remove(movieToDelete);
+        filteredMovies.remove(movieToDelete);
     }
 
     /**
