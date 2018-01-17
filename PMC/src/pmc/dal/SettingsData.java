@@ -17,7 +17,7 @@ import pmc.be.Settings;
  *
  * @author janvanzetten
  */
-public class settingsData {
+public class SettingsData {
 
     Settings settings;
 

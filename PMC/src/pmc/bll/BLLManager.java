@@ -11,9 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pmc.be.Genre;
 import pmc.be.Movie;
+import pmc.be.Settings;
 import pmc.dal.DALManager;
 import pmc.dal.DALException;
 import pmc.dal.ItemData;
+import pmc.dal.SettingsData;
 
 /**
  *
@@ -24,11 +26,13 @@ public class BLLManager
 
     DALManager dalManager;
     ItemData ID;
+    SettingsData settingsdata;
 
     public BLLManager()
     {
         dalManager = new DALManager();
         ID = new ItemData();
+        settingsdata = new SettingsData();
     }
 
     public void setCurrentMovie(Movie currentMovie)
@@ -263,4 +267,33 @@ public class BLLManager
         date = date.replaceAll("-", "");
         return Integer.parseInt(date);
     }
+    
+    
+    /**
+     * Save the Settings 
+     * @param settings the settings to save
+     */
+    public void saveSettings(Settings settings) throws BLLException{
+        try {
+            settingsdata.saveSettings(settings);
+        } catch (DALException ex) {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+    }
+    
+    
+    /**
+     * Load the earlyer saved settings our if it exists else the defualt settings
+     * @return
+     * @throws BLLException 
+     */
+    public Settings loadSettings() throws BLLException{
+        try {
+            return settingsdata.loadSettings();
+        } catch (DALException ex) {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+    }
+    
+    
 }

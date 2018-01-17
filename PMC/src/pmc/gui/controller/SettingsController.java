@@ -10,8 +10,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import pmc.bll.BLLManager;
+import pmc.gui.model.SettingsModel;
 
 /**
  * FXML Controller class
@@ -23,22 +27,30 @@ public class SettingsController implements Initializable {
     @FXML
     private TextField TxtBxFolderLocation;
     @FXML
-    private ComboBox<?> cbbxInterval;
+    private ComboBox<String> cbbxInterval;
+    
+    private SettingsModel model;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        model = new SettingsModel();
+        model.setUI(TxtBxFolderLocation, cbbxInterval);
+    }
 
     @FXML
     private void handleSave(ActionEvent event) {
+        model.saveSettings(TxtBxFolderLocation, cbbxInterval);
+        
     }
 
     @FXML
     private void handelCancel(ActionEvent event) {
+        Button button = (Button) event.getSource();
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
-    
+
 }
