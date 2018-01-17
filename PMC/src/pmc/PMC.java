@@ -27,21 +27,10 @@ public class PMC extends Application
      * @throws Exception
      */
     @Override
-    public void init() throws Exception
+    public void init() throws Exception 
     {
-        BLLManager bllManager = new BLLManager();
-        bllManager.setOutdatedMovies();
-        if (!bllManager.getTBDeletedList().isEmpty()) 
-        {
-            Parent root = FXMLLoader.load(getClass().getResource("gui/view/DeletePopupView.fxml"));
-            scene = new Scene(root);
-        }
-        else 
-        {
             Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
             scene = new Scene(root);
-        }
-
     }
 
     @Override

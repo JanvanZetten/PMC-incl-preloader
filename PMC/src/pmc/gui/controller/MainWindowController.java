@@ -71,7 +71,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void handleNew(ActionEvent event)
     {
-        mainModel.newMovie();
+        mainModel.startNewMovieWindow();
     }
 
     @FXML
@@ -83,7 +83,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void handleEdit(ActionEvent event)
     {
-        mainModel.editMovie();
+        mainModel.startEditMovieWindow();
     }
 
     @FXML
@@ -97,7 +97,7 @@ public class MainWindowController implements Initializable
     {
         try
         {
-            mainModel.startModalWindow("AboutView", 330, 310);
+            mainModel.startAboutWindow("AboutView", 330, 310);
         }
         catch (IOException ex)
         {

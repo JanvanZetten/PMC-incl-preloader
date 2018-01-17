@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import pmc.bll.BLLManager;
 import pmc.gui.model.DeletePopupModel;
 import pmc.gui.model.DeletePopupModel.HBoxCell;
 
@@ -29,7 +30,6 @@ public class DeletePopupController implements Initializable {
     private ListView<HBoxCell> tblMovies;
     
     DeletePopupModel model;
-    private Scene scene;
     @FXML
     private Button btnDone;
 
@@ -38,9 +38,14 @@ public class DeletePopupController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        model = new DeletePopupModel();
+        //model = new DeletePopupModel();
         
-        model.setList(tblMovies);
+    }
+    
+    public void setup()
+    {
+        
+        //model.setList(tblMovies);
     }
 
     @FXML
@@ -48,8 +53,10 @@ public class DeletePopupController implements Initializable {
         Stage stage = (Stage) btnDone.getScene().getWindow();
         stage.close();
         
-        model.openMain();
         
-        
+    }
+
+    public void setBLLManager(BLLManager bllManager) {
+        //model.setBLLManager(bllManager);
     }
 }

@@ -17,15 +17,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import pmc.be.Movie;
 import pmc.bll.BLLManager;
 
@@ -37,23 +34,7 @@ public class DeletePopupModel {
 
     BLLManager bllManager;
 
-    public DeletePopupModel() {
-        bllManager = new BLLManager();
-        
-    }
-  
-    public void openMain() throws IOException {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/MainWindowView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setTitle("Private Movie Collection");
-        newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-        newStage.setScene(scene);
-        newStage.setMinWidth(620);
-        newStage.setMinHeight(394);
-        newStage.show();
+    public DeletePopupModel() {        
     }
     
     public void setList(ListView<HBoxCell> tblMovies) {
@@ -72,6 +53,10 @@ public class DeletePopupModel {
         ObservableList<HBoxCell> ol = FXCollections.observableArrayList();
         ol.addAll(tbl);
         tblMovies.setItems(ol);
+    }
+
+    public void setBLLManager(BLLManager bllManager) {
+        this.bllManager = bllManager;
     }
     
     public static class HBoxCell extends HBox {

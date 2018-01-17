@@ -62,8 +62,9 @@ public class MovieDetailsController implements Initializable
         model = new MovieDetailsModel();
     }
 
-    public void setElements()
+    public void setElements(BLLManager bllManager)
     {
+        model.setBLLManager(bllManager);
         model.determineIMDbLink(btnCopyLink);
         model.setPosterImage(imageMoviePoster);
         model.setRatingImage(imageRatingStar);
@@ -95,11 +96,6 @@ public class MovieDetailsController implements Initializable
     {
         model.setClipboard();
         btnCopyLink.setText("Copied to clipboard");
-    }
-
-    public void setBLLManager(BLLManager bllManager)
-    {
-        model.setBLLManager(bllManager);
     }
 
 }
