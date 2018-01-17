@@ -26,6 +26,7 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import pmc.be.Movie;
 import pmc.bll.BLLManager;
 
 /**
@@ -40,61 +41,7 @@ public class DeletePopupModel {
         bllManager = new BLLManager();
         
     }
-        
-//    public void setList(ListView<Movie> tblMovies) {
-//    
-//        ObservableList<Movie> list = FXCollections.observableArrayList(
-//                "Item 1", "Item 2", "Item 3", "Item 4");
-//        ListView<Movie> lv = new ListView<>(list);
-//        lv.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-//            @Override
-//            public ListCell<String> call(ListView<String> param) {
-//                return new XCell();
-//            }
-//        });
-//        
-//    }
-//    
-//    static class XCell extends ListCell<String> {
-//        HBox hbox = new HBox();
-//        Label label = new Label("(empty)");
-//        Pane pane = new Pane();
-//        Button button = new Button("(>)");
-//        String lastItem;
-//
-//        public XCell() {
-//            super();
-//            hbox.getChildren().addAll(label, pane, button);
-//            HBox.setHgrow(pane, Priority.ALWAYS);
-//            button.setOnAction(new EventHandler<ActionEvent>() {
-//                @Override
-//                public void handle(ActionEvent event) {
-//                    System.out.println(lastItem + " : " + event);
-//                }
-//            });
-//        }
-//
-//        @Override
-//        protected void updateItem(String item, boolean empty) {
-//            super.updateItem(item, empty);
-//            setText(null);  // No text in label of super class
-//            if (empty) {
-//                lastItem = null;
-//                setGraphic(null);
-//            } else {
-//                lastItem = item;
-//                label.setText(item!=null ? item : "<null>");
-//                setGraphic(hbox);
-//            }
-//        }
-//    }
-//    
-    
-    
-    
-
-    
-
+  
     public void openMain() throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -111,9 +58,17 @@ public class DeletePopupModel {
     
     public void setList(ListView<HBoxCell> tblMovies) {
         List<HBoxCell> tbl = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            tbl.add(new HBoxCell("Item " + i, "Delete", "  ", "Ignore"));
+        List<Movie> movies = bllManager.getTBDeletedList();
+        
+//        movies = new ArrayList<>();
+        
+        System.out.println(movies.size());
+//        System.out.println(movies.get(1));
+        
+        for (int i = 0; i < 2; i++) {
+            tbl.add(new HBoxCell("name", "Delete", "  ", "Ignore"));
         }
+
         ObservableList<HBoxCell> ol = FXCollections.observableArrayList();
         ol.addAll(tbl);
         tblMovies.setItems(ol);
