@@ -125,6 +125,6 @@
         </StackPane>
     </children>
     <stylesheets>
-        <URL value="@MovieDetailsCSS.css" />
+        <URL value="@MainWindowCSS.css" />
     </stylesheets>
 </AnchorPane>
