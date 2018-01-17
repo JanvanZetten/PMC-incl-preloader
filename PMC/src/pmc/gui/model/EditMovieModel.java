@@ -24,6 +24,10 @@ import pmc.bll.BLLManager;
  */
 public class EditMovieModel
 {
+    private final String ON_WARNING_NO_GENRE = "No genre is selected!\n";
+    private final String ON_ERROR_UPDATE_MOVIE = "Could not update Movie\n";
+    private final String ON_ERROR_LOADING_GENRE = "Could not load Genres, check internet connection:\n";
+
     private BLLManager bllManager;
 
     private Movie movie;
@@ -45,29 +49,37 @@ public class EditMovieModel
      */
     public void updateMovie(Button btnUpdate)
     {
+        // Get original movie.
         Movie movie = bllManager.getCurrentMovie();
+
+        // Change name and year to data from textfields.
         movie.setName(name);
         movie.setYear(year);
 
+        // Get all selected genres.
         List<Genre> newGenres = new ArrayList<>();
         for (Integer selectedGenre : selectedGenres)
         {
             newGenres.add(genres.get(selectedGenre));
         }
 
+        // Change to new genres if any was selected. If not show error and return.
         if (newGenres.size() > 0)
         {
             movie.setGenres(newGenres);
         }
         else
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "No genre is selected!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, ON_WARNING_NO_GENRE, ButtonType.OK);
             alert.showAndWait();
             return;
         }
 
+        // Change directors and summary for movie.
         movie.setDirectors(directors);
         movie.setSummary(summary);
+
+        // Send update to DAL and close window on success. Show error on failure.
         try
         {
             bllManager.updateMovie(movie);
@@ -76,7 +88,7 @@ public class EditMovieModel
         }
         catch (BLLException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not update Movie " + movie.getName() + ": " + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_UPDATE_MOVIE + movie.getName() + ": " + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -106,54 +118,70 @@ public class EditMovieModel
     }
 
     /**
-     * Gets all the genres and puts them into the vbox as chekboxes with the
-     * genres name as label
+     * Gets all the genres and puts them into the vbox as checkboxes with the
+     * genres name as label.
      *
-     * @param genreVBox the checkbox for putting them in
+     * @param genreVBox the checkbox to put them in.
      */
     public void initializeGenre(VBox genreVBox)
     {
+        // Container for checkboxes and initiates selectedGenres.
         List<CheckBox> genreList = new ArrayList<>();
         selectedGenres = new ArrayList<>();
 
+        // Try to get all genres from database. Show error and return on failure.
         try
         {
             genres = bllManager.getAllGenres();
         }
         catch (BLLException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load Genres, check internet connection:\n" + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_GENRE + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
             return;
         }
 
+        // If genres is set.
         if (genres != null)
         {
+            // For all genre.
             for (Genre genre : genres)
             {
+                // Create new checkbox with the genres name.
                 CheckBox checkbox = new CheckBox(genre.getName());
+
+                // Set on mouseclick release.
                 checkbox.setOnMouseReleased(mouseEvent ->
                 {
+                    // Get this genres index in container.
                     int index = genres.indexOf(genre);
+
+                    // If this genre index is in selectedGenres.
                     if (selectedGenres.contains(index))
                     {
+                        // Remove index from selectedGenres.
                         selectedGenres.remove(selectedGenres.indexOf(index));
                     }
                     else
                     {
+                        // Add index to selectedGenres.
                         selectedGenres.add(index);
                     }
                 });
 
+                // Add checkbox to a List of checkboxes.
                 genreList.add(checkbox);
 
+                // If movie has this genre.
                 if (movie.getGenres().contains(genre))
                 {
+                    // Set selected to true and add it to selectedGenres.
                     checkbox.selectedProperty().set(true);
                     selectedGenres.add(genres.indexOf(genre));
                 }
             }
 
+            // Add all checkboxes to VBox.
             genreVBox.getChildren().addAll(genreList);
         }
 

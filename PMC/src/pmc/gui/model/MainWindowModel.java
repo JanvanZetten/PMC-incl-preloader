@@ -47,10 +47,6 @@ import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
 import pmc.dal.DALException;
-import pmc.gui.controller.AddMovieController;
-import pmc.gui.controller.DeletePopupController;
-import pmc.gui.controller.EditMovieController;
-import pmc.gui.controller.MovieDetailsController;
 import pmc.be.ControllerSetup;
 
 /**
@@ -59,6 +55,22 @@ import pmc.be.ControllerSetup;
  */
 public class MainWindowModel
 {
+    private final String ON_ERROR_GET_ALL = "Could not load information,\n Check connecetion to database\n";
+    private final String ON_WARNING_NO_MOVIE_SELECTED = "You have to select a movie!";
+    private final String ON_CONFIRMATION_DELETE = "Are you sure you want to delete: ";
+    private final String CHANGE_RATING_HEADER = "";
+    private final String CHANGE_RATING_TITLE = "Personalrating:";
+    private final String CHANGE_RATING_TEXT = "Rating from 0 to 10";
+    private final String ON_WARNING_CHANGE_RATING_NUMBER = "Not a number between 0 and 10";
+    private final String ON_ERROR_CHANGE_RATING = "Could not change rating\n";
+    private final String NEW_GENRE_TITLE = "New Genre";
+    private final String NEW_GENRE_TEXT = "Name of new Genre";
+    private final String VIEW_DIRECTORY = "/pmc/gui/view/";
+    private final String VIEW_EXTENSION = ".fxml";
+    private final String WINDOW_PRETEXT = "PMC - ";
+    private final String LOGO_DIRECTORY = "pmc/gui/resources/logo.png";
+    private final String ON_ERROR_OPEN_WINDOW = "Could not open Window ";
+    private final String ON_ERROR_LOADING_OUTDATED = "Could not get outdated movies:\n";
 
     private TableView<Movie> tblview;
     private ObservableList<Movie> movies;
@@ -123,8 +135,12 @@ public class MainWindowModel
         return filteredMovies;
     }
 
+    /**
+     * Copies movies entries, which meets restrictions, to filteredMovies.
+     */
     public void addToFiltered()
     {
+        // Creates filters. Add them to an array.
         List<MovieFilter> movieFilters = new ArrayList<>();
         MovieFilter imdbMovieFilter = new IMDbMovieFilter(0.0, minImdbRating);;
         MovieFilter personalMovieFilter = new PersonalMovieFilter(0, minPersonalRating);;
@@ -134,14 +150,17 @@ public class MainWindowModel
         movieFilters.add(personalMovieFilter);
         movieFilters.add(genreMovieFilter);
 
+        // Clears all entries in filteredMovies.
         filteredMovies.clear();
 
         for (Movie movie : movies)
         {
+            // Sets filters for movie information.
             movieFilters.set(0, new IMDbMovieFilter(movie.getImdbRating(), minImdbRating));
             movieFilters.set(1, new PersonalMovieFilter(movie.getPersonalRating(), minPersonalRating));
             movieFilters.set(2, new GenreMovieFilter(movie.getGenres(), selectedGenres));
 
+            // Count restrictions met.
             int meetsRestrictions = 0;
             for (MovieFilter movieFilter : movieFilters)
             {
@@ -151,20 +170,25 @@ public class MainWindowModel
                 }
             }
 
+            // If all restrictions was met.
             if (meetsRestrictions == movieFilters.size())
             {
+                // Add movie if textfield filter is empty
                 if (filterString.equalsIgnoreCase("") || filterString == null)
                 {
                     filteredMovies.add(movie);
                 }
                 else
                 {
+                    // For each word in string.
                     for (String string : filterString.split(" "))
                     {
+                        // Check if word is in either name, year or directors.
                         if (movie.getName().toLowerCase().contains(string.toLowerCase())
                                 || String.valueOf(movie.getYear()).toLowerCase().contains(string.toLowerCase())
                                 || movie.getDirectors().toLowerCase().contains(string.toLowerCase()))
                         {
+                            // If so add it and break for each loop.
                             filteredMovies.add(movie);
                             break;
                         }
@@ -190,6 +214,11 @@ public class MainWindowModel
         this.minPersonalRating = minPersonalRating;
     }
 
+    public void setCurrentMovie(Movie currentMovie)
+    {
+        bllManager.setCurrentMovie(currentMovie);
+    }
+
     /**
      * Makes the Menubar look nice on Mac. if it is a Mac the Menubar is placed
      * on the where top of the screen where it normally is placed on a Mac. it
@@ -213,13 +242,8 @@ public class MainWindowModel
         }
     }
 
-    public void setCurrentMovie(Movie currentMovie)
-    {
-        bllManager.setCurrentMovie(currentMovie);
-    }
-
     /**
-     * setup of the tableview
+     * Setup of the tableview
      *
      * @param tblviewMovies the table
      * @param tblcolTitle first colon
@@ -231,6 +255,7 @@ public class MainWindowModel
     public void initializeTableView(TableView<Movie> tblviewMovies, TableColumn<Movie, String> tblcolTitle, TableColumn<Movie, String> tblcolGenre, TableColumn<Movie, String> tblcolTime, TableColumn<Movie, String> tblcolImdbRating, TableColumn<Movie, String> tblcolPersonalRating)
     {
         tblview = tblviewMovies;
+
         // Set values for Table Cells.
         tblcolTitle.setCellValueFactory(new PropertyValueFactory("name"));
         tblcolGenre.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param)
@@ -283,11 +308,13 @@ public class MainWindowModel
         });
         tblcolPersonalRating.setStyle("-fx-alignment: CENTER;");
 
-        // Set doubleclick on row.
+        // Set row events.
         tblviewMovies.setRowFactory(tv
                 ->
         {
             TableRow<Movie> row = new TableRow<>();
+
+            // Doubleclick opens movie details. Single click set current movie.
             row.setOnMouseClicked(event
                     ->
             {
@@ -301,9 +328,10 @@ public class MainWindowModel
                 }
             });
 
+            // Setting up context menu AKA rightclick menu.
             final ContextMenu contextMenu = new ContextMenu();
 
-            //Plays the selected movie.
+            // Plays the selected movie.
             final MenuItem item1 = new MenuItem("Play Movie");
             item1.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -322,7 +350,7 @@ public class MainWindowModel
                 }
             });
 
-            //Show details of the selected movie.
+            // Show details of the selected movie.
             final MenuItem item2 = new MenuItem("Open Movie");
             item2.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -333,7 +361,7 @@ public class MainWindowModel
                 }
             });
 
-            //Changes the current movie
+            // Changes the current movies personal rating.
             final MenuItem item3 = new MenuItem("Change Personalrating");
             item3.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -344,7 +372,7 @@ public class MainWindowModel
                 }
             });
 
-            //Deletes the selected song.
+            // Deletes the selected movie.
             final MenuItem item4 = new MenuItem("Delete Movie");
             item4.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -355,7 +383,7 @@ public class MainWindowModel
                 }
             });
 
-            //Sets the created MenuItems into the context menu for the table.
+            // Adds menu items into the context menu.
             contextMenu.getItems().add(item1);
             contextMenu.getItems().add(item2);
             contextMenu.getItems().add(item3);
@@ -380,7 +408,7 @@ public class MainWindowModel
 
     /**
      * Gets all the movies and stores them in the movie list and adds them to
-     * the filtered list. if error shows it will show an alert message.
+     * the filtered list. If an error occurred it will show an alert message.
      */
     private void getAllMovies()
     {
@@ -390,9 +418,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            System.out.println("error: Check database Connection!!");
-            ex.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_GET_ALL + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -413,7 +439,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load Genres, check internet connection:\n" + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_GET_ALL + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
         if (allGenres != null)
@@ -424,7 +450,7 @@ public class MainWindowModel
     }
 
     /**
-     * adds a genre. remember to call initilaze before this is called
+     * Adds a new genre. Remember to call initialize before this is called.
      *
      * @param name
      * @return the newly made genre
@@ -438,17 +464,11 @@ public class MainWindowModel
 
             if (newGenre != null)
             {
-//                CheckBox checkbox = new CheckBox(newGenre.getName());
-//                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
-//                genreFilterList.add(checkbox);
-//                genreVBox.getChildren().clear();
-//                genreVBox.getChildren().addAll(genreFilterList);
                 allGenres.add(newGenre);
                 updateGenresInVBox(allGenres);
 
                 return newGenre;
             }
-
         }
         catch (BLLException ex)
         {
@@ -458,6 +478,10 @@ public class MainWindowModel
         return null;
     }
 
+    /**
+     * Updates genre in VBox.
+     * @param genres
+     */
     private void updateGenresInVBox(List<Genre> genres)
     {
         genreFilterList.clear();
@@ -466,7 +490,6 @@ public class MainWindowModel
             CheckBox checkbox = new CheckBox(genre.getName());
             checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
             genreFilterList.add(checkbox);
-
         }
         genreVBox.getChildren().clear();
         genreVBox.getChildren().addAll(genreFilterList);
@@ -488,28 +511,26 @@ public class MainWindowModel
             }
         }
         addToFiltered();
-
     }
 
     /**
-     * does everything needed for deleting the current movie incl making a
+     * does everything needed for deleting the current movie inclusive making a
      * confirmation window
      */
     public void deleteMovie()
     {
         if (bllManager.getCurrentMovie() == null)
         {
-            Alert alertError = new Alert(Alert.AlertType.WARNING, "You have to select a movie!", ButtonType.OK);
+            Alert alertError = new Alert(Alert.AlertType.WARNING, ON_WARNING_NO_MOVIE_SELECTED, ButtonType.OK);
             alertError.showAndWait();
             return;
         }
         Movie movieToDelete = bllManager.getCurrentMovie();
         //make sure user wnt to delete
-        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete: " + movieToDelete.getName() + "?");
+        Alert alert = new Alert(AlertType.CONFIRMATION, ON_CONFIRMATION_DELETE + movieToDelete.getName() + "?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK)
         {
-
             try
             {
                 if (bllManager.deleteMovie(movieToDelete))
@@ -527,6 +548,10 @@ public class MainWindowModel
         bllManager.setCurrentMovie(tblview.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Removes movie from table.
+     * @param movieToDelete
+     */
     public void removeMovieFromTable(Movie movieToDelete)
     {
         movies.remove(movieToDelete);
@@ -543,9 +568,9 @@ public class MainWindowModel
         while (true)
         {
             TextInputDialog TID = new TextInputDialog();
-            TID.setHeaderText("");
-            TID.setTitle("Personalrating:");
-            TID.setContentText("Rating from 0 to 10");
+            TID.setHeaderText(CHANGE_RATING_HEADER);
+            TID.setTitle(CHANGE_RATING_TITLE);
+            TID.setContentText(CHANGE_RATING_TEXT);
             Optional<String> input = TID.showAndWait();
             if (input.isPresent())
             {
@@ -563,13 +588,13 @@ public class MainWindowModel
                 }
                 catch (NumberFormatException e)
                 {
-                    Alert alertError = new Alert(Alert.AlertType.WARNING, "Not a number between 0 and 10", ButtonType.OK);
+                    Alert alertError = new Alert(Alert.AlertType.WARNING, ON_WARNING_CHANGE_RATING_NUMBER, ButtonType.OK);
                     alertError.showAndWait();
                 }
                 catch (BLLException ex)
                 {
                     bllManager.getCurrentMovie().setPersonalRating(before);
-                    Alert alertError = new Alert(Alert.AlertType.WARNING, "Could not change rating\n" + ex.getMessage(), ButtonType.OK);
+                    Alert alertError = new Alert(Alert.AlertType.ERROR, ON_ERROR_CHANGE_RATING + ex.getMessage(), ButtonType.OK);
                     alertError.showAndWait();
                     return;
                 }
@@ -606,14 +631,13 @@ public class MainWindowModel
     public void newGenre()
     {
         TextInputDialog TID = new TextInputDialog();
-        TID.setTitle("New Genre");
-        TID.setContentText("Name of new Genre");
+        TID.setTitle(NEW_GENRE_TITLE);
+        TID.setContentText(NEW_GENRE_TEXT);
         Optional<String> input = TID.showAndWait();
         if (input.isPresent())
         {
             addGenre(input.get());
         }
-
     }
 
     /**
@@ -653,7 +677,7 @@ public class MainWindowModel
     {
         if (bllManager.getCurrentMovie() == null)
         {
-            Alert alertError = new Alert(Alert.AlertType.WARNING, "You have to select a movie!", ButtonType.OK);
+            Alert alertError = new Alert(Alert.AlertType.WARNING, ON_WARNING_NO_MOVIE_SELECTED, ButtonType.OK);
             alertError.showAndWait();
             return;
         }
@@ -671,6 +695,11 @@ public class MainWindowModel
 
     /**
      * Starts a new window by sending in the name of the view in the parameters.
+     * @param windowView file name. (without .fxml)
+     * @param windowName name written in top bar.
+     * @param minWidth minimum width of window.
+     * @param minHeight minimum height of window.
+     * @param maximized should the window startup maximized?
      */
     public void startModalWindow(String windowView, String windowName, int minWidth, int minHeight, boolean maximized)
     {
@@ -678,43 +707,11 @@ public class MainWindowModel
         {
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/AboutView.fxml"));
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource(VIEW_DIRECTORY + windowView + VIEW_EXTENSION));
             Parent root = fxLoader.load();
             Scene scene = new Scene(root);
-
-            newStage.setTitle("PMC - " + windowName);
-            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
-            newStage.setScene(scene);
-            newStage.setMinWidth(330);
-            newStage.setMinHeight(310);
-            newStage.setMaximized(maximized);
-            newStage.showAndWait();
-        }
-        catch (IOException ex)
-        {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window " + windowName + ":\n" + ex.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
-    /**
-     * Starts a new window by sending in the name of the view in the parameters.
-     */
-    public void startModalWindowWithSetup(String windowView, String windowName, int minWidth, int minHeight, boolean maximized)
-    {
-        try
-        {
-            Stage newStage = new Stage();
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/" + windowView + ".fxml"));
-            Parent root = fxLoader.load();
-
-            ControllerSetup cont = fxLoader.getController();
-            cont.setup(newStage, bllManager);
-
-            Scene scene = new Scene(root);
-            newStage.setTitle("PMC - " + windowName);
-            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+            newStage.setTitle(WINDOW_PRETEXT + windowName);
+            newStage.getIcons().add(new Image(LOGO_DIRECTORY));
             newStage.setScene(scene);
             newStage.setMinWidth(minWidth);
             newStage.setMinHeight(minHeight);
@@ -723,7 +720,44 @@ public class MainWindowModel
         }
         catch (IOException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window " + windowName + ":\n" + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_OPEN_WINDOW + windowName + ":\n" + ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Starts a new window and set it up using the method setup() in the
+     * interface ControllerSetup.
+     * @param windowView file name. (without .fxml)
+     * @param windowName name written in top bar.
+     * @param minWidth minimum width of window.
+     * @param minHeight minimum height of window.
+     * @param maximized should the window startup maximized?
+     */
+    public void startModalWindowWithSetup(String windowView, String windowName, int minWidth, int minHeight, boolean maximized)
+    {
+        try
+        {
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource(VIEW_DIRECTORY + windowView + VIEW_EXTENSION));
+            Parent root = fxLoader.load();
+
+            ControllerSetup cont = fxLoader.getController();
+            cont.setup(newStage, bllManager);
+
+            Scene scene = new Scene(root);
+            newStage.setTitle(WINDOW_PRETEXT + windowName);
+            newStage.getIcons().add(new Image(LOGO_DIRECTORY));
+            newStage.setScene(scene);
+            newStage.setMinWidth(minWidth);
+            newStage.setMinHeight(minHeight);
+            newStage.setMaximized(maximized);
+            newStage.showAndWait();
+        }
+        catch (IOException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_OPEN_WINDOW + windowName + ":\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -736,7 +770,7 @@ public class MainWindowModel
         }
         catch (DALException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not get outdated movies:\n" + ex.getMessage(), ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_OUTDATED + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
 

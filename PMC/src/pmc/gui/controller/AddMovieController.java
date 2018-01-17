@@ -131,7 +131,7 @@ public class AddMovieController implements Initializable, ControllerSetup
      */
     private void isAllDataSet()
     {
-        if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/") && model.pathSet())
+        if (webEngine.getLocation().toLowerCase().contains("imdb.com/title/") && model.fileSelected())
         {
             btnSave.setDisable(false);
         }

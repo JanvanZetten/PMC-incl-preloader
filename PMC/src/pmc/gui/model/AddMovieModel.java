@@ -30,6 +30,11 @@ import pmc.bll.RipManager;
 public class AddMovieModel
 {
     private final String MOVIE_DIR = "/Movies/";
+    private final FileChooser.ExtensionFilter FILE_CHOOSER_FILTER = new FileChooser.ExtensionFilter("MPEG4 Video Files", "*.mp4", "*.mpeg4");
+    private final String CURRENT_DIR = System.getProperty("user.dir") + File.separator;
+    private final String FILE_CHOOSER_TITLE = "Attach a file";
+    private final String ON_SAVE_ERROR = "Could not save Movie:\n";
+    private final String ON_COPY_ERROR = "Could not copy Movie file:\n";
 
     private Path to;
     private Path from;
@@ -37,15 +42,18 @@ public class AddMovieModel
     private String path;
     BLLManager bll = new BLLManager();
 
+    /**
+     * Run file chooser and updates text field.
+     * @param textfieldPath
+     * @throws IOException
+     */
     public void browseMovie(TextField textfieldPath) throws IOException
     {
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("MPEG4 Video Files", "*.mp4", "*.mpeg4");
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(filter);
-        String currentDir = System.getProperty("user.dir") + File.separator;
-        File dir = new File(currentDir);
+        fc.getExtensionFilters().add(FILE_CHOOSER_FILTER);
+        File dir = new File(CURRENT_DIR);
         fc.setInitialDirectory(dir);
-        fc.setTitle("Attach a file");
+        fc.setTitle(FILE_CHOOSER_TITLE);
         selectedFile = fc.showOpenDialog(null);
         textfieldPath.setText(selectedFile.getAbsolutePath());
     }
@@ -57,44 +65,50 @@ public class AddMovieModel
      */
     public Movie save(String url, MainWindowModel mainModel)
     {
-        // Removes unneccesary tags.
-        if (url.toLowerCase().contains("?"))
-        {
-            url = url.split("\\?")[0];
-        }
-
-        //System.out.println(url);
+        // Save only runs if a website and a file is selected.
         if (!url.isEmpty() && selectedFile != null)
         {
-
-            if (selectedFile != null)
+            // Removes unneccesary tags.
+            if (url.toLowerCase().contains("?"))
             {
-                from = Paths.get(selectedFile.toURI());
+                url = url.split("\\?")[0];
+            }
 
-                try
+            // Get files path
+            from = Paths.get(selectedFile.toURI());
+            try
+            {
+                // Get file name, extension and makes a container for a new file name.
+                String fileName = selectedFile.getName().split("\\.")[0];
+                String extension = "." + selectedFile.getName().split("\\.")[1];
+                String newFilename;
+
+                // Create files with known information.
+                File f = new File(CURRENT_DIR + MOVIE_DIR + fileName + extension);
+                int version = 1;
+
+                // Runs for as long the file already exists.
+                while (f.exists())
                 {
-                    String currentDir = System.getProperty("user.dir") + File.separator;
-                    String fileName = selectedFile.getName().split("\\.")[0];
-                    String extension = "." + selectedFile.getName().split("\\.")[1];
-                    String newFilename;
-                    File f = new File(currentDir + MOVIE_DIR + fileName + extension);
-                    int version = 1;
-                    while (f.exists())
-                    {
-                        newFilename = fileName + version;
-                        f = new File(currentDir + MOVIE_DIR + newFilename + extension);
-                        version++;
-                    }
-                    to = Paths.get(currentDir + MOVIE_DIR + f.getName());
-                    Files.copy(from, to, REPLACE_EXISTING);
-                    path = MOVIE_DIR + f.getName();
+                    // If file already exists the filename is changed to add version.
+                    // (test) -> (test1) -> (test2)
+                    newFilename = fileName + version;
+                    f = new File(CURRENT_DIR + MOVIE_DIR + newFilename + extension);
+                    version++;
                 }
-                catch (IOException ex)
-                {
-                    Alert alertError = new Alert(Alert.AlertType.ERROR, "Could not copy movie file: " + ex.getMessage(), ButtonType.OK);
-                    alertError.showAndWait();
-                    return null;
-                }
+
+                // Makes new path and copies it.
+                to = Paths.get(CURRENT_DIR + MOVIE_DIR + f.getName());
+                Files.copy(from, to, REPLACE_EXISTING);
+
+                // Relative directory for movie.
+                path = MOVIE_DIR + f.getName();
+            }
+            catch (IOException ex)
+            {
+                Alert alertError = new Alert(Alert.AlertType.ERROR, ON_COPY_ERROR + ex.getMessage(), ButtonType.OK);
+                alertError.showAndWait();
+                return null;
             }
 
             try
@@ -106,6 +120,8 @@ public class AddMovieModel
 
                 boolean found;
 
+                // Checks if genre found on website already exists in database.
+                // If not the genre is added to the database.
                 for (String genre : rip.getGenres())
                 {
                     found = false;
@@ -120,28 +136,30 @@ public class AddMovieModel
                     }
                     if (!found)
                     {
-
                         genresInMovie.add(mainModel.addGenre(genre));
-
                     }
                 }
 
-                //System.out.println(Arrays.toString(rip.getImageInBytes()));
+                // Add Movie to database and creates movie.
                 Movie newMovie = bll.addMovie(rip.getName(), path, genresInMovie, rip.getRating(), -1, rip.getDirectors(), rip.getDuration(), url, rip.getYear(), rip.getSummary(), rip.getImageInBytes());
 
+                // Return Movie.
                 return newMovie;
-
             }
             catch (BLLException ex)
             {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Could not save Movie:\n" + ex.getMessage(), ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, ON_SAVE_ERROR + ex.getMessage(), ButtonType.OK);
                 alert.showAndWait();
             }
         }
         return null;
     }
 
-    public boolean pathSet()
+    /**
+     * Checks whether or not a file is selected.
+     * @return
+     */
+    public boolean fileSelected()
     {
         return selectedFile != null;
     }
