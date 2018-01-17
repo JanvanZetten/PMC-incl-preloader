@@ -22,7 +22,7 @@ import pmc.be.Movie;
  *
  * @author janvanzetten
  */
-public class testStart extends Application {
+public class TestStart extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {

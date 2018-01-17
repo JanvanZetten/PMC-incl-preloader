@@ -19,7 +19,7 @@ import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
-import pmc.bll.ripManager;
+import pmc.bll.RipManager;
 
 /**
  *
@@ -62,7 +62,7 @@ public class AddMovieModel
      * @param url imdb url
      * @return true if succeded
      */
-    public Movie save(String url, MainModel mainModel)
+    public Movie save(String url, MainWindowModel mainModel)
     {
         // Removes unneccesary tags.
         if (url.toLowerCase().contains("?"))
@@ -76,7 +76,7 @@ public class AddMovieModel
         {
             try
             {
-                ripManager rip = new ripManager(url);
+                RipManager rip = new RipManager(url);
 
                 List<Genre> genresInMovie = new ArrayList<>();
                 List<Genre> allExistingGenres = bll.getAllGenres();

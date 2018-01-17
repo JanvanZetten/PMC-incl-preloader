@@ -25,7 +25,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import pmc.be.Movie;
 import pmc.gui.model.AddMovieModel;
-import pmc.gui.model.MainModel;
+import pmc.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
@@ -46,7 +46,7 @@ public class AddMovieController implements Initializable {
     private WebEngine webEngine;
     private AddMovieModel model;
     private Worker<Void> worker;
-    private MainModel mainModel;
+    private MainWindowModel mainModel;
 
     /**
      * Initializes the controller class.
@@ -111,7 +111,7 @@ public class AddMovieController implements Initializable {
      *
      * @param mainModelInstance
      */
-    public void setMainModel(MainModel mainModelInstance) {
+    public void setMainModel(MainWindowModel mainModelInstance) {
         mainModel = mainModelInstance;
     }
 
