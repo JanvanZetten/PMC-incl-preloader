@@ -5,6 +5,8 @@
  */
 package pmc.dal;
 
+import java.util.ArrayList;
+import java.util.List;
 import pmc.be.Movie;
 
 /**
@@ -14,8 +16,10 @@ import pmc.be.Movie;
 public class ItemData {
     
     private Movie currentMovie;
+    private List<Movie> TBDeleted;
     
     public ItemData() {
+        TBDeleted = new ArrayList<Movie>();
     }
 
     public void setCurrentMovie(Movie currentMovie) {
@@ -24,6 +28,14 @@ public class ItemData {
     
     public Movie getCurrentMovie() {
         return currentMovie;
+    }
+
+    public void addToTBDeletedList(Movie movy) {
+        TBDeleted.add(movy);
+    }
+
+    public List<Movie> getTBDeletedList() {
+        return TBDeleted;
     }
     
 }

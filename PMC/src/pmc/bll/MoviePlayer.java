@@ -39,7 +39,7 @@ public class MoviePlayer
         {
             Desktop.getDesktop().open(new File(dir + movie.getFilePath()));
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -55,9 +55,7 @@ public class MoviePlayer
      */
     private void setLastViewed(Movie movie) throws BLLException
     {
-        String date = LocalDate.now().toString();
-        date = date.replaceAll("-", "");
-        int dateAsInt = Integer.parseInt(date);
+        int dateAsInt = bllManager.getCurrentDateAsInt();
         movie.setLastView(dateAsInt);
         bllManager.updateMovie(movie);
     }
