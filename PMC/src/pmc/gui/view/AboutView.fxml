@@ -30,6 +30,6 @@
         </StackPane>
     </children>
     <stylesheets>
-        <URL value="@About.css" />
+        <URL value="@AboutCSS.css" />
     </stylesheets>
 </AnchorPane>

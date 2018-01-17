@@ -21,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import pmc.be.Movie;
-import pmc.gui.model.MainModel;
+import pmc.gui.model.MainWindowModel;
 
 /**
  *
@@ -57,7 +57,7 @@ public class MainWindowController implements Initializable
     @FXML
     private VBox genreVBox;
 
-    private MainModel mainModel = new MainModel();
+    private MainWindowModel mainModel = new MainWindowModel();
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -97,7 +97,7 @@ public class MainWindowController implements Initializable
     {
         try
         {
-            mainModel.startModalWindow("About", 330, 310);
+            mainModel.startModalWindow("AboutView", 330, 310);
         }
         catch (IOException ex)
         {
@@ -127,12 +127,14 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
-    private void handleNewGenre(ActionEvent event) {
+    private void handleNewGenre(ActionEvent event)
+    {
         mainModel.newGenre();
     }
 
     @FXML
-    private void handleDeleteGenre(ActionEvent event) {
+    private void handleDeleteGenre(ActionEvent event)
+    {
         mainModel.deleteUnusedGenres();
     }
 }

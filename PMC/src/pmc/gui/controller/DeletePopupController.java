@@ -23,7 +23,7 @@ import pmc.gui.model.DeletePopupModel.HBoxCell;
  *
  * @author Alex
  */
-public class DeletePopupViewController implements Initializable {
+public class DeletePopupController implements Initializable {
 
     @FXML
     private ListView<HBoxCell> tblMovies;

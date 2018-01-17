@@ -62,7 +62,7 @@ public class AddMovieModel
      * @param url imdb url
      * @return true if succeded
      */
-    public Movie save(String url, MainModel mainModel)
+    public Movie save(String url, MainWindowModel mainModel)
     {
         // Removes unneccesary tags.
         if (url.toLowerCase().contains("?"))

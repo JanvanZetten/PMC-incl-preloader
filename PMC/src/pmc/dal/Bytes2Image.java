@@ -16,12 +16,12 @@ import javax.imageio.ImageIO;
  *
  * @author Asbamz
  */
-public class bytes2Image
+public class Bytes2Image
 {
     private byte[] imageInBytes;
     private String imagePath;
 
-    public bytes2Image(String name, int year, byte[] imageInBytes) throws DALException
+    public Bytes2Image(String name, int year, byte[] imageInBytes) throws DALException
     {
         try
         {
