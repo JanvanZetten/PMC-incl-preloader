@@ -16,7 +16,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import pmc.bll.BLLManager;
-import pmc.bll.MoviePlayer;
 
 import pmc.gui.model.MovieDetailsModel;
 
@@ -40,7 +39,6 @@ public class MovieDetailsController implements Initializable
     private Label lblGenres;
     @FXML
     private Label lblDirector;
-    @FXML
     private Label lblScore;
     @FXML
     private Button btnCopyLink;
@@ -50,6 +48,10 @@ public class MovieDetailsController implements Initializable
     private Button WatchMovie;
 
     MovieDetailsModel model;
+    @FXML
+    private Label lblImdb;
+    @FXML
+    private Label lblPersonal;
 
     /**
      * Initializes the controller class.
@@ -69,7 +71,7 @@ public class MovieDetailsController implements Initializable
         model.setTitleAndYear(lblTitleAndYear);
         model.setGenres(lblGenres);
         model.setDirector(lblDirector);
-        model.setScore(lblScore);
+        model.setScore(lblImdb, lblPersonal);
         
     }
 
