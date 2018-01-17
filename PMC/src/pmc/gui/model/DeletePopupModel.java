@@ -41,13 +41,10 @@ public class DeletePopupModel {
         List<HBoxCell> tbl = new ArrayList<>();
         List<Movie> movies = bllManager.getTBDeletedList();
         
-//        movies = new ArrayList<>();
-        
         System.out.println(movies.size());
-//        System.out.println(movies.get(1));
         
         for (int i = 0; i < 2; i++) {
-            tbl.add(new HBoxCell("name", "Delete", "  ", "Ignore"));
+            tbl.add(new HBoxCell(movies.get(i).getName(), "Delete", "  ", "Ignore"));
         }
 
         ObservableList<HBoxCell> ol = FXCollections.observableArrayList();

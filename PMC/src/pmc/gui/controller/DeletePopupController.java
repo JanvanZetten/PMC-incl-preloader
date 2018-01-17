@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -38,14 +37,14 @@ public class DeletePopupController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //model = new DeletePopupModel();
+        model = new DeletePopupModel();
         
     }
     
     public void setup()
     {
         
-        //model.setList(tblMovies);
+        model.setList(tblMovies);
     }
 
     @FXML
@@ -57,6 +56,6 @@ public class DeletePopupController implements Initializable {
     }
 
     public void setBLLManager(BLLManager bllManager) {
-        //model.setBLLManager(bllManager);
+        model.setBLLManager(bllManager);
     }
 }

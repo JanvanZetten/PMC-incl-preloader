@@ -71,22 +71,9 @@ public class MainWindowController implements Initializable
         mainModel.initializeGenre(genreVBox);
     }
 
-    public void afterInitialization()
+    public void afterInitialization() throws IOException
     {
-//        try {
-//            bllManager.setOutdatedMovies();
-//        } catch (DALException ex) {
-//            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        if (!bllManager.getTBDeletedList().isEmpty())
-//        {
-//            try {
-//                startDeletePopupWindow();
-//            } catch (IOException ex) {
-//                System.out.println(ex.getMessage());
-//            }
-//        }
+        mainModel.startDeletePopupWindow();
     }
 
     @FXML
