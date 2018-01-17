@@ -91,22 +91,6 @@ public class MainWindowModel
         minImdbRating = 0.0;
         minPersonalRating = 0;
         filterString = "";
-        
-        try {
-            bllManager.setOutdatedMovies();
-        } catch (DALException ex) {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-//        if (!bllManager.getTBDeletedList().isEmpty()) 
-//        {
-//            try {
-//                startDeletePopupWindow();
-//            } catch (IOException ex) {
-//                System.out.println(ex.getMessage());
-//            }
-//        }
-        
     }
 
     /**
@@ -414,7 +398,7 @@ public class MainWindowModel
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
-    }   
+    }
 
     /**
      * Gets all the genres and puts them into the vbox as chekboxes with the
@@ -657,7 +641,7 @@ public class MainWindowModel
             alertError.showAndWait();
         }
     }
-    
+
     private void startMovieDetailsWIndow()
     {
         try
@@ -685,8 +669,8 @@ public class MainWindowModel
             ex.printStackTrace();
         }
     }
-    
-     public void startEditMovieWindow()
+
+    public void startEditMovieWindow()
     {
         if (bllManager.getCurrentMovie() == null)
         {
@@ -718,8 +702,8 @@ public class MainWindowModel
             alert.showAndWait();
         }
     }
-     
-     /**
+
+    /**
      * opens the window for adding a new movie
      */
     public void startNewMovieWindow()
@@ -750,8 +734,8 @@ public class MainWindowModel
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window new Movie:\n" + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
-    }    
-    
+    }
+
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
@@ -771,7 +755,7 @@ public class MainWindowModel
         newStage.showAndWait();
     }
 
-    private void startDeletePopupWindow() throws IOException 
+    private void startDeletePopupWindow() throws IOException
     {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);

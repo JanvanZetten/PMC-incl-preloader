@@ -10,9 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import pmc.bll.BLLManager;
+import pmc.gui.controller.AddMovieController;
+import pmc.gui.controller.MainWindowController;
 
 /**
  *
@@ -21,21 +24,27 @@ import pmc.bll.BLLManager;
 public class PMC extends Application
 {
     private Scene scene;
+    private MainWindowController cont;
 
     /**
      * this does the slow stuff because of preloader
      * @throws Exception
      */
     @Override
-    public void init() throws Exception 
+    public void init() throws Exception
     {
-            Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
-            scene = new Scene(root);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindowView.fxml"));
+        Parent root = fxLoader.load();
+        scene = new Scene(root);
+
+        cont = fxLoader.getController();
     }
 
     @Override
     public void start(Stage stage) throws Exception
     {
+        cont.afterInitialization();
+
         stage.setScene(scene);
         stage.setTitle("PMC");
         stage.getIcons().add(new Image("pmc/gui/resources/logo.png"));

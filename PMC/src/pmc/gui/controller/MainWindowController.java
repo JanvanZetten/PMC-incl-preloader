@@ -8,6 +8,8 @@ package pmc.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import pmc.be.Movie;
+import pmc.dal.DALException;
 import pmc.gui.model.MainWindowModel;
 
 /**
@@ -66,6 +69,24 @@ public class MainWindowController implements Initializable
         //initializeTableView();
         mainModel.initializeTableView(tblviewMovies, tblcolTitle, tblcolGenre, tblcolTime, tblcolImdbRating, tblcolPersonalRating);
         mainModel.initializeGenre(genreVBox);
+    }
+
+    public void afterInitialization()
+    {
+//        try {
+//            bllManager.setOutdatedMovies();
+//        } catch (DALException ex) {
+//            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        if (!bllManager.getTBDeletedList().isEmpty())
+//        {
+//            try {
+//                startDeletePopupWindow();
+//            } catch (IOException ex) {
+//                System.out.println(ex.getMessage());
+//            }
+//        }
     }
 
     @FXML
