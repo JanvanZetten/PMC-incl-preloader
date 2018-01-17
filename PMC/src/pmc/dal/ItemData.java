@@ -11,11 +11,11 @@ import pmc.be.Movie;
  *
  * @author Alex
  */
-public class SelectedItemData {
+public class ItemData {
     
     private Movie currentMovie;
     
-    public SelectedItemData() {
+    public ItemData() {
     }
 
     public void setCurrentMovie(Movie currentMovie) {

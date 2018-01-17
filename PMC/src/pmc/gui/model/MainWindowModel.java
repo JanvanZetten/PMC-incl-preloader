@@ -54,7 +54,7 @@ import pmc.gui.controller.MovieDetailsController;
  *
  * @author janvanzetten
  */
-public class MainModel
+public class MainWindowModel
 {
 
     private TableView<Movie> tblview;
@@ -73,7 +73,7 @@ public class MainModel
     private VBox genreVBox;
     private TableRow<Movie> selectedRow;
 
-    public MainModel()
+    public MainWindowModel()
     {
         bllManager = new BLLManager();
         mp = new MoviePlayer();

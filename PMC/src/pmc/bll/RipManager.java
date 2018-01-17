@@ -13,12 +13,12 @@ import pmc.dal.IMDbRip;
  *
  * @author janvanzetten
  */
-public class ripManager
+public class RipManager
 {
     IMDbRip ripper;
     
 
-    public ripManager(String Url) throws BLLException
+    public RipManager(String Url) throws BLLException
     {
         try
         {
