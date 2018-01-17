@@ -8,6 +8,7 @@ package pmc.dal;
 import java.util.List;
 import pmc.be.Genre;
 import pmc.be.Movie;
+import pmc.bll.BLLManager;
 
 /**
  *
@@ -44,7 +45,11 @@ public class DALManager {
      * @return the newly made genre if it succeds
      */
     public Genre addGenre(String name) throws DALException {
-        return Database.addNewGenre(name);
+        if (Database.checkForExistingGenre(name)) {
+            return Database.addNewGenre(name);
+        } else {
+            throw new DALException("Genre already exists");
+        }
     }
 
     /**
@@ -95,8 +100,7 @@ public class DALManager {
         if (Database.checkForMovie(name, ImdbUrl)) {
 
             return Database.addMovie(name, filePath, genres, imdbRating, personalRating, Directors, duration, ImdbUrl, year, imageInBytes, summary);
-        }
-        else{
+        } else {
             throw new DALException("Movie with name or imdb link already exists");
         }
     }
@@ -132,6 +136,15 @@ public class DALManager {
      */
     public void updateMovie(Movie updatedMovie) throws DALException {
         Database.updateMovie(updatedMovie);
+    }
+
+    /**
+     * delets all unused genres
+     * @return a list of deleted ids
+     * @throws pmc.dal.DALException 
+     */
+    public List<Integer> deleteUnusedGenres() throws DALException {
+        return Database.deleteUnusedGenres();
     }
 
 }

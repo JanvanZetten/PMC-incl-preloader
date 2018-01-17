@@ -215,7 +215,7 @@ public class DBManager {
         try (Connection con = DBCon.getConnection()) {
 
             String sql = "UPDATE MOVIE SET name= ?, personalRating= ?, ImdbRating= ?, lastView= ?, filePath= ?, ImdbUrl= ?, "
-                    + "year= ?, duration= ?, directors= ?, description= ? imageInBytes= ? WHERE id = ?;";
+                    + "year= ?, duration= ?, directors= ?, description= ?, imageInBytes= ? WHERE id = ?;";
 
             PreparedStatement statement = con.prepareStatement(sql);
 
@@ -442,5 +442,57 @@ public class DBManager {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
 
+    }
+
+    
+    /**
+     * true if no Genre in database with the given name
+     * @param name
+     * @return
+     * @throws DALException 
+     */
+    boolean checkForExistingGenre(String name) throws DALException {
+        try (Connection con = DBCon.getConnection()) {
+            String sql = "SELECT id FROM Genre WHERE name = ?";
+
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, name);
+
+            ResultSet rs = statement.executeQuery();
+
+            return !rs.next();
+        } catch (SQLException ex) {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Delets all unusedGenres from the Genre table in the database
+     * @return a list with ids of the genres deleted
+     * @throws DALException 
+     */
+    List<Integer> deleteUnusedGenres() throws DALException {
+        try (Connection con = DBCon.getConnection()) {
+            List<Integer> unusedIds = new ArrayList<>();
+            
+            String sql = "SELECT * FROM Genre t1 LEFT JOIN GenresInMovie t2 ON t2.genreId = t1.id WHERE t2.genreId IS NULL";
+            String sqlDelete = "DELETE Genre From Genre t1 LEFT JOIN GenresInMovie t2 ON t2.genreId = t1.id WHERE t2.genreId IS NULL";
+            
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()){
+                unusedIds.add(rs.getInt("id"));
+            }
+            
+            Statement statement = con.createStatement();
+            statement.execute(sqlDelete);
+            
+            
+            return unusedIds;
+        }catch (SQLException ex) {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
     }
 }

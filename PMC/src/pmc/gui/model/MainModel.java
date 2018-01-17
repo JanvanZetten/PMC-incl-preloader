@@ -47,6 +47,7 @@ import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
 import pmc.gui.controller.AddMovieController;
+import pmc.gui.controller.EditMovieController;
 import pmc.gui.controller.MovieDetailsController;
 
 /**
@@ -64,6 +65,7 @@ public class MainModel
     private int minPersonalRating;
     private String filterString;
     private List<CheckBox> genreFilterList;
+    private List<Genre> allGenres;
 
     private BLLManager bllManager;
     private MoviePlayer mp;
@@ -264,10 +266,15 @@ public class MainModel
         tblcolTime.setStyle("-fx-alignment: CENTER-RIGHT;");
         tblcolImdbRating.setCellValueFactory(new PropertyValueFactory("imdbRating"));
         tblcolImdbRating.setStyle("-fx-alignment: CENTER;");
-        tblcolPersonalRating.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param) -> {
-            if (param.getValue().getPersonalRating() == -1) {
+        tblcolPersonalRating.setCellValueFactory((TableColumn.CellDataFeatures<Movie, String> param)
+                ->
+        {
+            if (param.getValue().getPersonalRating() == -1)
+            {
                 return new ReadOnlyObjectWrapper<>("None");
-            } else {
+            }
+            else
+            {
                 return new ReadOnlyObjectWrapper<>(param.getValue().getPersonalRating() + "");
             }
         });
@@ -473,6 +480,39 @@ public class MainModel
         }
     }
 
+    public void editMovie()
+    {
+        if (bllManager.getCurrentMovie() == null)
+        {
+            Alert alertError = new Alert(Alert.AlertType.WARNING, "You have to select a movie!", ButtonType.OK);
+            alertError.showAndWait();
+            return;
+        }
+        try
+        {
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/pmc/gui/view/EditMovieView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+
+            EditMovieController cont = fxLoader.getController();
+            cont.setup(bllManager);
+
+            newStage.setTitle("PMC - Edit");
+            newStage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
+            newStage.setScene(scene);
+            newStage.setMinWidth(620);
+            newStage.setMinHeight(394);
+            newStage.showAndWait();
+        }
+        catch (IOException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Could not open Window Edit Movie:\n" + ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
     /**
      * Gets all the genres and puts them into the vbox as chekboxes with the
      * genres name as label
@@ -482,7 +522,7 @@ public class MainModel
     public void initializeGenre(VBox genreVBox)
     {
         this.genreVBox = genreVBox;
-        List<Genre> allGenres = null;
+        allGenres = null;
         try
         {
             allGenres = bllManager.getAllGenres();
@@ -494,14 +534,7 @@ public class MainModel
         }
         if (allGenres != null)
         {
-            for (Genre allGenre : allGenres)
-            {
-                CheckBox checkbox = new CheckBox(allGenre.getName());
-                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
-                genreFilterList.add(checkbox);
-
-            }
-            genreVBox.getChildren().addAll(genreFilterList);
+            updateGenresInVBox(allGenres);
         }
 
     }
@@ -521,11 +554,14 @@ public class MainModel
 
             if (newGenre != null)
             {
-                CheckBox checkbox = new CheckBox(newGenre.getName());
-                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
-                genreFilterList.add(checkbox);
-                genreVBox.getChildren().clear();
-                genreVBox.getChildren().addAll(genreFilterList);
+//                CheckBox checkbox = new CheckBox(newGenre.getName());
+//                checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
+//                genreFilterList.add(checkbox);
+//                genreVBox.getChildren().clear();
+//                genreVBox.getChildren().addAll(genreFilterList);
+                allGenres.add(newGenre);
+                updateGenresInVBox(allGenres);
+
                 return newGenre;
             }
 
@@ -536,7 +572,20 @@ public class MainModel
             alertError.showAndWait();
         }
         return null;
+    }
 
+    private void updateGenresInVBox(List<Genre> genres)
+    {
+        genreFilterList.clear();
+        for (Genre genre : genres)
+        {
+            CheckBox checkbox = new CheckBox(genre.getName());
+            checkbox.setOnMouseReleased(mouseEvent -> checkGenreFilter());
+            genreFilterList.add(checkbox);
+
+        }
+        genreVBox.getChildren().clear();
+        genreVBox.getChildren().addAll(genreFilterList);
     }
 
     /**
@@ -564,6 +613,12 @@ public class MainModel
      */
     public void deleteMovie()
     {
+        if (bllManager.getCurrentMovie() == null)
+        {
+            Alert alertError = new Alert(Alert.AlertType.WARNING, "You have to select a movie!", ButtonType.OK);
+            alertError.showAndWait();
+            return;
+        }
         Movie movieToDelete = bllManager.getCurrentMovie();
         //make sure user wnt to delete
         Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete: " + movieToDelete.getName() + "?");
@@ -599,6 +654,7 @@ public class MainModel
         while (true)
         {
             TextInputDialog TID = new TextInputDialog();
+            TID.setHeaderText("");
             TID.setTitle("Personalrating:");
             TID.setContentText("Rating from 0 to 10");
             Optional<String> input = TID.showAndWait();
@@ -639,6 +695,7 @@ public class MainModel
     /**
      * Updates the updated movie in the observable lists: movies and
      * filtredMovies
+     *
      * @param Updatedmovie
      */
     private void updateMovieList(Movie Updatedmovie)
@@ -651,5 +708,50 @@ public class MainModel
             }
         }
         addToFiltered();
+    }
+
+    /**
+     * Opens a input dialog for the new genre and it will then make a new genre
+     * in database if it is not existing yet
+     */
+    public void newGenre()
+    {
+        TextInputDialog TID = new TextInputDialog();
+        TID.setTitle("New Genre");
+        TID.setContentText("Name of new Genre");
+        Optional<String> input = TID.showAndWait();
+        if (input.isPresent())
+        {
+            addGenre(input.get());
+        }
+
+    }
+
+    /**
+     * Deletes all unused genres from the list and from the database
+     */
+    public void deleteUnusedGenres()
+    {
+        try
+        {
+            List<Integer> deletedIds = bllManager.deleteUnusedGenres();
+            for (Integer deletedId : deletedIds)
+            {
+                for (Genre allGenre : allGenres)
+                {
+                    if (allGenre.getId() == deletedId)
+                    {
+                        allGenres.remove(allGenre);
+                        break;
+                    }
+                }
+            }
+            updateGenresInVBox(allGenres);
+        }
+        catch (BLLException ex)
+        {
+            Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alertError.showAndWait();
+        }
     }
 }

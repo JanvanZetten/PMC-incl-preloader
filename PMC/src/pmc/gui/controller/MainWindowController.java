@@ -83,6 +83,7 @@ public class MainWindowController implements Initializable
     @FXML
     private void handleEdit(ActionEvent event)
     {
+        mainModel.editMovie();
     }
 
     @FXML
@@ -123,5 +124,15 @@ public class MainWindowController implements Initializable
     {
         mainModel.setFilterString(txtfldFilter.getText());
         mainModel.addToFiltered();
+    }
+
+    @FXML
+    private void handleNewGenre(ActionEvent event) {
+        mainModel.newGenre();
+    }
+
+    @FXML
+    private void handleDeleteGenre(ActionEvent event) {
+        mainModel.deleteUnusedGenres();
     }
 }
