@@ -31,7 +31,7 @@ public class PMC extends Application
     {
         BLLManager bllManager = new BLLManager();
         bllManager.getOutdatedMovies();
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWIndowView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindowView.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("gui/view/DeletePopupView.fxml"));
         scene = new Scene(root);
 
