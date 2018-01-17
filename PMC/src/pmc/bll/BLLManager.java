@@ -5,6 +5,7 @@
  */
 package pmc.bll;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -211,19 +212,55 @@ public class BLLManager
      * @return a list of ids of the deleted genres
      * @throws BLLException 
      */
-    public List<Integer> deleteUnusedGenres() throws BLLException {
-        try {
+    public List<Integer> deleteUnusedGenres() throws BLLException 
+    {
+        try 
+        {
             return dalManager.deleteUnusedGenres();
-        } catch (DALException ex) {
+        } 
+        catch (DALException ex) 
+        {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
 
-    public void getOutdatedMovies() throws DALException 
+    /**
+     * Finds movies that are over 2 years old and have a lower rating than 6 on
+     * when starting the program.
+     * @throws DALException
+     */
+    public void setOutdatedMovies() throws DALException 
     {
-        for (int i = 0; i < dalManager.getAllMovies().size(); i++) 
+        try 
         {
-//            Movie currentMovie = 
+        List<Movie> movies = dalManager.getAllMovies();
+        for (Movie movy : movies) 
+        {
+            if (getCurrentDateAsInt() - movy.getLastView() >= 20000 && movy.getPersonalRating() < 6 && movy.getLastView() != -1)
+                {
+                    ID.addToTBDeletedList(movy);
+                }
+            }
         }
+        catch (DALException ex) 
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+    
+    public List<Movie> getTBDeletedList() 
+    {
+        return ID.getTBDeletedList();
+    }
+    
+    /**
+     * return an int with the date in format yyyymmdd
+     * @return 
+     */
+    public int getCurrentDateAsInt()
+    {
+        String date = LocalDate.now().toString();
+        date = date.replaceAll("-", "");
+        return Integer.parseInt(date);
     }
 }

@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import pmc.be.Movie;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
@@ -115,22 +116,20 @@ public class MovieDetailsModel
     }
 
     //Sets what score the movie has.
-    public void setScore(Label lblScore)
+    public void setScore(Label lblImdb, Label lblPersonal)
     {
-        if (bllManager.getCurrentMovie().getPersonalRating() == -1)
-        {
-            if (bllManager.getCurrentMovie().getImdbRating() != -1)
-            {
-                lblScore.setText(bllManager.getCurrentMovie().getImdbRating() + "");
-            }
-            else
-            {
-                lblScore.setText("N/A");
-            }
+        Movie currentMovie = bllManager.getCurrentMovie();
+        if (currentMovie.getImdbRating() != -1){
+            lblImdb.setText(currentMovie.getImdbRating() + "");
         }
-        else
-        {
-            lblScore.setText(bllManager.getCurrentMovie().getPersonalRating() + "");
+        else {
+            lblImdb.setText("None");
+        }
+        if (currentMovie.getPersonalRating() != -1){
+            lblPersonal.setText(currentMovie.getPersonalRating() + "");
+        }
+        else{
+            lblPersonal.setText("None");
         }
     }
 
