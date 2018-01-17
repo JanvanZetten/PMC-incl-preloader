@@ -21,6 +21,11 @@ public class SettingsData {
 
     Settings settings;
 
+    public SettingsData() {
+    }
+    
+    
+
     /**
      * Saves the given settings to a file
      *
