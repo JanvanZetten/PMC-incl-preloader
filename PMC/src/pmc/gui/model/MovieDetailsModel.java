@@ -86,10 +86,6 @@ public class MovieDetailsModel
         lblTitleAndYear.setText(titleAndYear);
     }
 
-//    //Sets the description of the movie in the description text area.
-//    public void setDescription(TextArea textareaDescription) {
-//        textareaDescription.setText(bllManager.getCurrentMovie().);
-//    }
     //Sets the different genres associated with the movie and removes the first
     //and last character from the string, as they contain [ and ] respectively.
     public void setGenres(Label lblGenres)
