@@ -18,6 +18,7 @@ import pmc.bll.BLLManager;
 import pmc.gui.model.DeletePopupModel;
 import pmc.gui.model.DeletePopupModel.HBoxCell;
 import pmc.be.ControllerSetup;
+import pmc.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
@@ -53,7 +54,7 @@ public class DeletePopupController implements Initializable, ControllerSetup
     }
 
     @Override
-    public void setup(Stage thisStage, BLLManager bllManager)
+    public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager)
     {
         model.setBLLManager(bllManager);
         model.setList(tblMovies);

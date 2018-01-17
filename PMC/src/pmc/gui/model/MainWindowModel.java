@@ -744,7 +744,7 @@ public class MainWindowModel
             Parent root = fxLoader.load();
 
             ControllerSetup cont = fxLoader.getController();
-            cont.setup(newStage, bllManager);
+            cont.setup(newStage, this, bllManager);
 
             Scene scene = new Scene(root);
             newStage.setTitle(WINDOW_PRETEXT + windowName);

@@ -117,16 +117,6 @@ public class AddMovieController implements Initializable, ControllerSetup
     }
 
     /**
-     * for giving the controller the main model used på the mainwindow
-     *
-     * @param mainModelInstance
-     */
-    public void setMainModel(MainWindowModel mainModelInstance)
-    {
-        mainModel = mainModelInstance;
-    }
-
-    /**
      * Checks if needed data, for saving, is set.
      */
     private void isAllDataSet()
@@ -141,8 +131,10 @@ public class AddMovieController implements Initializable, ControllerSetup
      * Bind width of progress bar to the stage width. Sets topbar text.
      */
     @Override
-    public void setup(Stage thisStage, BLLManager bllManager)
+    public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager)
     {
+        mainModel = mainWindowModel;
+
         pbLoading.prefWidthProperty().bind(thisStage.widthProperty());
 
         // Save button is only active if the the webview is in a IMDb Movie site.

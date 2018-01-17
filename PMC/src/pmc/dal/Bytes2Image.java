@@ -18,6 +18,11 @@ import javax.imageio.ImageIO;
  */
 public class Bytes2Image
 {
+    private final String IMAGE_EXTENSION = ".jpg";
+    private final String PATH_NAME_SEPERATOR = "_";
+    private final String IMAGE_DIRECTORY = "./images/";
+    private final String ERROR_MESSAGE = "Error getting image from binary data! ";
+
     private byte[] imageInBytes;
     private String imagePath;
 
@@ -33,17 +38,17 @@ public class Bytes2Image
             String fileName = "";
             for (String string : name.split(" "))
             {
-                fileName += string.replaceAll("\\W+", "") + "_";
+                fileName += string.replaceAll("\\W+", "") + PATH_NAME_SEPERATOR;
             }
-            fileName += year + ".jpg";
+            fileName += year + IMAGE_EXTENSION;
 
             // Create directory if it is not there.
-            File dir = new File("./images/");
+            File dir = new File(IMAGE_DIRECTORY);
             dir.mkdir();
 
             // Write imagePath to file.
-            File outputfile = new File("./images/" + fileName);
-            ImageIO.write(imgFromDb, "jpg", outputfile);
+            File outputfile = new File(IMAGE_DIRECTORY + fileName);
+            ImageIO.write(imgFromDb, IMAGE_EXTENSION.substring(1), outputfile);
 
             // Saved data to variables.
             this.imageInBytes = imageInBytes;
@@ -51,7 +56,7 @@ public class Bytes2Image
         }
         catch (IOException ex)
         {
-            throw new DALException("Error getting image from binary data! " + ex.getMessage(), ex.getCause());
+            throw new DALException(ERROR_MESSAGE + ex.getMessage(), ex.getCause());
         }
     }
 

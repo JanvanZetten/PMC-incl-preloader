@@ -13,20 +13,28 @@ import java.sql.Connection;
  *
  * @author janvanzetten
  */
-public class DBConnecter {
+public class DBConnecter
+{
+    private final String SERVER_NAME = "EASV-DB2";
+    private final int PORT_NUMBER = 1433;
+    private final String DATABASE_NAME = "PMC_DB";
+    private final String USER = "CS2017A_14_java";
+    private final String PASSWORD = "javajava";
+
     private SQLServerDataSource dataSource;
 
     /**
      * Constructor saves connection information.
      */
-    public DBConnecter() {
+    public DBConnecter()
+    {
         dataSource = new SQLServerDataSource();
 
-        dataSource.setServerName("EASV-DB2");
-        dataSource.setPortNumber(1433);
-        dataSource.setDatabaseName("PMC_DB"); //enter database name
-        dataSource.setUser("CS2017A_14_java");//enter number of user
-        dataSource.setPassword("javajava");
+        dataSource.setServerName(SERVER_NAME);
+        dataSource.setPortNumber(PORT_NUMBER);
+        dataSource.setDatabaseName(DATABASE_NAME);
+        dataSource.setUser(USER);
+        dataSource.setPassword(PASSWORD);
     }
 
     /**
@@ -35,7 +43,8 @@ public class DBConnecter {
      * @return SQLServerDataSource.
      * @throws SQLServerException
      */
-    public Connection getConnection() throws SQLServerException {
+    public Connection getConnection() throws SQLServerException
+    {
         return dataSource.getConnection();
     }
 }

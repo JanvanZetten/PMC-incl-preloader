@@ -7,6 +7,7 @@ package pmc.be;
 
 import javafx.stage.Stage;
 import pmc.bll.BLLManager;
+import pmc.gui.model.MainWindowModel;
 
 /**
  *
@@ -19,5 +20,5 @@ public interface ControllerSetup
      * @param thisStage
      * @param bllManager
      */
-    public void setup(Stage thisStage, BLLManager bllManager);
+    public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager);
 }

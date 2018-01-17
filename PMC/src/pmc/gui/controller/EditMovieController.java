@@ -22,6 +22,7 @@ import pmc.be.Movie;
 import pmc.bll.BLLManager;
 import pmc.gui.model.EditMovieModel;
 import pmc.be.ControllerSetup;
+import pmc.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
@@ -90,7 +91,7 @@ public class EditMovieController implements Initializable, ControllerSetup
     }
 
     @Override
-    public void setup(Stage thisStage, BLLManager bllManager)
+    public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager)
     {
         emm = new EditMovieModel(bllManager);
         Movie movie = emm.getMovie();

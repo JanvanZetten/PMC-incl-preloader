@@ -21,7 +21,23 @@ import javax.imageio.ImageIO;
  */
 public class IMDbRip
 {
-    private final String _NODIRECTOR = "None";
+    private final String NO_DIRECTOR = "None";
+    private final String MOVIE_SITE = "imdb.com/title/";
+    private final String NOT_A_MOVIE_SITE = "Not a IMDb movie website! ";
+    private final String ERROR_READING_IMDB = "Error reading information from IMDb! ";
+    private final String ERROR_COPYING_IMAGE = "Error copying image! ";
+    private final String ERROR_BINARY_IMAGE = "Error turning image into binary data! ";
+    private final String IMAGE_EXTENSION = "jpg";
+    private final String IMAGE_DIRECTORY = "./images/";
+    private final String IMAGE_SEPERATOR = "_";
+    private final String NAME_TAG = "itemprop=\"name\" class=\"\"";
+    private final String YEAR_TAG = "id=\"titleYear\"";
+    private final String DURATION_TAG = "time itemprop=\"duration\"";
+    private final String GENRE_TAG = "class=\"itemprop\" itemprop=\"genre\"";
+    private final String RATING_TAG = "span itemprop=\"ratingValue\"";
+    private final String DIRECTOR_TAG = "itemprop=\"director\"";
+    private final String SUMMARY_TAG = "class=\"summary_text\" itemprop=\"description\"";
+    private final String IMAGE_TAG = "class=\"poster\"";
 
     private boolean rippedAllInformation;
 
@@ -60,9 +76,9 @@ public class IMDbRip
     private void ripInformationAsFile(String imdbUrl) throws DALException
     {
         // In case the website is not a IMDb Movie URL.
-        if (!imdbUrl.toLowerCase().contains("imdb.com/title/"))
+        if (!imdbUrl.toLowerCase().contains(MOVIE_SITE))
         {
-            throw new DALException("Not a IMDb movie website! " + imdbUrl);
+            throw new DALException(NOT_A_MOVIE_SITE + imdbUrl);
         }
 
         // Removes unneccesary tags.
@@ -89,14 +105,14 @@ public class IMDbRip
                 while ((inputLine = in.readLine()) != null)
                 {
                     // Check for movie title.
-                    if (inputLine.contains("itemprop=\"name\" class=\"\""))
+                    if (inputLine.contains(NAME_TAG))
                     {
                         name = inputLine.split(">")[1].split("&")[0].trim();
                         //System.out.println("Name: " + name);
                     }
 
                     // Check for year.
-                    if (inputLine.contains("id=\"titleYear\""))
+                    if (inputLine.contains(YEAR_TAG))
                     {
                         wasYear = true;
                     }
@@ -108,14 +124,14 @@ public class IMDbRip
                     }
 
                     // Check for rating.
-                    if (inputLine.contains("span itemprop=\"ratingValue\""))
+                    if (inputLine.contains(RATING_TAG))
                     {
                         rating = Double.parseDouble(inputLine.split(">")[2].split("<")[0].trim());
                         //System.out.println("Rating: " + rating);
                     }
 
                     // Check for duration.
-                    if (inputLine.contains("time itemprop=\"duration\"") && duration == 0)
+                    if (inputLine.contains(DURATION_TAG) && duration == 0)
                     {
                         wasDuration++;
                     }
@@ -138,14 +154,14 @@ public class IMDbRip
                     }
 
                     // Check for genres.
-                    if (inputLine.contains("class=\"itemprop\" itemprop=\"genre\""))
+                    if (inputLine.contains(GENRE_TAG))
                     {
                         genres.add(inputLine.split(">")[2].split("<")[0].trim());
                         //System.out.println("Genre " + (genres.size()) + ": " + genres.get(genres.size() - 1));
                     }
 
                     // Check for directors.
-                    if (inputLine.contains("itemprop=\"director\"") || wasDirector == 1)
+                    if (inputLine.contains(DIRECTOR_TAG) || wasDirector == 1)
                     {
                         wasDirector++;
                     }
@@ -165,7 +181,7 @@ public class IMDbRip
                     }
 
                     // Check for summary.
-                    if (inputLine.contains("class=\"summary_text\" itemprop=\"description\""))
+                    if (inputLine.contains(SUMMARY_TAG))
                     {
                         wasSummary = true;
                     }
@@ -177,7 +193,7 @@ public class IMDbRip
                     }
 
                     // Check for image and save to harddisk.
-                    if (inputLine.contains("class=\"poster\"") || wasImage == 1 || wasImage == 2)
+                    if (inputLine.contains(IMAGE_TAG) || wasImage == 1 || wasImage == 2)
                     {
                         wasImage++;
                     }
@@ -197,7 +213,7 @@ public class IMDbRip
         // In case of an exception throw new exception.
         catch (IOException | NumberFormatException ex)
         {
-            throw new DALException("Error reading information from IMDb! " + ex.getMessage(), ex.getCause());
+            throw new DALException(ERROR_READING_IMDB + ex.getMessage(), ex.getCause());
         }
     }
 
@@ -215,25 +231,25 @@ public class IMDbRip
             String fileName = "";
             for (String string : name.split(" "))
             {
-                fileName += string.replaceAll("\\W+", "") + "_";
+                fileName += string.replaceAll("\\W+", "") + IMAGE_SEPERATOR;
             }
             fileName += year + imageUrl.substring(imageUrl.length() - 4);
 
             // Create directory if it is not there.
-            File dir = new File("./images/");
+            File dir = new File(IMAGE_DIRECTORY);
             dir.mkdir();
 
             // Copy image to directory with given name.
-            Files.copy(inImg, Paths.get("./images/" + fileName), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inImg, Paths.get(IMAGE_DIRECTORY + fileName), StandardCopyOption.REPLACE_EXISTING);
 
             // Save path as Sting.
-            imagePath = "./images/" + fileName;
+            imagePath = IMAGE_DIRECTORY + fileName;
 
             //System.out.println("Saved image to: " + image);
         }
         catch (IOException ex)
         {
-            throw new DALException("Error copying image! " + ex.getMessage(), ex.getCause());
+            throw new DALException(ERROR_COPYING_IMAGE + ex.getMessage(), ex.getCause());
         }
 
         // Converts the image to a byte array.
@@ -245,7 +261,7 @@ public class IMDbRip
             try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
             {
                 //use another encoding if JPG is innappropriate for you
-                ImageIO.write(imm, "jpg", baos);
+                ImageIO.write(imm, IMAGE_EXTENSION, baos);
                 baos.flush();
 
                 // Save result.
@@ -254,7 +270,7 @@ public class IMDbRip
         }
         catch (IOException ex)
         {
-            throw new DALException("Error turning image into binary data! " + ex.getMessage(), ex.getCause());
+            throw new DALException(ERROR_BINARY_IMAGE + ex.getMessage(), ex.getCause());
         }
     }
 
@@ -296,7 +312,7 @@ public class IMDbRip
     {
         if (directors == null)
         {
-            return _NODIRECTOR;
+            return NO_DIRECTOR;
         }
         return directors;
     }
