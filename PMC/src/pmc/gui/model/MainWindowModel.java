@@ -50,6 +50,7 @@ import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
 import pmc.dal.DALException;
 import pmc.gui.controller.ControllerSetup;
+import pmc.be.StringWithIntegersComparator;
 
 /**
  *
@@ -308,6 +309,7 @@ public class MainWindowModel
                 return new ReadOnlyObjectWrapper<>(param.getValue().getPersonalRating() + "");
             }
         });
+        tblcolPersonalRating.setComparator(new StringWithIntegersComparator());
         tblcolPersonalRating.setStyle("-fx-alignment: CENTER;");
 
         // Set row events.
@@ -769,13 +771,16 @@ public class MainWindowModel
         try
         {
             bllManager.setOutdatedMovies();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_OUTDATED + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
 
-        if (!bllManager.getTBDeletedList().isEmpty()) {
-        startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
+        if (!bllManager.getTBDeletedList().isEmpty())
+        {
+            startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
         }
     }
 
