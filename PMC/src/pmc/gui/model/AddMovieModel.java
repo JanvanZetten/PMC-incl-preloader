@@ -61,6 +61,7 @@ public class AddMovieModel
     /**
      * Saves the movie in the database with the given url
      * @param url imdb url
+     * @param mainModel
      * @return true if succeded
      */
     public Movie save(String url, MainWindowModel mainModel)

@@ -43,6 +43,7 @@ public class DALManager {
      *
      * @param name the name of the new Genre
      * @return the newly made genre if it succeds
+     * @throws pmc.dal.DALException
      */
     public Genre addGenre(String name) throws DALException {
         if (Database.checkForExistingGenre(name)) {

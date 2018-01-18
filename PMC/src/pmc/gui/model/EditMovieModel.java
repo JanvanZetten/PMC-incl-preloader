@@ -46,6 +46,7 @@ public class EditMovieModel
 
     /**
      * Runs updateMovie in BLLManager if all values are set.
+     * @param btnUpdate
      */
     public void updateMovie(Button btnUpdate)
     {
