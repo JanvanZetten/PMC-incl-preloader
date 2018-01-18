@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -767,9 +769,7 @@ public class MainWindowModel
         try
         {
             bllManager.setOutdatedMovies();
-        }
-        catch (DALException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_OUTDATED + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
