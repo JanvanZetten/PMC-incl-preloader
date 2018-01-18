@@ -75,6 +75,7 @@ public class MainWindowController implements Initializable
     public void afterInitialization() throws IOException
     {
         mainModel.startDeletePopupWindow();
+        mainModel.getAllMovies();
     }
 
     @FXML

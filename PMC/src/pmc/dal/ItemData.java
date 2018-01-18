@@ -36,6 +36,5 @@ public class ItemData {
 
     public List<Movie> getTBDeletedList() {
         return TBDeleted;
-    }
-    
+    }    
 }

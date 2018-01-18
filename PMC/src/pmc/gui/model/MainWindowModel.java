@@ -427,7 +427,7 @@ public class MainWindowModel
      * Gets all the movies and stores them in the movie list and adds them to
      * the filtered list. If an error occurred it will show an alert message.
      */
-    private void getAllMovies()
+    public void getAllMovies()
     {
         try
         {
@@ -796,15 +796,12 @@ public class MainWindowModel
             Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_OUTDATED + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
-        
-        System.out.println(bllManager.getTBDeletedList().size());
-        
-
         if (!bllManager.getTBDeletedList().isEmpty())
         {
             startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
+            }
         }
-    }
+    
 
     /**
      * opens the settings window
@@ -812,5 +809,8 @@ public class MainWindowModel
     public void openSettings() {
          startModalWindow("SettingsView", "Settings", 302, 255, false);
     }
-
 }
+
+    
+
+

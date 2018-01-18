@@ -35,8 +35,6 @@ public class DeletePopupModel {
         List<HBoxCell> tbl = new ArrayList<>();
         List<Movie> movies = bllManager.getTBDeletedList();
 
-        System.out.println(movies.size());
-
         for (int i = 0; i < movies.size(); i++) {
             tbl.add(new HBoxCell(movies.get(i).getName(), "Delete", "  ", "Ignore", movies.get(i), bllManager));
         }
@@ -53,5 +51,7 @@ public class DeletePopupModel {
     public void setBLLManager(BLLManager bllManager) {
         this.bllManager = bllManager;
     }
-
 }
+    
+
+
