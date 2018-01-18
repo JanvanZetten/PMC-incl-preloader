@@ -40,6 +40,10 @@ public class MovieDetailsModel
     BLLManager bllManager;
     MoviePlayer mp;
 
+    /**
+     * Sets the BLLManager instance to be the same as the one in the MainModel.
+     * @param bllManager 
+     */
     public void setBLLManager(BLLManager bllManager)
     {
         this.bllManager = bllManager;
@@ -99,8 +103,15 @@ public class MovieDetailsModel
      */
     public void setTitleAndYear(Label lblTitleAndYear)
     {
-        String titleAndYear = bllManager.getCurrentMovie().getName() + ", " + bllManager.getCurrentMovie().getYear();
-        lblTitleAndYear.setText(titleAndYear);
+        if (bllManager.getCurrentMovie().getYear() == 0) {
+            String titleAndYear = bllManager.getCurrentMovie().getName();
+            lblTitleAndYear.setText(titleAndYear);
+        }
+        else {
+            String titleAndYear = bllManager.getCurrentMovie().getName() + ", " + bllManager.getCurrentMovie().getYear();
+            lblTitleAndYear.setText(titleAndYear);
+        }
+        
     }
 
     /**
