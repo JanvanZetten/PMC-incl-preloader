@@ -66,8 +66,11 @@ public class AddMovieModel
         File dir = new File(CURRENT_DIR);
         fc.setInitialDirectory(dir);
         fc.setTitle(FILE_CHOOSER_TITLE);
-        selectedFile = fc.showOpenDialog(null);
-        textfieldPath.setText(selectedFile.getAbsolutePath());
+        selectedFile = fc.showOpenDialog(textfieldPath.getScene().getWindow());
+        if (selectedFile != null)
+        {
+            textfieldPath.setText(selectedFile.getAbsolutePath());
+        }
     }
 
     /**
