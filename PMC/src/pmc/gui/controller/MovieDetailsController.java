@@ -17,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import pmc.bll.BLLManager;
 import pmc.gui.model.MovieDetailsModel;
-import pmc.be.ControllerSetup;
 import pmc.gui.model.MainWindowModel;
 
 /**

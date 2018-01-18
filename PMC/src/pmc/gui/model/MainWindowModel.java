@@ -49,7 +49,7 @@ import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
 import pmc.dal.DALException;
-import pmc.be.ControllerSetup;
+import pmc.gui.controller.ControllerSetup;
 import pmc.be.StringWithIntegersComparator;
 
 /**
@@ -784,9 +784,8 @@ public class MainWindowModel
         }
     }
 
-    public void openSettings()
-    {
-        startModalWindowWithSetup("SettingsView", "Settings", 302, 255, false);
+    public void openSettings() {
+         startModalWindow("SettingsView", "Settings", 302, 255, false);
     }
 
 }

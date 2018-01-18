@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pmc.be;
+package pmc.gui.controller;
 
 import javafx.stage.Stage;
 import pmc.bll.BLLManager;
