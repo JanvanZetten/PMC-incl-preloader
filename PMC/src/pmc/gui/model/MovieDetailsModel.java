@@ -7,8 +7,6 @@ package pmc.gui.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -22,6 +20,7 @@ import pmc.be.Movie;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
+import pmc.dal.DALException;
 
 /**
  *
@@ -42,12 +41,28 @@ public class MovieDetailsModel
 
     /**
      * Sets the BLLManager instance to be the same as the one in the MainModel.
-     * @param bllManager 
+     * @param bllManager
      */
     public void setBLLManager(BLLManager bllManager)
     {
         this.bllManager = bllManager;
-        this.mp = new MoviePlayer();
+        try
+        {
+            this.mp = new MoviePlayer();
+        }
+        catch (DALException ex)
+        {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+        catch (SecurityException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
     }
 
     /**
@@ -103,15 +118,17 @@ public class MovieDetailsModel
      */
     public void setTitleAndYear(Label lblTitleAndYear)
     {
-        if (bllManager.getCurrentMovie().getYear() == 0) {
+        if (bllManager.getCurrentMovie().getYear() == 0)
+        {
             String titleAndYear = bllManager.getCurrentMovie().getName();
             lblTitleAndYear.setText(titleAndYear);
         }
-        else {
+        else
+        {
             String titleAndYear = bllManager.getCurrentMovie().getName() + ", " + bllManager.getCurrentMovie().getYear();
             lblTitleAndYear.setText(titleAndYear);
         }
-        
+
     }
 
     /**
