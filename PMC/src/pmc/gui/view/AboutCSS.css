@@ -3,6 +3,21 @@
     Author     : Asbamz
 */
 
+.text-area{
+    -fx-border-color: transparent;
+    -fx-background-color:  #ecf0f1;
+}
+
+.text-area .content{
+    -fx-background-color:  #ecf0f1;
+    -fx-border-color: #ecf0f1;
+}
+
 .text-area *.text {
     -fx-text-alignment: center;
+    -fx-text-fill: #2c3e50;
+}
+
+.label {
+    -fx-text-fill: #ecf0f1;
 }

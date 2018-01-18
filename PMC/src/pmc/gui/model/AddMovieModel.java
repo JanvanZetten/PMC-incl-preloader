@@ -22,6 +22,8 @@ import pmc.be.Movie;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.RipManager;
+import pmc.dal.DALException;
+import pmc.dal.SettingsData;
 
 /**
  *
@@ -31,7 +33,7 @@ public class AddMovieModel
 {
     private final String MOVIE_DIR = "/Movies/";
     private final FileChooser.ExtensionFilter FILE_CHOOSER_FILTER = new FileChooser.ExtensionFilter("MPEG4 Video Files", "*.mp4", "*.mpeg4");
-    private final String CURRENT_DIR = System.getProperty("user.dir") + File.separator;
+    private final String CURRENT_DIR;
     private final String FILE_CHOOSER_TITLE = "Attach a file";
     private final String ON_SAVE_ERROR = "Could not save Movie:\n";
     private final String ON_COPY_ERROR = "Could not copy Movie file:\n";
@@ -41,6 +43,16 @@ public class AddMovieModel
     private File selectedFile;
     private String path;
     BLLManager bll = new BLLManager();
+
+    public AddMovieModel() throws DALException, SecurityException
+    {
+        CURRENT_DIR = (new SettingsData()).loadSettings().getMovieLocation() + File.separator;
+        File theDir = new File(CURRENT_DIR + MOVIE_DIR);
+        if (!theDir.exists())
+        {
+            theDir.mkdir();
+        }
+    }
 
     /**
      * Run file chooser and updates text field.

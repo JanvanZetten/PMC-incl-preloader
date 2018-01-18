@@ -48,6 +48,7 @@ import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
 import pmc.gui.controller.ControllerSetup;
 import pmc.be.StringWithIntegersComparator;
+import pmc.dal.DALException;
 
 /**
  *
@@ -91,7 +92,23 @@ public class MainWindowModel
     public MainWindowModel()
     {
         bllManager = new BLLManager();
-        mp = new MoviePlayer();
+        try
+        {
+            mp = new MoviePlayer();
+        }
+        catch (DALException ex)
+        {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+        catch (SecurityException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
         this.movies = FXCollections.observableArrayList();
         this.filteredMovies = FXCollections.observableArrayList();
         this.sortedMovies = new SortedList(filteredMovies);
@@ -218,7 +235,7 @@ public class MainWindowModel
     }
 
     /**
-     * set the minimum personal rating as int 
+     * set the minimum personal rating as int
      * @param minPersonalRating
      */
     public void setMinPersonalRating(int minPersonalRating)
@@ -227,7 +244,7 @@ public class MainWindowModel
     }
 
     /**
-     *set the current movie objetc.
+     * set the current movie objetc.
      * @param currentMovie
      */
     public void setCurrentMovie(Movie currentMovie)
@@ -691,7 +708,8 @@ public class MainWindowModel
     }
 
     /**
-     * starts the edit movie window and checks if there is a currentmovie. if there is not it will show an warning
+     * starts the edit movie window and checks if there is a currentmovie. if
+     * there is not it will show an warning
      */
     public void startEditMovieWindow()
     {
@@ -806,8 +824,9 @@ public class MainWindowModel
     /**
      * opens the settings window
      */
-    public void openSettings() {
-         startModalWindow("SettingsView", "Settings", 302, 255, false);
+    public void openSettings()
+    {
+        startModalWindow("SettingsView", "Settings", 302, 255, false);
     }
 }
 

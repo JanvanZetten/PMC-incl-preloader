@@ -45,6 +45,9 @@ public class SettingsController implements Initializable {
     @FXML
     private void handleSave(ActionEvent event) {
         model.saveSettings(TxtBxFolderLocation, cbbxInterval);
+        Button button = (Button) event.getSource();
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
         
     }
 

@@ -15,7 +15,9 @@ import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
@@ -23,6 +25,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import pmc.be.Movie;
 import pmc.bll.BLLManager;
+import pmc.dal.DALException;
 import pmc.gui.model.AddMovieModel;
 import pmc.gui.model.MainWindowModel;
 
@@ -56,7 +59,23 @@ public class AddMovieController implements Initializable, ControllerSetup
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        model = new AddMovieModel();
+        try
+        {
+            model = new AddMovieModel();
+        }
+        catch (DALException ex)
+        {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+        catch (SecurityException ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
         webEngine = WebView.getEngine();
 
         // A Worker load the page.
