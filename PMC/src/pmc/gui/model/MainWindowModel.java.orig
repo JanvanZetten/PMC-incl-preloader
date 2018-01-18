@@ -814,6 +814,12 @@ public class MainWindowModel
             Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_OUTDATED + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
+<<<<<<< HEAD
+=======
+
+        System.out.println(bllManager.getTBDeletedList().size());
+
+>>>>>>> d1c02079a63a94dc56d80557989a1e7ef1c09674
         if (!bllManager.getTBDeletedList().isEmpty())
         {
             startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);

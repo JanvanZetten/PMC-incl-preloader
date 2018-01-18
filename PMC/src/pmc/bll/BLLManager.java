@@ -7,8 +7,6 @@ package pmc.bll;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import pmc.be.Genre;
 import pmc.be.Movie;
 import pmc.be.Settings;

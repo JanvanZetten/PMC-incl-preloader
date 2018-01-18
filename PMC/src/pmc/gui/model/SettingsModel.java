@@ -8,6 +8,7 @@ package pmc.gui.model;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,27 +24,32 @@ import pmc.bll.BLLManager;
  *
  * @author janvanzetten
  */
-public class SettingsModel {
+public class SettingsModel
+{
 
     private ObservableList<String> ObsIntervals;
 
-    public SettingsModel() {
+    public SettingsModel()
+    {
         ObsIntervals = FXCollections.observableArrayList("1 month", "2 months", "4 months", "8 months", "1 year", "2 years", "4 years", "Never");
     }
 
     /**
      * sets the UI
-     *
      * @param TxtBxFolderLocation
      * @param cbbxInterval
      */
-    public void setUI(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval) {
-        try {
+    public void setUI(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval)
+    {
+        try
+        {
             BLLManager bll = new BLLManager();
             TxtBxFolderLocation.setText(bll.loadSettings().getMovieLocation());
             cbbxInterval.setItems(ObsIntervals);
             cbbxInterval.getSelectionModel().select("2 years");
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert error = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             error.showAndWait();
         }
@@ -56,84 +62,65 @@ public class SettingsModel {
      * @param TxtBxFolderLocation
      * @param cbbxInterval
      */
-    public void saveSettings(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval) {
+    public void saveSettings(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval)
+    {
         BLLManager bll = new BLLManager();
 
         int interval;
         String movieLocation;
         String previousLocation = null;
 
-        try {
+        try
+        {
             previousLocation = bll.loadSettings().getMovieLocation();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load current location", ButtonType.OK);
             alert.showAndWait();
         }
 
         movieLocation = TxtBxFolderLocation.getText();
 
-        String sep = null;
-
-        if (movieLocation.endsWith("/") || movieLocation.endsWith("\\")) {
-            if (movieLocation.endsWith("/")) {
-                sep = "/";
-            }
-            if (movieLocation.endsWith("\\")) {
-                sep = "\\";
-            }
-            String[] split = movieLocation.split(sep);
-            movieLocation = null;
-            for (int i = 1; i < split.length; i++) {
-                if (i == 1){
-                    movieLocation = sep;
-                }
-                else{
-                movieLocation = movieLocation + sep;
-                }
-                movieLocation = movieLocation + split[i];
-                
-                System.out.println(movieLocation);
-            }
-        }
-
-        if (!new File(movieLocation).exists()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Not a valid directory name", ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-
-        //Cheks if movie folder exists
-        boolean moviefolderExists = false;
-        File directory = new File(movieLocation);
-        File[] subdirs = directory.listFiles();
-        for (File dir : subdirs) {
-            if (dir.getName().equals("Movies")) {
-                moviefolderExists = true;
-            }
-        }
-
         //make a folder if it does not exist
-        if (!moviefolderExists) {
-            new File(movieLocation + File.separator + "Movies").mkdirs();
+        if (!Files.exists(Paths.get(movieLocation + "/Movies/")))
+        {
+            if (!new File(movieLocation + "/Movies/").mkdirs())
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Not a valid directory name", ButtonType.OK);
+                alert.showAndWait();
+                return;
+            }
+            //copy files from previous location
         }
 
         //if it is a diffrent location then the previous copy all files from the previous location
-        if (!previousLocation.equals(movieLocation)) {
-            if (!previousLocation.isEmpty()) {
-                File directory2 = new File(previousLocation + File.separator + "Movies");
-                File[] movieFiles = directory2.listFiles();
-                for (File movieFile : movieFiles) {
-                    try {
-                        Files.copy(movieFile.toPath(), new File(movieLocation + File.separator + "Movies" + File.separator + movieFile.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException ex) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, "Could not copy:" + movieFile.getName(), ButtonType.OK);
-                        alert.showAndWait();
+        if (!previousLocation.equals(movieLocation))
+        {
+            if (!previousLocation.isEmpty())
+            {
+                if (Files.exists(Paths.get(previousLocation + "/Movies/")))
+                {
+                    File directory2 = new File(previousLocation + "/Movies/");
+                    File[] movieFiles = directory2.listFiles();
+                    for (File movieFile : movieFiles)
+                    {
+                        try
+                        {
+                            Files.copy(movieFile.toPath(), new File(movieLocation + "/Movies/" + movieFile.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        catch (IOException ex)
+                        {
+                            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not copy:" + movieFile.getName(), ButtonType.OK);
+                            alert.showAndWait();
+                        }
                     }
                 }
             }
         }
 
-        switch (cbbxInterval.getSelectionModel().getSelectedItem()) {
+        switch (cbbxInterval.getSelectionModel().getSelectedItem())
+        {
             case "1 month":
                 interval = 1;
                 break;
@@ -160,9 +147,12 @@ public class SettingsModel {
                 break;
         }
 
-        try {
+        try
+        {
             bll.saveSettings(new Settings(interval, movieLocation));
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert error = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             error.showAndWait();
         }
