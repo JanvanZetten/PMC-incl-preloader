@@ -82,29 +82,15 @@ public class SettingsModel
 
         movieLocation = TxtBxFolderLocation.getText();
 
-        if (!new File(movieLocation).exists())
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Not a valid directory name", ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-
-        //Cheks if movie folder exists
-        boolean moviefolderExists = false;
-        File directory = new File(movieLocation);
-        File[] subdirs = directory.listFiles();
-        for (File dir : subdirs)
-        {
-            if (dir.getName().equals("Movies"))
-            {
-                moviefolderExists = true;
-            }
-        }
-
         //make a folder if it does not exist
-        if (!moviefolderExists)
+        if (!Files.exists(Paths.get(movieLocation + "/Movies/")))
         {
-            new File(movieLocation + File.pathSeparator + "Movies").mkdirs();
+            if (!new File(movieLocation + "/Movies/").mkdirs())
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Not a valid directory name", ButtonType.OK);
+                alert.showAndWait();
+                return;
+            }
             //copy files from previous location
         }
 
@@ -113,15 +99,15 @@ public class SettingsModel
         {
             if (!previousLocation.isEmpty())
             {
-                if (Files.exists(Paths.get(previousLocation)))
+                if (Files.exists(Paths.get(previousLocation + "/Movies/")))
                 {
-                    File directory2 = new File(previousLocation + File.separator + "Movies");
+                    File directory2 = new File(previousLocation + "/Movies/");
                     File[] movieFiles = directory2.listFiles();
                     for (File movieFile : movieFiles)
                     {
                         try
                         {
-                            Files.copy(movieFile.toPath(), new File(movieLocation + File.separator + "Movies" + File.separator + movieFile.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            Files.copy(movieFile.toPath(), new File(movieLocation + "/Movies/" + movieFile.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
                         }
                         catch (IOException ex)
                         {
