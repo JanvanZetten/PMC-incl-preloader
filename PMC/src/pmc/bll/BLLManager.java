@@ -316,6 +316,10 @@ public class BLLManager
             
             int lastview = movie.getLastView();
             
+            if (lastview == -1){
+                return false;
+            }
+            
             int lastviewMonths = (lastview/100) % 100;
             
             lastviewMonths += interval;
