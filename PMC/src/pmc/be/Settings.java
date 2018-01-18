@@ -14,11 +14,12 @@ import java.io.Serializable;
  */
 public class Settings implements Serializable{
     
-    int interval;
-    String movieLocation;
+    private int interval;
+    private String movieLocation;
+    private final int TWO_YEARS = 24;
 
     public Settings() {
-        interval = 20000;
+        interval = TWO_YEARS;
         movieLocation = System.getProperty("user.dir") + File.separator;
     }
 
