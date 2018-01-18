@@ -16,8 +16,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author Jan, Alex og Asbjørn.
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class IMDbRip
 {
@@ -40,7 +40,6 @@ public class IMDbRip
     private final String IMAGE_TAG = "class=\"poster\"";
 
     private boolean rippedAllInformation;
-
     private String name;
     private int year;
     private int duration;
@@ -70,7 +69,7 @@ public class IMDbRip
     }
 
     /**
-     * rip IMDb Website by reading it as a stream.
+     * Rip IMDb Website by reading it as a stream.
      * @param imdbUrl String containing URL.
      */
     private void ripInformationAsFile(String imdbUrl) throws DALException
@@ -283,31 +282,55 @@ public class IMDbRip
         return rippedAllInformation;
     }
 
+    /**
+     * Returns name of ripped movie.
+     * @return
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Returns year of ripped movie.
+     * @return
+     */
     public int getYear()
     {
         return year;
     }
 
+    /**
+     * Returns duration of ripped movie.
+     * @return
+     */
     public int getDuration()
     {
         return duration;
     }
 
+    /**
+     * Returns genres of ripped movie.
+     * @return
+     */
     public List<String> getGenres()
     {
         return genres;
     }
 
+    /**
+     * Returns rating of ripped movie.
+     * @return
+     */
     public double getRating()
     {
         return rating;
     }
 
+    /**
+     * Returns directors of ripped movie.
+     * @return
+     */
     public String getDirectors()
     {
         if (directors == null)
@@ -317,16 +340,28 @@ public class IMDbRip
         return directors;
     }
 
+    /**
+     * Returns summary of ripped movie.
+     * @return
+     */
     public String getSummary()
     {
         return summary;
     }
 
+    /**
+     * Returns image path to image of ripped movie.
+     * @return
+     */
     public String getImagePath()
     {
         return imagePath;
     }
 
+    /**
+     * Returns image of ripped movie in byte array.
+     * @return
+     */
     public byte[] getImageInBytes()
     {
         return imageInBytes;

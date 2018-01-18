@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.bll;
 
 import java.awt.Desktop;
@@ -12,8 +7,8 @@ import pmc.dal.DALException;
 import pmc.dal.SettingsData;
 
 /**
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class MoviePlayer
 {
@@ -22,6 +17,11 @@ public class MoviePlayer
 
     private BLLManager bllManager;
 
+    /**
+     * Get source folder and creates it if it is not already created.
+     * @throws DALException
+     * @throws SecurityException
+     */
     public MoviePlayer() throws DALException, SecurityException
     {
         bllManager = new BLLManager();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.model;
 
 import java.util.ArrayList;
@@ -15,28 +10,28 @@ import pmc.bll.BLLManager;
 import pmc.bll.HBoxCell;
 
 /**
- *
- * @author Alex
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
-public class DeletePopupModel {
-
+public class DeletePopupModel
+{
     BLLManager bllManager;
+    MainWindowModel mwm;
     HBoxCell hBoxCell;
-
-    public DeletePopupModel() {
-    }
 
     /**
      * Sets the list of movies that have been deemed old by the BLLManager on
      * startup.
-     * @param tblMovies 
+     * @param tblMovies
      */
-    public void setList(ListView<HBoxCell> tblMovies) {
+    public void setList(ListView<HBoxCell> tblMovies)
+    {
         List<HBoxCell> tbl = new ArrayList<>();
         List<Movie> movies = bllManager.getTBDeletedList();
 
-        for (int i = 0; i < movies.size(); i++) {
-            tbl.add(new HBoxCell(movies.get(i).getName(), "Delete", "  ", "Ignore", movies.get(i), bllManager));
+        for (int i = 0; i < movies.size(); i++)
+        {
+            tbl.add(new HBoxCell(movies.get(i).getName(), "Delete", "  ", "Ignore", movies.get(i), mwm));
         }
 
         ObservableList<HBoxCell> ol = FXCollections.observableArrayList();
@@ -46,12 +41,10 @@ public class DeletePopupModel {
 
     /**
      * Sets the BLLManager instance to be the same as the one in the MainModel.
-     * @param bllManager 
      */
-    public void setBLLManager(BLLManager bllManager) {
+    public void setup(MainWindowModel mainWindowModel, BLLManager bllManager)
+    {
         this.bllManager = bllManager;
+        this.mwm = mainWindowModel;
     }
 }
-    
-
-

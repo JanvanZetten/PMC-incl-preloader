@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.model;
 
 import java.io.ByteArrayInputStream;
@@ -23,8 +18,8 @@ import pmc.bll.MoviePlayer;
 import pmc.dal.DALException;
 
 /**
- *
- * @author Alex
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class MovieDetailsModel
 {
@@ -50,18 +45,11 @@ public class MovieDetailsModel
         {
             this.mp = new MoviePlayer();
         }
-        catch (DALException ex)
+        catch (DALException | SecurityException ex)
         {
 
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
-            return;
-        }
-        catch (SecurityException ex)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-            return;
         }
     }
 

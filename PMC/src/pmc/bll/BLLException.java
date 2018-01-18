@@ -1,29 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.bll;
 
 /**
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class BLLException extends Exception
 {
+    /**
+     * Exception by message
+     * @param message
+     */
     public BLLException(String message)
     {
         super(message);
     }
 
+    /**
+     * Exception by message and cause.
+     * @param message
+     * @param cause
+     */
     public BLLException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
+    /**
+     * Exception by cause.
+     * @param cause
+     */
     public BLLException(Throwable cause)
     {
         super(cause);
     }
-
 }

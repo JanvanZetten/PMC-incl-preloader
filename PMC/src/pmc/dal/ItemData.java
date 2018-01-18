@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.dal;
 
 import java.util.ArrayList;
@@ -10,31 +5,55 @@ import java.util.List;
 import pmc.be.Movie;
 
 /**
- *
- * @author Alex
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
-public class ItemData {
-    
+public class ItemData
+{
     private Movie currentMovie;
-    private List<Movie> TBDeleted;
-    
-    public ItemData() {
-        TBDeleted = new ArrayList<Movie>();
+    private List<Movie> tBDeleted;
+
+    /**
+     * Initiates new ArrayList;
+     */
+    public ItemData()
+    {
+        tBDeleted = new ArrayList<Movie>();
     }
 
-    public void setCurrentMovie(Movie currentMovie) {
+    /**
+     * Set currentMovie to given movie.
+     * @param currentMovie
+     */
+    public void setCurrentMovie(Movie currentMovie)
+    {
         this.currentMovie = currentMovie;
     }
-    
-    public Movie getCurrentMovie() {
+
+    /**
+     * Returns currentMovie.
+     * @return
+     */
+    public Movie getCurrentMovie()
+    {
         return currentMovie;
     }
 
-    public void addToTBDeletedList(Movie movy) {
-        TBDeleted.add(movy);
+    /**
+     * Add movie to Deleted list.
+     * @param movy
+     */
+    public void addToTBDeletedList(Movie movy)
+    {
+        tBDeleted.add(movy);
     }
 
-    public List<Movie> getTBDeletedList() {
-        return TBDeleted;
-    }    
+    /**
+     * Return deleted list.
+     * @return
+     */
+    public List<Movie> getTBDeletedList()
+    {
+        return tBDeleted;
+    }
 }

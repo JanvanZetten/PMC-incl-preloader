@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.bll;
 
 import java.time.LocalDate;
@@ -16,35 +11,45 @@ import pmc.dal.ItemData;
 import pmc.dal.SettingsData;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class BLLManager
 {
-
     DALManager dalManager;
-    ItemData ID;
+    ItemData id;
     SettingsData settingsdata;
 
+    /**
+     * Initiates DALManager, ItemData and SettingsData.
+     */
     public BLLManager()
     {
         dalManager = new DALManager();
-        ID = new ItemData();
+        id = new ItemData();
         settingsdata = new SettingsData();
     }
 
+    /**
+     * Set Current Movie.
+     * @param currentMovie
+     */
     public void setCurrentMovie(Movie currentMovie)
     {
-        ID.setCurrentMovie(currentMovie);
-    }
-
-    public Movie getCurrentMovie()
-    {
-        return ID.getCurrentMovie();
+        id.setCurrentMovie(currentMovie);
     }
 
     /**
-     * gets all the genres
+     * Get Current Movie.
+     * @return
+     */
+    public Movie getCurrentMovie()
+    {
+        return id.getCurrentMovie();
+    }
+
+    /**
+     * Gets all the genres
      * @return list of genre objects
      * @throws BLLException
      */
@@ -61,7 +66,7 @@ public class BLLManager
     }
 
     /**
-     * gets all the movies
+     * Gets all the movies
      * @return list of movie objects
      * @throws BLLException
      */
@@ -94,7 +99,7 @@ public class BLLManager
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
-    
+
     /**
      * Make a new Movie
      * @param name
@@ -181,54 +186,58 @@ public class BLLManager
     }
 
     /**
-     * delete unused genres
+     * Delete unused genres
      * @return a list of ids of the deleted genres
-     * @throws BLLException 
+     * @throws BLLException
      */
-    public List<Integer> deleteUnusedGenres() throws BLLException 
+    public List<Integer> deleteUnusedGenres() throws BLLException
     {
-        try 
+        try
         {
             return dalManager.deleteUnusedGenres();
-        } 
-        catch (DALException ex) 
+        }
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
-     * Finds movies that are over the set interval and have a lower rating than 6 on
-     * when starting the program.
+     * Finds movies that are over the set interval and have a lower rating than
+     * 6 on when starting the program.
      * @throws pmc.bll.BLLException
      */
-    public void setOutdatedMovies() throws BLLException 
+    public void setOutdatedMovies() throws BLLException
     {
-        try 
+        try
         {
-        List<Movie> movies = dalManager.getAllMovies();
-        for (Movie movy : movies) 
-        {
-            if (checkOutdated(movy))
+            List<Movie> movies = dalManager.getAllMovies();
+            for (Movie movy : movies)
+            {
+                if (checkOutdated(movy))
                 {
-                    ID.addToTBDeletedList(movy);
+                    id.addToTBDeletedList(movy);
                 }
             }
         }
-        catch (DALException ex) 
+        catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
-    
-    public List<Movie> getTBDeletedList() 
+
+    /**
+     * Return deleted list.
+     * @return
+     */
+    public List<Movie> getTBDeletedList()
     {
-        return ID.getTBDeletedList();
+        return id.getTBDeletedList();
     }
-    
+
     /**
      * return an int with the date in format yyyymmdd
-     * @return 
+     * @return
      */
     public int getCurrentDateAsInt()
     {
@@ -236,81 +245,94 @@ public class BLLManager
         date = date.replaceAll("-", "");
         return Integer.parseInt(date);
     }
-    
-    
+
     /**
-     * Save the Settings 
+     * Save the Settings
      * @param settings the settings to save
      * @throws pmc.bll.BLLException
      */
-    public void saveSettings(Settings settings) throws BLLException{
-        try {
+    public void saveSettings(Settings settings) throws BLLException
+    {
+        try
+        {
             settingsdata.saveSettings(settings);
-        } catch (DALException ex) {
-            throw new BLLException(ex.getMessage(), ex.getCause());
         }
-    }
-    
-    
-    /**
-     * Load the earlyer saved settings our if it exists else the defualt settings
-     * @return
-     * @throws BLLException 
-     */
-    public Settings loadSettings() throws BLLException{
-        try {
-            return settingsdata.loadSettings();
-        } catch (DALException ex) {
+        catch (DALException ex)
+        {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
-     * Check for outdated. Outdated when personalscore is under 6 and lastviwed has to be more then the interval back from the current date
+     * Load the earlyer saved settings our if it exists else the defualt
+     * settings
+     * @return
+     * @throws BLLException
+     */
+    public Settings loadSettings() throws BLLException
+    {
+        try
+        {
+            return settingsdata.loadSettings();
+        }
+        catch (DALException ex)
+        {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Check for outdated. Outdated when personalscore is under 6 and lastviwed
+     * has to be more then the interval back from the current date
      * @param movie the movie object to check
      * @return true if oudated
-     * @throws BLLException 
+     * @throws BLLException
      */
-    private boolean checkOutdated(Movie movie) throws BLLException {
+    private boolean checkOutdated(Movie movie) throws BLLException
+    {
         //if the score is 6 or more it will never be outdated
-        if (movie.getPersonalRating() >= 6){
-                return false;
-            }
-        
-        try {
-            int interval = settingsdata.loadSettings().getInterval();
-            //if the interval is -1 it meens never
-            if (interval == -1){
-                return false;
-            }
-            
-            int lastview = movie.getLastView();
-            
-            if (lastview == -1){
-                return false;
-            }
-            
-            int lastviewMonths = (lastview/100) % 100;
-            
-            lastviewMonths += interval;
-            
-            int extraYears = 0;
-            
-            while(lastviewMonths > 12){
-                extraYears ++;
-                lastviewMonths -= 12;
-            }
-            int years = (lastview/10000 + extraYears);
-            
-            int lastViewPlusIntervalDate = (years*10000) + (lastviewMonths * 100) + (lastview % 100);
-            
-            return getCurrentDateAsInt() >= lastViewPlusIntervalDate;
-            
-        } catch (DALException ex) {
-            throw new BLLException(ex.getMessage(), ex.getCause());
+        if (movie.getPersonalRating() >= 6)
+        {
+            return false;
         }
 
+        try
+        {
+            int interval = settingsdata.loadSettings().getInterval();
+            //if the interval is -1 it meens never
+            if (interval == -1)
+            {
+                return false;
+            }
+
+            int lastview = movie.getLastView();
+
+            if (lastview == -1)
+            {
+                return false;
+            }
+
+            int lastviewMonths = (lastview / 100) % 100;
+
+            lastviewMonths += interval;
+
+            int extraYears = 0;
+
+            while (lastviewMonths > 12)
+            {
+                extraYears++;
+                lastviewMonths -= 12;
+            }
+            int years = (lastview / 10000 + extraYears);
+
+            int lastViewPlusIntervalDate = (years * 10000) + (lastviewMonths * 100) + (lastview % 100);
+
+            return getCurrentDateAsInt() >= lastViewPlusIntervalDate;
+
+        }
+        catch (DALException ex)
+        {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
     }
-    
-    
 }

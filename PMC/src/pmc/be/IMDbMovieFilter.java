@@ -1,25 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.be;
 
 /**
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class IMDbMovieFilter implements MovieFilter
 {
     private double imdbRating;
     private double minImdbRating;
 
+    /**
+     * Set filters target and minimum value.
+     * @param imdbRating
+     * @param minImdbRating
+     */
     public IMDbMovieFilter(double imdbRating, double minImdbRating)
     {
         this.imdbRating = imdbRating;
         this.minImdbRating = minImdbRating;
     }
 
+    /**
+     * Compares variables.
+     * @return
+     */
     @Override
     public boolean meetsRestrictions()
     {

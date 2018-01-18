@@ -40,7 +40,7 @@
         </StackPane>
         <StackPane prefHeight="335.0" prefWidth="509.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
             <children>
-                <WebView fx:id="WebView" prefHeight="245.0" prefWidth="495.0">
+                <WebView fx:id="webView" prefHeight="245.0" prefWidth="495.0">
                     <StackPane.margin>
                         <Insets bottom="37.0" top="35.0" />
                     </StackPane.margin>

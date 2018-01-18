@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.controller;
 
 import java.net.URL;
@@ -14,21 +9,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import pmc.bll.BLLManager;
 import pmc.gui.model.SettingsModel;
 
 /**
- * FXML Controller class
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
-public class SettingsController implements Initializable {
-
+public class SettingsController implements Initializable
+{
     @FXML
     private TextField TxtBxFolderLocation;
     @FXML
     private ComboBox<String> cbbxInterval;
-    
+
     private SettingsModel model;
 
     /**
@@ -37,25 +30,35 @@ public class SettingsController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         model = new SettingsModel();
         model.setUI(TxtBxFolderLocation, cbbxInterval);
     }
 
+    /**
+     * Handle press on save button. In which case the settings are saved. The
+     * window is closed.
+     * @param event
+     */
     @FXML
-    private void handleSave(ActionEvent event) {
+    private void handleSave(ActionEvent event)
+    {
         model.saveSettings(TxtBxFolderLocation, cbbxInterval);
         Button button = (Button) event.getSource();
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();
-        
     }
 
+    /**
+     * Handles press on cancel button. Closes window.
+     * @param event
+     */
     @FXML
-    private void handelCancel(ActionEvent event) {
+    private void handelCancel(ActionEvent event)
+    {
         Button button = (Button) event.getSource();
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();
     }
-
 }

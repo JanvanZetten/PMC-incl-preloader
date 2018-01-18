@@ -54,7 +54,7 @@
                         <Insets bottom="45.0" left="90.0" top="10.0" />
                     </StackPane.margin>
                 </Label>
-                <Button fx:id="WatchMovie" mnemonicParsing="false" onAction="#watchMovieAction" text="Watch Movie" StackPane.alignment="BOTTOM_LEFT">
+                <Button fx:id="watchMovie" mnemonicParsing="false" onAction="#watchMovieAction" text="Watch Movie" StackPane.alignment="BOTTOM_LEFT">
                     <StackPane.margin>
                         <Insets bottom="15.0" left="10.0" />
                     </StackPane.margin>

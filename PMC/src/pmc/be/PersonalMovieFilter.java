@@ -1,25 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.be;
 
 /**
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class PersonalMovieFilter implements MovieFilter
 {
     private int personalRating;
     private int minPersonalRating;
 
+    /**
+     * Set filters target and minimum value.
+     * @param personalRating
+     * @param minPersonalRating
+     */
     public PersonalMovieFilter(int personalRating, int minPersonalRating)
     {
         this.personalRating = personalRating;
         this.minPersonalRating = minPersonalRating;
     }
 
+    /**
+     * Compares variables.
+     * @return
+     */
     @Override
     public boolean meetsRestrictions()
     {

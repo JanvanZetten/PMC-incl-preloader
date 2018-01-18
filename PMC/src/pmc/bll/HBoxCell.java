@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.bll;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -16,20 +7,33 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pmc.be.Movie;
-import pmc.gui.model.DeletePopupModel;
+import pmc.gui.model.MainWindowModel;
 
 /**
- *
- * @author Alex
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
-public class HBoxCell extends HBox {
+public class HBoxCell extends HBox
+{
+    private final String DELETE_CONFIRMATION = "Are you sure?";
+    private final String DELETE_DONE = "Deleted";
 
-    Label label = new Label();
-    Button button1 = new Button();
-    Label filler = new Label();
-    Button button2 = new Button();
+    private Label label = new Label();
+    private Button button1 = new Button();
+    private Label filler = new Label();
+    private Button button2 = new Button();
 
-    public HBoxCell(String labelText, String buttonText1, String fillerText, String buttonText2, Movie movie, BLLManager bllManager) {
+    /**
+     * Creates HBox from super class. Sets JavaFX Nodes.
+     * @param labelText
+     * @param buttonText1
+     * @param fillerText
+     * @param buttonText2
+     * @param movie
+     * @param mwm
+     */
+    public HBoxCell(String labelText, String buttonText1, String fillerText, String buttonText2, Movie movie, MainWindowModel mwm)
+    {
         super();
 
         label.setText(labelText);
@@ -37,20 +41,20 @@ public class HBoxCell extends HBox {
         HBox.setHgrow(label, Priority.ALWAYS);
 
         button1.setText(buttonText1);
-        button1.setOnAction(new EventHandler<ActionEvent>() {
+        button1.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
 
-                if (button1.getText().equals("Are you sure?")) {
-                    try {
-                        bllManager.deleteMovie(movie);
-                        button1.setText("Deleted");
-                    } catch (BLLException ex) {
-                        Logger.getLogger(HBoxCell.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                if (button1.getText().equals(DELETE_CONFIRMATION))
+                {
+                    mwm.deleteMovie(movie);
+                    button1.setText(DELETE_DONE);
                 }
-                if (!button1.getText().equals("Deleted")) {
-                    button1.setText("Are you sure?");
+                if (!button1.getText().equals(DELETE_DONE))
+                {
+                    button1.setText(DELETE_CONFIRMATION);
                 }
 
             }
@@ -59,9 +63,11 @@ public class HBoxCell extends HBox {
         filler.setText(fillerText);
 
         button2.setText(buttonText2);
-        button2.setOnAction(new EventHandler<ActionEvent>() {
+        button2.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 movie.setLastView(movie.getLastView() + 20000);
                 button2.setText("Ignored");
             }

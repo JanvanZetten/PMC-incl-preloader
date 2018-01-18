@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.model;
 
 import java.io.IOException;
@@ -51,8 +46,8 @@ import pmc.be.StringWithIntegersComparator;
 import pmc.dal.DALException;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class MainWindowModel
 {
@@ -89,34 +84,32 @@ public class MainWindowModel
     private VBox genreVBox;
     private TableRow<Movie> selectedRow;
 
+    /**
+     * Instantiates instance variables.
+     */
     public MainWindowModel()
     {
-        bllManager = new BLLManager();
+        this.bllManager = new BLLManager();
+
         try
         {
-            mp = new MoviePlayer();
+            this.mp = new MoviePlayer();
         }
-        catch (DALException ex)
+        catch (DALException | SecurityException ex)
         {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
 
-            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-        catch (SecurityException ex)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
         this.movies = FXCollections.observableArrayList();
         this.filteredMovies = FXCollections.observableArrayList();
         this.sortedMovies = new SortedList(filteredMovies);
-        genreFilterList = new ArrayList();
-        selectedGenres = new ArrayList();
-        minImdbRating = 0.0;
-        minPersonalRating = 0;
-        filterString = "";
+        this.genreFilterList = new ArrayList();
+        this.selectedGenres = new ArrayList();
+        this.minImdbRating = 0.0;
+        this.minPersonalRating = 0;
+        this.filterString = "";
     }
 
     /**
@@ -159,8 +152,8 @@ public class MainWindowModel
     {
         // Creates filters. Add them to an array.
         List<MovieFilter> movieFilters = new ArrayList<>();
-        MovieFilter imdbMovieFilter = new IMDbMovieFilter(0.0, minImdbRating);;
-        MovieFilter personalMovieFilter = new PersonalMovieFilter(0, minPersonalRating);;
+        MovieFilter imdbMovieFilter = new IMDbMovieFilter(0.0, minImdbRating);
+        MovieFilter personalMovieFilter = new PersonalMovieFilter(0, minPersonalRating);
         MovieFilter genreMovieFilter = new GenreMovieFilter(null, null);
 
         movieFilters.add(imdbMovieFilter);
@@ -354,7 +347,7 @@ public class MainWindowModel
             {
                 if (event.getClickCount() == 2 && (!row.isEmpty()))
                 {
-                    startMovieDetailsWIndow();
+                    startMovieDetailsWindow();
                 }
                 else if (event.getClickCount() == 1 && (!row.isEmpty()))
                 {
@@ -391,7 +384,7 @@ public class MainWindowModel
                 @Override
                 public void handle(ActionEvent event)
                 {
-                    startMovieDetailsWIndow();
+                    startMovieDetailsWindow();
                 }
             });
 
@@ -444,7 +437,7 @@ public class MainWindowModel
      * Gets all the movies and stores them in the movie list and adds them to
      * the filtered list. If an error occurred it will show an alert message.
      */
-    public void getAllMovies()
+    private void getAllMovies()
     {
         try
         {
@@ -559,7 +552,16 @@ public class MainWindowModel
             alertError.showAndWait();
             return;
         }
-        Movie movieToDelete = bllManager.getCurrentMovie();
+        deleteMovie(bllManager.getCurrentMovie());
+    }
+
+    /**
+     * does everything needed for deleting the current movie inclusive making a
+     * confirmation window
+     * @param movieToDelete
+     */
+    public void deleteMovie(Movie movieToDelete)
+    {
         //make sure user wnt to delete
         Alert alert = new Alert(AlertType.CONFIRMATION, ON_CONFIRMATION_DELETE + movieToDelete.getName() + "?");
         Optional<ButtonType> result = alert.showAndWait();
@@ -644,15 +646,15 @@ public class MainWindowModel
      * Updates the updated movie in the observable lists: movies and
      * filtredMovies
      *
-     * @param Updatedmovie
+     * @param updatedmovie
      */
-    private void updateMovieList(Movie Updatedmovie)
+    private void updateMovieList(Movie updatedmovie)
     {
         for (Movie movy : movies)
         {
-            if (movy.getId() == Updatedmovie.getId())
+            if (movy.getId() == updatedmovie.getId())
             {
-                movy = Updatedmovie;
+                movy = updatedmovie;
             }
         }
         addToFiltered();
@@ -702,14 +704,17 @@ public class MainWindowModel
         }
     }
 
-    private void startMovieDetailsWIndow()
+    /**
+     * Start Movie Details View
+     */
+    private void startMovieDetailsWindow()
     {
         startModalWindowWithSetup("MovieDetailsView", "Movie Details", 620, 394, false);
     }
 
     /**
-     * starts the edit movie window and checks if there is a currentmovie. if
-     * there is not it will show an warning
+     * starts the edit movie window and checks if there is a currentmovie. If
+     * there is not, it will show a warning
      */
     public void startEditMovieWindow()
     {
@@ -724,7 +729,7 @@ public class MainWindowModel
     }
 
     /**
-     * opens the window for adding a new movie
+     * Opens the window for adding a new movie
      */
     public void startNewMovieWindow()
     {
@@ -823,7 +828,7 @@ public class MainWindowModel
                 Parent root = fxLoader.load();
 
                 ControllerSetup cont = fxLoader.getController();
-                cont.setup(null, null, bllManager);
+                cont.setup(null, this, bllManager);
 
                 Scene scene = new Scene(root);
                 return scene;

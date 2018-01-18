@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.dal;
 
 import java.awt.image.BufferedImage;
@@ -13,8 +8,8 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class Bytes2Image
 {
@@ -26,6 +21,13 @@ public class Bytes2Image
     private byte[] imageInBytes;
     private String imagePath;
 
+    /**
+     * Converts image, as byte array, to a file.
+     * @param name
+     * @param year
+     * @param imageInBytes
+     * @throws DALException
+     */
     public Bytes2Image(String name, int year, byte[] imageInBytes) throws DALException
     {
         try
@@ -60,14 +62,21 @@ public class Bytes2Image
         }
     }
 
+    /**
+     * Returns image as byte array.
+     * @return
+     */
     public byte[] getImageInBytes()
     {
         return imageInBytes;
     }
 
+    /**
+     * Returns image path.
+     * @return
+     */
     public String getImagePath()
     {
         return imagePath;
     }
-
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.controller;
 
 import java.net.URL;
@@ -24,12 +19,14 @@ import pmc.gui.model.EditMovieModel;
 import pmc.gui.model.MainWindowModel;
 
 /**
- * FXML Controller class
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class EditMovieController implements Initializable, ControllerSetup
 {
+    private final String WINDOW_NAME_PREFIX = "Edit - ";
+    private final String ON_WARNING_NOT_ALL_SET = "Not all values are set! ";
+
     @FXML
     private Label lblTopBar;
     @FXML
@@ -48,14 +45,13 @@ public class EditMovieController implements Initializable, ControllerSetup
     private EditMovieModel emm;
 
     /**
-     * Initializes the controller class.
+     * Does nothing.
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
     }
 
     /**
@@ -77,7 +73,7 @@ public class EditMovieController implements Initializable, ControllerSetup
             }
             catch (NumberFormatException ex)
             {
-                Alert alertError = new Alert(Alert.AlertType.WARNING, "Not all values are set! " + ex.getMessage(), ButtonType.OK);
+                Alert alertError = new Alert(Alert.AlertType.WARNING, ON_WARNING_NOT_ALL_SET + ex.getMessage(), ButtonType.OK);
                 alertError.showAndWait();
                 return;
             }
@@ -86,17 +82,23 @@ public class EditMovieController implements Initializable, ControllerSetup
         }
         else
         {
-            Alert alertError = new Alert(Alert.AlertType.WARNING, "Not all values are set!", ButtonType.OK);
+            Alert alertError = new Alert(Alert.AlertType.WARNING, ON_WARNING_NOT_ALL_SET, ButtonType.OK);
             alertError.showAndWait();
         }
     }
 
+    /**
+     * Load information about movie.
+     * @param thisStage
+     * @param mainWindowModel
+     * @param bllManager
+     */
     @Override
     public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager)
     {
         emm = new EditMovieModel(bllManager);
         Movie movie = emm.getMovie();
-        lblTopBar.setText("Edit - " + movie.getName());
+        lblTopBar.setText(WINDOW_NAME_PREFIX + movie.getName());
         txtfldName.setText(movie.getName());
         txtfldYear.setText(String.valueOf(movie.getYear()));
         txtfldDirectors.setText(movie.getDirectors());

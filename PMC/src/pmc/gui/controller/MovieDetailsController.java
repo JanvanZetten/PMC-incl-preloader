@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.controller;
 
 import java.io.IOException;
@@ -20,13 +15,11 @@ import pmc.gui.model.MovieDetailsModel;
 import pmc.gui.model.MainWindowModel;
 
 /**
- * FXML Controller class
- *
- * @author Alex
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class MovieDetailsController implements Initializable, ControllerSetup
 {
-
     @FXML
     private TextArea textareaDescription;
     @FXML
@@ -39,19 +32,18 @@ public class MovieDetailsController implements Initializable, ControllerSetup
     private Label lblGenres;
     @FXML
     private Label lblDirector;
-    private Label lblScore;
     @FXML
     private Button btnCopyLink;
     @FXML
     private Button btnClose;
     @FXML
-    private Button WatchMovie;
-
-    MovieDetailsModel model;
+    private Button watchMovie;
     @FXML
     private Label lblImdb;
     @FXML
     private Label lblPersonal;
+
+    MovieDetailsModel model;
 
     /**
      * Initializes the controller class.
@@ -64,7 +56,10 @@ public class MovieDetailsController implements Initializable, ControllerSetup
         model = new MovieDetailsModel();
     }
 
-    //Plays the movie selected.
+    /**
+     * Plays the movie selected.
+     * @throws IOException
+     */
     @FXML
     private void watchMovieAction() throws IOException
     {
@@ -72,6 +67,9 @@ public class MovieDetailsController implements Initializable, ControllerSetup
         //model.setNewLastView();
     }
 
+    /**
+     * Close window on press.
+     */
     @FXML
     private void closeWindowAction()
     {
@@ -79,6 +77,9 @@ public class MovieDetailsController implements Initializable, ControllerSetup
         stage.close();
     }
 
+    /**
+     * Copy link to clipboard on press.
+     */
     @FXML
     private void getLinkAction()
     {
@@ -86,6 +87,12 @@ public class MovieDetailsController implements Initializable, ControllerSetup
         btnCopyLink.setText("Copied to clipboard");
     }
 
+    /**
+     * All information about movie is set.
+     * @param thisStage
+     * @param mainWindowModel
+     * @param bllManager
+     */
     @Override
     public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager)
     {

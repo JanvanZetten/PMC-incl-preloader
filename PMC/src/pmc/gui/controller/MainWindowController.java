@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.controller;
 
 import java.io.IOException;
@@ -28,8 +23,8 @@ import pmc.be.Movie;
 import pmc.gui.model.MainWindowModel;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class MainWindowController implements Initializable
 {
@@ -68,18 +63,24 @@ public class MainWindowController implements Initializable
     private Scene deleteWindow;
     private MainWindowModel mainModel = new MainWindowModel();
 
+    /**
+     * Setup menubar for mac; table view; genre checkboxes; and initializes
+     * delete popup window.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
         mainModel.changeMenubarForMac(menubar, stackPaneFiltering, stackPaneMovieView);
-        //initializeTableView();
         mainModel.initializeTableView(tblviewMovies, tblcolTitle, tblcolGenre, tblcolTime, tblcolImdbRating, tblcolPersonalRating);
         mainModel.initializeGenre(genreVBox);
         deleteWindow = mainModel.startDeletePopupWindow();
     }
 
     /**
-     *
+     * Run delete popup window in case some movies is needed deleting. In which
+     * case it also refresh the movie list.
      * @throws IOException
      */
     public void afterInitialization() throws IOException
@@ -95,40 +96,63 @@ public class MainWindowController implements Initializable
             newStage.setMinHeight(394);
             newStage.setMaximized(false);
             newStage.showAndWait();
-            mainModel.getAllMovies();
         }
     }
 
+    /**
+     * Start new movie window on press.
+     * @param event
+     */
     @FXML
     private void handleNew(ActionEvent event)
     {
         mainModel.startNewMovieWindow();
     }
 
+    /**
+     * Shutdown program without errors.
+     * @param event
+     */
     @FXML
     private void handleQuit(ActionEvent event)
     {
         System.exit(0);
     }
 
+    /**
+     * Start edit movie window on press.
+     * @param event
+     */
     @FXML
     private void handleEdit(ActionEvent event)
     {
         mainModel.startEditMovieWindow();
     }
 
+    /**
+     * Delete selected movie on press.
+     * @param event
+     */
     @FXML
     private void handleDelete(ActionEvent event)
     {
         mainModel.deleteMovie();
     }
 
+    /**
+     * Start about window on press.
+     * @param event
+     */
     @FXML
     private void handleAbout(ActionEvent event)
     {
         mainModel.startModalWindow("AboutView", "About", 330, 310, false);
     }
 
+    /**
+     * Set min IMDb rating and run filtering.
+     * @param event
+     */
     @FXML
     private void handleMinImdb(MouseEvent event)
     {
@@ -136,6 +160,10 @@ public class MainWindowController implements Initializable
         mainModel.addToFiltered();
     }
 
+    /**
+     * Set min personal rating and run filtering.
+     * @param event
+     */
     @FXML
     private void handleMinPersonal(MouseEvent event)
     {
@@ -143,6 +171,10 @@ public class MainWindowController implements Initializable
         mainModel.addToFiltered();
     }
 
+    /**
+     * Set string for filter and run filtering.
+     * @param event
+     */
     @FXML
     private void handleTxtFilter(KeyEvent event)
     {
@@ -150,12 +182,20 @@ public class MainWindowController implements Initializable
         mainModel.addToFiltered();
     }
 
+    /**
+     * Start new genre window on press.
+     * @param event
+     */
     @FXML
     private void handleNewGenre(ActionEvent event)
     {
         mainModel.newGenre();
     }
 
+    /**
+     * Delete genres, which is not in use, on press.
+     * @param event
+     */
     @FXML
     private void handleDeleteGenre(ActionEvent event)
     {
@@ -163,14 +203,9 @@ public class MainWindowController implements Initializable
     }
 
     /**
-     *
-     * @param movie
+     * Start settings window on press.
+     * @param event
      */
-    public void updateTable(Movie movie)
-    {
-        mainModel.removeMovieFromTable(movie);
-    }
-
     @FXML
     private void OpenSettings(ActionEvent event)
     {

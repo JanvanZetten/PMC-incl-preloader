@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.model;
 
 import java.io.File;
@@ -26,8 +21,8 @@ import pmc.dal.DALException;
 import pmc.dal.SettingsData;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class AddMovieModel
 {
@@ -44,6 +39,11 @@ public class AddMovieModel
     private String path;
     BLLManager bll = new BLLManager();
 
+    /**
+     * Gets source directory and creates folder if not already there.
+     * @throws DALException
+     * @throws SecurityException
+     */
     public AddMovieModel() throws DALException, SecurityException
     {
         CURRENT_DIR = (new SettingsData()).loadSettings().getMovieLocation() + File.separator;

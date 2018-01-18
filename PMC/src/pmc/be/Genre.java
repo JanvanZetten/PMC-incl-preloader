@@ -1,23 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.be;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class Genre
 {
-
     private int id;
-
     private String name;
 
     /**
-     * the constucter for the Genre object
+     * The constructor for the Genre object
      * @param id the Genres id
      * @param name the Genres Name
      */
@@ -67,12 +60,21 @@ public class Genre
         this.id = id;
     }
 
+    /**
+     * Overrides toString method.
+     * @return
+     */
     @Override
     public String toString()
     {
         return name;
     }
 
+    /**
+     * Now compares on id.
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -86,5 +88,4 @@ public class Genre
         }
         return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

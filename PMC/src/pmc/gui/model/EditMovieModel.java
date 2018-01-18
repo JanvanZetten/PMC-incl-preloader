@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.model;
 
 import java.util.ArrayList;
@@ -19,8 +14,8 @@ import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 
 /**
- *
- * @author Asbamz
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class EditMovieModel
 {
@@ -38,6 +33,10 @@ public class EditMovieModel
     private String directors;
     private String summary;
 
+    /**
+     * Gets BLLManager from parameter and get current movie.
+     * @param bllManager
+     */
     public EditMovieModel(BLLManager bllManager)
     {
         this.bllManager = bllManager;
@@ -50,9 +49,6 @@ public class EditMovieModel
      */
     public void updateMovie(Button btnUpdate)
     {
-        // Get original movie.
-        Movie movie = bllManager.getCurrentMovie();
-
         // Change name and year to data from textfields.
         movie.setName(name);
         movie.setYear(year);
@@ -185,6 +181,5 @@ public class EditMovieModel
             // Add all checkboxes to VBox.
             genreVBox.getChildren().addAll(genreList);
         }
-
     }
 }

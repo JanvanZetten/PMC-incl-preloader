@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.model;
 
 import java.io.File;
@@ -21,32 +16,47 @@ import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class SettingsModel
 {
+    private final String ITEM1 = "1 month";
+    private final String ITEM2 = "2 months";
+    private final String ITEM3 = "4 months";
+    private final String ITEM4 = "8 months";
+    private final String ITEM5 = "1 year";
+    private final String ITEM6 = "2 years";
+    private final String ITEM7 = "4 years";
+    private final String ITEM8 = "Never";
+    private final String ON_ERROR_COPYING = "Could not copy: ";
+    private final String ON_ERROR_LOAD_LOCATION = "Could not load current location";
+    private final String ON_ERROR_UNVALID_DIR = "Not a valid directory name";
+    private final String MOVIE_DIR = "/Movies/";
 
-    private ObservableList<String> ObsIntervals;
+    private ObservableList<String> obsIntervals;
 
+    /**
+     * Constructor sets up Observable List with options.
+     */
     public SettingsModel()
     {
-        ObsIntervals = FXCollections.observableArrayList("1 month", "2 months", "4 months", "8 months", "1 year", "2 years", "4 years", "Never");
+        obsIntervals = FXCollections.observableArrayList(ITEM1, ITEM2, ITEM3, ITEM4, ITEM5, ITEM6, ITEM7, ITEM8);
     }
 
     /**
-     * sets the UI
-     * @param TxtBxFolderLocation
+     * Sets the UI
+     * @param txtBxFolderLocation
      * @param cbbxInterval
      */
-    public void setUI(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval)
+    public void setUI(TextField txtBxFolderLocation, ComboBox<String> cbbxInterval)
     {
         try
         {
             BLLManager bll = new BLLManager();
-            TxtBxFolderLocation.setText(bll.loadSettings().getMovieLocation());
-            cbbxInterval.setItems(ObsIntervals);
-            cbbxInterval.getSelectionModel().select("2 years");
+            txtBxFolderLocation.setText(bll.loadSettings().getMovieLocation());
+            cbbxInterval.setItems(obsIntervals);
+            cbbxInterval.getSelectionModel().select(ITEM6);
         }
         catch (BLLException ex)
         {
@@ -59,10 +69,10 @@ public class SettingsModel
      * Saves the settings from the textfield and the combobox. and makes a movie
      * directory if it is not existing
      *
-     * @param TxtBxFolderLocation
+     * @param txtBxFolderLocation
      * @param cbbxInterval
      */
-    public void saveSettings(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval)
+    public void saveSettings(TextField txtBxFolderLocation, ComboBox<String> cbbxInterval)
     {
         BLLManager bll = new BLLManager();
 
@@ -76,18 +86,18 @@ public class SettingsModel
         }
         catch (BLLException ex)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load current location", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOAD_LOCATION, ButtonType.OK);
             alert.showAndWait();
         }
 
-        movieLocation = TxtBxFolderLocation.getText();
+        movieLocation = txtBxFolderLocation.getText();
 
         //make a folder if it does not exist
-        if (!Files.exists(Paths.get(movieLocation + "/Movies/")))
+        if (!Files.exists(Paths.get(movieLocation + MOVIE_DIR)))
         {
-            if (!new File(movieLocation + "/Movies/").mkdirs())
+            if (!new File(movieLocation + MOVIE_DIR).mkdirs())
             {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Not a valid directory name", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_UNVALID_DIR, ButtonType.OK);
                 alert.showAndWait();
                 return;
             }
@@ -99,19 +109,19 @@ public class SettingsModel
         {
             if (!previousLocation.isEmpty())
             {
-                if (Files.exists(Paths.get(previousLocation + "/Movies/")))
+                if (Files.exists(Paths.get(previousLocation + MOVIE_DIR)))
                 {
-                    File directory2 = new File(previousLocation + "/Movies/");
+                    File directory2 = new File(previousLocation + MOVIE_DIR);
                     File[] movieFiles = directory2.listFiles();
                     for (File movieFile : movieFiles)
                     {
                         try
                         {
-                            Files.copy(movieFile.toPath(), new File(movieLocation + "/Movies/" + movieFile.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            Files.copy(movieFile.toPath(), new File(movieLocation + MOVIE_DIR + movieFile.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
                         }
                         catch (IOException ex)
                         {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not copy:" + movieFile.getName(), ButtonType.OK);
+                            Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_COPYING + movieFile.getName(), ButtonType.OK);
                             alert.showAndWait();
                         }
                     }
@@ -119,27 +129,28 @@ public class SettingsModel
             }
         }
 
+        // Interval from selected combobox item.
         switch (cbbxInterval.getSelectionModel().getSelectedItem())
         {
-            case "1 month":
+            case ITEM1:
                 interval = 1;
                 break;
-            case "2 months":
+            case ITEM2:
                 interval = 2;
                 break;
-            case "4 months":
+            case ITEM3:
                 interval = 4;
                 break;
-            case "8 months":
+            case ITEM4:
                 interval = 8;
                 break;
-            case "1 year":
+            case ITEM5:
                 interval = 12;
                 break;
-            case "2 years":
+            case ITEM6:
                 interval = 24;
                 break;
-            case "4 years":
+            case ITEM7:
                 interval = 48;
                 break;
             default:
@@ -147,6 +158,7 @@ public class SettingsModel
                 break;
         }
 
+        // Save settings to a file.
         try
         {
             bll.saveSettings(new Settings(interval, movieLocation));

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.gui.controller;
 
 import java.io.IOException;
@@ -30,19 +25,17 @@ import pmc.gui.model.AddMovieModel;
 import pmc.gui.model.MainWindowModel;
 
 /**
- * FXML Controller class
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class AddMovieController implements Initializable, ControllerSetup
 {
-
     @FXML
     private TextField textfieldPath;
     @FXML
     private ProgressBar pbLoading;
     @FXML
-    private WebView WebView;
+    private WebView webView;
     @FXML
     private Button btnSave;
 
@@ -52,7 +45,8 @@ public class AddMovieController implements Initializable, ControllerSetup
     private MainWindowModel mainModel;
 
     /**
-     * Initializes the controller class.
+     * Initiates model. Setup web engine, binds progress bar to web engine
+     * loader, and loaf IMDb.
      * @param url
      * @param rb
      */
@@ -63,20 +57,13 @@ public class AddMovieController implements Initializable, ControllerSetup
         {
             model = new AddMovieModel();
         }
-        catch (DALException ex)
-        {
-
-            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-        catch (SecurityException ex)
+        catch (DALException | SecurityException ex)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
             return;
         }
-        webEngine = WebView.getEngine();
+        webEngine = webView.getEngine();
 
         // A Worker load the page.
         worker = webEngine.getLoadWorker();
@@ -129,6 +116,11 @@ public class AddMovieController implements Initializable, ControllerSetup
         }
     }
 
+    /**
+     * Open file chooser on press.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void browseMovieFileAction(ActionEvent event) throws IOException
     {

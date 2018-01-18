@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.be;
 
 import java.util.List;
@@ -10,42 +5,28 @@ import pmc.dal.DALException;
 import pmc.dal.Bytes2Image;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class Movie
 {
-
     private int id;
-
     private String name;
-
     private int year;
-
     private int duration;
-
     private List<Genre> genres;
-
     private int personalRating;
-
     private double imdbRating;
-
     private String directors;
-
     private String summary;
-
     private int lastView;
-
     private String filePath;
-
     private String imagePath;
-
     private byte[] imageInBytes;
-
     private String imdbUrl;
 
     /**
-     * the constructor for the Movie object
+     * The constructor for the Movie object
      * @param id the unique object id
      * @param name the movie name
      * @param filePath the file path
@@ -62,6 +43,20 @@ public class Movie
         lastView = -1;
     }
 
+    /**
+     * Contructor with all data.
+     * @param id
+     * @param name
+     * @param year
+     * @param duration
+     * @param genres
+     * @param personalRating
+     * @param imdbRating
+     * @param directors
+     * @param lastView
+     * @param filePath
+     * @param imdbUrl
+     */
     public Movie(int id, String name, int year, int duration, List<Genre> genres, int personalRating, double imdbRating, String directors, int lastView, String filePath, String imdbUrl)
     {
         this.id = id;
@@ -240,76 +235,136 @@ public class Movie
         this.name = name;
     }
 
+    /**
+     * Get year.
+     * @return
+     */
     public int getYear()
     {
         return year;
     }
 
+    /**
+     * Set year.
+     * @param year
+     */
     public void setYear(int year)
     {
         this.year = year;
     }
 
+    /**
+     * Get duration.
+     * @return
+     */
     public int getDuration()
     {
         return duration;
     }
 
+    /**
+     * Set duration.
+     * @param duration
+     */
     public void setDuration(int duration)
     {
         this.duration = duration;
     }
 
+    /**
+     * Get directors.
+     * @return
+     */
     public String getDirectors()
     {
         return directors;
     }
 
+    /**
+     * Set directors.
+     * @param directors
+     */
     public void setDirectors(String directors)
     {
         this.directors = directors;
     }
 
+    /**
+     * Get summary.
+     * @return
+     */
     public String getSummary()
     {
         return summary;
     }
 
+    /**
+     * Set summary.
+     * @param summary
+     */
     public void setSummary(String summary)
     {
         this.summary = summary;
     }
 
+    /**
+     * Get image path.
+     * @return
+     */
     public String getImage()
     {
         return imagePath;
     }
 
+    /**
+     * Set image path.
+     * @param image
+     */
     public void setImagePath(String image)
     {
         this.imagePath = image;
     }
 
+    /**
+     * Get image as byte array.
+     * @return
+     */
     public byte[] getImageInBytes()
     {
         return imageInBytes;
     }
 
+    /**
+     * Set image as byte array.
+     * @param imageInBytes
+     */
     public void setImageInBytes(byte[] imageInBytes)
     {
         this.imageInBytes = imageInBytes;
     }
 
+    /**
+     * Get IMDb URL.
+     * @return
+     */
     public String getImdbUrl()
     {
         return imdbUrl;
     }
 
+    /**
+     * Set IMDb URL.
+     * @param imdbUrl
+     */
     public void setImdbUrl(String imdbUrl)
     {
         this.imdbUrl = imdbUrl;
     }
 
+    /**
+     * Override toString method.
+     * @return
+     */
     @Override
     public String toString()
     {

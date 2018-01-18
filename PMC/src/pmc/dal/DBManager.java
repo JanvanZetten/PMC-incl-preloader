@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pmc.dal;
 
 import java.io.ByteArrayInputStream;
@@ -18,22 +13,29 @@ import pmc.be.Genre;
 import pmc.be.Movie;
 
 /**
- *
- * @author janvanzetten
+ * En Gruppe
+ * @author janvanzetten, Alex & Asbamz
  */
 public class DBManager
 {
+    private final DBConnecter dBCon;
 
-    private final DBConnecter DBCon;
-
+    /**
+     * Initiates DBConnector.
+     */
     public DBManager()
     {
-        DBCon = new DBConnecter();
+        dBCon = new DBConnecter();
     }
 
+    /**
+     * Gets all genres from DB.
+     * @return genres in List.
+     * @throws DALException
+     */
     List<Genre> getAllGenres() throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "SELECT * FROM Genre;";
 
@@ -68,7 +70,7 @@ public class DBManager
      */
     List<Movie> getAllMovies() throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "SELECT * FROM Movie;";
 
@@ -125,7 +127,7 @@ public class DBManager
      */
     Genre addNewGenre(String name) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "INSERT INTO Genre VALUES (?);";
 
@@ -157,7 +159,7 @@ public class DBManager
      */
     boolean deleteGenre(Genre genre) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
 
             String sql = "DELETE Genre WHERE id=?;";
@@ -185,7 +187,7 @@ public class DBManager
             double imdbRating, int personalRating, String Directors,
             int duration, String ImdbUrl, int year, byte[] imageInBytes, String description) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "INSERT INTO Movie (name, personalRating, ImdbRating, lastView, filePath, ImdbUrl, year, duration, directors, description, imageInBytes) "
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -252,7 +254,7 @@ public class DBManager
      */
     void updateMovie(Movie updatedMovie) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
 
             String sql = "UPDATE MOVIE SET name= ?, personalRating= ?, ImdbRating= ?, lastView= ?, filePath= ?, ImdbUrl= ?, "
@@ -323,7 +325,7 @@ public class DBManager
 
         deleteGenresToMovie(movie.getId(), movie.getGenres());
 
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
 
             String sql = "DELETE Movie WHERE id=?;";
@@ -350,15 +352,15 @@ public class DBManager
     /**
      * Gets all the genres for a movie
      *
-     * @param Movieid the id for the movie from which to find the genres
+     * @param movieId the id for the movie from which to find the genres
      * @return a list with genre objects
      * @throws DALException
      */
-    private List<Genre> getGenresOfMovie(int Movieid) throws DALException
+    private List<Genre> getGenresOfMovie(int movieId) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
-            String sql = "SELECT * FROM GenresInMovie WHERE movieId = " + Movieid + ";";
+            String sql = "SELECT * FROM GenresInMovie WHERE movieId = " + movieId + ";";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
@@ -400,7 +402,7 @@ public class DBManager
      */
     private List<Integer> addGenresToMovie(int movieId, List<Genre> genres) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             List<Integer> keys = new ArrayList<>();
             String sql = "INSERT INTO GenresInMovie (movieId, genreId) VALUES (?, ?)";
@@ -437,16 +439,16 @@ public class DBManager
     /**
      * updates the genres in the movie
      *
-     * @param movieid
+     * @param movieId
      * @param newGenres
      * @throws DALException
      */
-    private void updateGenresInMovie(int movieid, List<Genre> newGenres) throws DALException
+    private void updateGenresInMovie(int movieId, List<Genre> newGenres) throws DALException
     {
-        List<Genre> oldGenres = getGenresOfMovie(movieid);
+        List<Genre> oldGenres = getGenresOfMovie(movieId);
         boolean test = true;
         List<Genre> genresToAdd = new ArrayList<>();
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             for (Genre newGenre : newGenres)
             {
@@ -467,12 +469,12 @@ public class DBManager
                 }
 
             }
-            addGenresToMovie(movieid, genresToAdd);
+            addGenresToMovie(movieId, genresToAdd);
 
             //Delete Genres in oldGenres
             if (!oldGenres.isEmpty())
             {
-                deleteGenresToMovie(movieid, oldGenres);
+                deleteGenresToMovie(movieId, oldGenres);
             }
 
         }
@@ -483,15 +485,15 @@ public class DBManager
     }
 
     /**
-     * Delete all the rows in the database where the movieid is the given
-     * movieid and the genre has the same id as one of the genres in the list
+     * Delete all the rows in the database where the movieId is the given
+ movieId and the genre has the same id as one of the genres in the list
      *
-     * @param movieid the movieid from which to delete the genres
+     * @param movieId the movieId from which to delete the genres
      * @param genres the genres to delete from the movie
      */
-    private void deleteGenresToMovie(int movieid, List<Genre> genres) throws DALException
+    private void deleteGenresToMovie(int movieId, List<Genre> genres) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "DELETE GenresInMovie WHERE movieId = ? AND genreId = ?;";
 
@@ -499,7 +501,7 @@ public class DBManager
 
             for (Genre genre : genres)
             {
-                statement.setInt(1, movieid);
+                statement.setInt(1, movieId);
                 statement.setInt(2, genre.getId());
                 statement.addBatch();
             }
@@ -520,7 +522,7 @@ public class DBManager
      */
     boolean checkForMovie(String name, String imdbUrl) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "SELECT id FROM Movie WHERE name = ? OR ImdbUrl = ?";
 
@@ -549,7 +551,7 @@ public class DBManager
      */
     boolean checkForExistingGenre(String name) throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             String sql = "SELECT id FROM Genre WHERE name = ?";
 
@@ -574,7 +576,7 @@ public class DBManager
      */
     List<Integer> deleteUnusedGenres() throws DALException
     {
-        try (Connection con = DBCon.getConnection())
+        try (Connection con = dBCon.getConnection())
         {
             List<Integer> unusedIds = new ArrayList<>();
 
