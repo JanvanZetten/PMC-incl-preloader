@@ -774,7 +774,9 @@ public class MainWindowModel
             alert.showAndWait();
         }
 
+        if (!bllManager.getTBDeletedList().isEmpty()) {
         startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
+        }
     }
 
     public void openSettings() {
