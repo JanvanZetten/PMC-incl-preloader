@@ -83,6 +83,7 @@ public class BLLManager
      * Make a new Genre
      * @param name the name of the new Genre
      * @return the newly made genre if it succeeds
+     * @throws pmc.bll.BLLException
      */
     public Genre addGenre(String name) throws BLLException
     {
@@ -138,6 +139,7 @@ public class BLLManager
      * @param duration
      * @param ImdbUrl
      * @param year
+     * @param summary
      * @param imageInBytes
      * @return a Movie object with lastView of -1
      * @throws BLLException
@@ -272,6 +274,7 @@ public class BLLManager
     /**
      * Save the Settings 
      * @param settings the settings to save
+     * @throws pmc.bll.BLLException
      */
     public void saveSettings(Settings settings) throws BLLException{
         try {

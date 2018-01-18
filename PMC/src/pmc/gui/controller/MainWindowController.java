@@ -68,6 +68,10 @@ public class MainWindowController implements Initializable
         mainModel.initializeGenre(genreVBox);
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void afterInitialization() throws IOException
     {
         mainModel.startDeletePopupWindow();
@@ -136,6 +140,10 @@ public class MainWindowController implements Initializable
         mainModel.deleteUnusedGenres();
     }
 
+    /**
+     *
+     * @param movie
+     */
     public void updateTable(Movie movie)
     {
         mainModel.removeMovieFromTable(movie);

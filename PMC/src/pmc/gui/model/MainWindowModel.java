@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -48,7 +46,6 @@ import pmc.be.GenreMovieFilter;
 import pmc.bll.BLLException;
 import pmc.bll.BLLManager;
 import pmc.bll.MoviePlayer;
-import pmc.dal.DALException;
 import pmc.gui.controller.ControllerSetup;
 import pmc.be.StringWithIntegersComparator;
 
@@ -202,21 +199,37 @@ public class MainWindowModel
 
     }
 
+    /**
+     * Set the String for filtering
+     * @param filterString
+     */
     public void setFilterString(String filterString)
     {
         this.filterString = filterString;
     }
 
+    /**
+     * Set the minimum imdb rating as double
+     * @param minImdbRating
+     */
     public void setMinImdbRating(double minImdbRating)
     {
         this.minImdbRating = minImdbRating;
     }
 
+    /**
+     * set the minimum personal rating as int 
+     * @param minPersonalRating
+     */
     public void setMinPersonalRating(int minPersonalRating)
     {
         this.minPersonalRating = minPersonalRating;
     }
 
+    /**
+     *set the current movie objetc.
+     * @param currentMovie
+     */
     public void setCurrentMovie(Movie currentMovie)
     {
         bllManager.setCurrentMovie(currentMovie);
@@ -677,6 +690,9 @@ public class MainWindowModel
         startModalWindowWithSetup("MovieDetailsView", "Movie Details", 620, 394, false);
     }
 
+    /**
+     * starts the edit movie window and checks if there is a currentmovie. if there is not it will show an warning
+     */
     public void startEditMovieWindow()
     {
         if (bllManager.getCurrentMovie() == null)
@@ -766,6 +782,9 @@ public class MainWindowModel
         }
     }
 
+    /**
+     * start the popup window for deleting unpopular and long unseen movies
+     */
     public void startDeletePopupWindow()
     {
         try
@@ -787,6 +806,9 @@ public class MainWindowModel
         }
     }
 
+    /**
+     * opens the settings window
+     */
     public void openSettings() {
          startModalWindow("SettingsView", "Settings", 302, 255, false);
     }

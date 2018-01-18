@@ -50,6 +50,8 @@ public class AddMovieController implements Initializable, ControllerSetup
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -128,6 +130,7 @@ public class AddMovieController implements Initializable, ControllerSetup
 
     /**
      * Bind width of progress bar to the stage width. Sets topbar text.
+     * @param mainWindowModel
      */
     @Override
     public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager)

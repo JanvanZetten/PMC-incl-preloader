@@ -81,6 +81,7 @@ public class Movie
      * Set imagePath from byte array and saves the imagePath as a file. Requires
      * that the name and year is set. Used to get imagePath from database.
      * @param imageInBytes Image expressed as byte array.
+     * @throws pmc.dal.DALException
      */
     public void setImage(byte[] imageInBytes) throws DALException
     {

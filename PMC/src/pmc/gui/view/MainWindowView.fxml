@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmc.gui.controller.MainWindowController">
    <children>
       <StackPane fx:id="stackPaneFiltering" alignment="TOP_LEFT" layoutX="7.0" prefHeight="372.0" prefWidth="175.0" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
@@ -46,7 +46,7 @@
                   <Font name="Roboto" size="13.0" />
                </font>
             </Label>
-            <Slider fx:id="slrMinPersonal" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="9" onMouseReleased="#handleMinPersonal" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="slrMinPersonal" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#handleMinPersonal" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <StackPane.margin>
                   <Insets left="4.0" right="4.0" top="120.0" />
                </StackPane.margin>

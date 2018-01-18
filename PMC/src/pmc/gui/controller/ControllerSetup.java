@@ -18,6 +18,7 @@ public interface ControllerSetup
     /**
      * Pass Stage and BLLManager to controller.
      * @param thisStage
+     * @param mainWindowModel
      * @param bllManager
      */
     public void setup(Stage thisStage, MainWindowModel mainWindowModel, BLLManager bllManager);
