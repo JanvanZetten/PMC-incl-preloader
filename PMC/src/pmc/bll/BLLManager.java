@@ -94,37 +94,6 @@ public class BLLManager
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
-
-    /**
-     * Make a new Movie
-     * @param name
-     * @param filePath
-     * @param genres
-     * @param imdbRating
-     * @param personalRating
-     * @param Directors
-     * @param duration
-     * @param ImdbUrl
-     * @param year
-     * @param imageInBytes
-     * @return a Movie object with lastView of -1
-     * @throws BLLException
-     */
-    public Movie addMovie(String name, String filePath, List<Genre> genres,
-            double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, byte[] imageInBytes) throws BLLException
-    {
-        try
-        {
-            return dalManager.addMovie(name, filePath, genres, imdbRating, personalRating,
-                    Directors, duration, ImdbUrl, year, imageInBytes);
-        }
-        catch (DALException ex)
-        {
-            throw new BLLException(ex.getMessage(), ex.getCause());
-        }
-
-    }
     
     /**
      * Make a new Movie
