@@ -19,7 +19,7 @@ import pmc.be.Settings;
  */
 public class SettingsData {
 
-    Settings settings;
+    private static Settings settings;
 
     public SettingsData() {
     }
@@ -35,7 +35,7 @@ public class SettingsData {
     public void saveSettings(Settings settings) throws DALException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("settings.pmc"))) {
             oos.writeObject(settings);
-            this.settings = settings;
+            SettingsData.settings = settings;
         } catch (IOException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }

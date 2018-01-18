@@ -229,18 +229,18 @@ public class BLLManager
     }
 
     /**
-     * Finds movies that are over 2 years old and have a lower rating than 6 on
+     * Finds movies that are over the set interval and have a lower rating than 6 on
      * when starting the program.
-     * @throws DALException
+     * @throws pmc.bll.BLLException
      */
-    public void setOutdatedMovies() throws DALException 
+    public void setOutdatedMovies() throws BLLException 
     {
         try 
         {
         List<Movie> movies = dalManager.getAllMovies();
         for (Movie movy : movies) 
         {
-            if (getCurrentDateAsInt() - movy.getLastView() >= 20000 && movy.getPersonalRating() < 6 && movy.getLastView() != -1)
+            if (checkOutdated(movy))
                 {
                     ID.addToTBDeletedList(movy);
                 }
@@ -248,7 +248,7 @@ public class BLLManager
         }
         catch (DALException ex) 
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
     
@@ -293,6 +293,49 @@ public class BLLManager
         } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
+    }
+
+    /**
+     * Check for outdated. Outdated when personalscore is under 6 and lastviwed has to be more then the interval back from the current date
+     * @param movie the movie object to check
+     * @return true if oudated
+     * @throws BLLException 
+     */
+    private boolean checkOutdated(Movie movie) throws BLLException {
+        //if the score is 6 or more it will never be outdated
+        if (movie.getPersonalRating() >= 6){
+                return false;
+            }
+        
+        try {
+            int interval = settingsdata.loadSettings().getInterval();
+            //if the interval is -1 it meens never
+            if (interval == -1){
+                return false;
+            }
+            
+            int lastview = movie.getLastView();
+            
+            int lastviewMonths = (lastview/100) % 100;
+            
+            lastviewMonths += interval;
+            
+            int extraYears = 0;
+            
+            while(lastviewMonths > 12){
+                extraYears ++;
+                lastviewMonths -= 12;
+            }
+            int years = (lastview/10000 + extraYears);
+            
+            int lastViewPlusIntervalDate = (years*10000) + (lastviewMonths * 100) + (lastview % 100);
+            
+            return getCurrentDateAsInt() >= lastViewPlusIntervalDate;
+            
+        } catch (DALException ex) {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+
     }
     
     

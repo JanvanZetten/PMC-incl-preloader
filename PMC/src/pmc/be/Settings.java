@@ -22,15 +22,28 @@ public class Settings implements Serializable{
         movieLocation = System.getProperty("user.dir") + File.separator;
     }
 
+    /**
+     * constructer
+     * @param interval as int in months
+     * @param movieLocation movie folder location as String
+     */
     public Settings(int interval, String movieLocation) {
         this.interval = interval;
         this.movieLocation = movieLocation;
     }
 
+    /**
+     * returns the interval in months
+     * @return interval in months
+     */
     public int getInterval() {
         return interval;
     }
 
+    /**
+     * set the interval
+     * @param interval as int in months
+     */
     public void setInterval(int interval) {
         this.interval = interval;
     }

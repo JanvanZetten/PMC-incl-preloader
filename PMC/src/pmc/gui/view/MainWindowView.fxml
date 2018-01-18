@@ -90,6 +90,7 @@
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleNew" text="New Movie" />
                         <MenuItem mnemonicParsing="false" onAction="#handleNewGenre" text="New Genre" />
+                        <MenuItem mnemonicParsing="false" onAction="#OpenSettings" text="Settings" />
                     <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
                   </items>
                 </Menu>
