@@ -10,11 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import pmc.bll.BLLManager;
-import pmc.gui.controller.AddMovieController;
 import pmc.gui.controller.MainWindowController;
 
 /**
@@ -44,7 +41,7 @@ public class PMC extends Application
     public void start(Stage stage) throws Exception
     {
         cont.afterInitialization();
-
+        
         stage.setScene(scene);
         stage.setTitle("PMC");
         stage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
