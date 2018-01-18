@@ -31,6 +31,12 @@ public class SettingsModel {
         ObsIntervals = FXCollections.observableArrayList("1 month", "2 months", "4 months", "8 months", "1 year", "2 years", "4 years", "Never");
     }
 
+    
+    /**
+     * sets the UI 
+     * @param TxtBxFolderLocation
+     * @param cbbxInterval 
+     */
     public void setUI(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval) {
         try {
             BLLManager bll = new BLLManager();
