@@ -7,9 +7,9 @@ package pmc.bll;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
 import pmc.be.Movie;
+import pmc.dal.DALException;
+import pmc.dal.SettingsData;
 
 /**
  *
@@ -17,11 +17,21 @@ import pmc.be.Movie;
  */
 public class MoviePlayer
 {
-    BLLManager bllManager;
+    private final String CURRENT_DIR;
+    private final String MOVIE_DIR = "/Movies/";
 
-    public MoviePlayer()
+    private BLLManager bllManager;
+
+    public MoviePlayer() throws DALException, SecurityException
     {
         bllManager = new BLLManager();
+
+        CURRENT_DIR = (new SettingsData()).loadSettings().getMovieLocation() + File.separator;
+        File theDir = new File(CURRENT_DIR + MOVIE_DIR);
+        if (!theDir.exists())
+        {
+            theDir.mkdir();
+        }
     }
 
     /**
@@ -32,8 +42,7 @@ public class MoviePlayer
      */
     public void playMovie(Movie movie) throws BLLException
     {
-        String currentDir = System.getProperty("user.dir") + File.separator;
-        File dir = new File(currentDir);
+        File dir = new File(CURRENT_DIR);
 
         try
         {
