@@ -31,11 +31,11 @@ public class SettingsModel {
         ObsIntervals = FXCollections.observableArrayList("1 month", "2 months", "4 months", "8 months", "1 year", "2 years", "4 years", "Never");
     }
 
-    
     /**
-     * sets the UI 
+     * sets the UI
+     *
      * @param TxtBxFolderLocation
-     * @param cbbxInterval 
+     * @param cbbxInterval
      */
     public void setUI(TextField TxtBxFolderLocation, ComboBox<String> cbbxInterval) {
         try {
@@ -72,6 +72,30 @@ public class SettingsModel {
 
         movieLocation = TxtBxFolderLocation.getText();
 
+        String sep = null;
+
+        if (movieLocation.endsWith("/") || movieLocation.endsWith("\\")) {
+            if (movieLocation.endsWith("/")) {
+                sep = "/";
+            }
+            if (movieLocation.endsWith("\\")) {
+                sep = "\\";
+            }
+            String[] split = movieLocation.split(sep);
+            movieLocation = null;
+            for (int i = 1; i < split.length; i++) {
+                if (i == 1){
+                    movieLocation = sep;
+                }
+                else{
+                movieLocation = movieLocation + sep;
+                }
+                movieLocation = movieLocation + split[i];
+                
+                System.out.println(movieLocation);
+            }
+        }
+
         if (!new File(movieLocation).exists()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Not a valid directory name", ButtonType.OK);
             alert.showAndWait();
@@ -90,12 +114,11 @@ public class SettingsModel {
 
         //make a folder if it does not exist
         if (!moviefolderExists) {
-            new File(movieLocation + File.pathSeparator + "Movies").mkdirs();
-            //copy files from previous location
+            new File(movieLocation + File.separator + "Movies").mkdirs();
         }
-        
+
         //if it is a diffrent location then the previous copy all files from the previous location
-        if (!previousLocation.equals(movieLocation)){
+        if (!previousLocation.equals(movieLocation)) {
             if (!previousLocation.isEmpty()) {
                 File directory2 = new File(previousLocation + File.separator + "Movies");
                 File[] movieFiles = directory2.listFiles();
@@ -109,8 +132,7 @@ public class SettingsModel {
                 }
             }
         }
-        
-  
+
         switch (cbbxInterval.getSelectionModel().getSelectedItem()) {
             case "1 month":
                 interval = 1;
