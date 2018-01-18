@@ -777,6 +777,9 @@ public class MainWindowModel
             Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_LOADING_OUTDATED + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
+        
+        System.out.println(bllManager.getTBDeletedList().size());
+        
 
         if (!bllManager.getTBDeletedList().isEmpty())
         {
