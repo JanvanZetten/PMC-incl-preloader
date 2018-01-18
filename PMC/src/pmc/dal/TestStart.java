@@ -42,7 +42,7 @@ public class TestStart extends Application {
         byte[] lol = getByte();
       
 
-        Movie movie = dal.addMovie("007", "some file placement", genreList, 9.0, 5, "En Gruppe", 110, "www.imdb.com", 2018, lol);
+        Movie movie = dal.addMovie("007", "some file placement", genreList, 9.0, 5, "En Gruppe", 110, "www.imdb.com", 2018, "THE BEST movie", lol);
         movie.setName("James Bond");
         dal.updateMovie(movie);
         
