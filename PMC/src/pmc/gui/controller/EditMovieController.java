@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import pmc.be.Movie;
 import pmc.bll.BLLManager;
 import pmc.gui.model.EditMovieModel;
-import pmc.be.ControllerSetup;
 import pmc.gui.model.MainWindowModel;
 
 /**

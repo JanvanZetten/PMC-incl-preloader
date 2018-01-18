@@ -25,7 +25,6 @@ import pmc.be.Movie;
 import pmc.bll.BLLManager;
 import pmc.gui.model.AddMovieModel;
 import pmc.gui.model.MainWindowModel;
-import pmc.be.ControllerSetup;
 
 /**
  * FXML Controller class

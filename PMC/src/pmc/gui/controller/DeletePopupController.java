@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import pmc.bll.BLLManager;
 import pmc.gui.model.DeletePopupModel;
 import pmc.gui.model.DeletePopupModel.HBoxCell;
-import pmc.be.ControllerSetup;
 import pmc.gui.model.MainWindowModel;
 
 /**
