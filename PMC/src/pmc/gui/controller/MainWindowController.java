@@ -140,4 +140,9 @@ public class MainWindowController implements Initializable
     {
         mainModel.removeMovieFromTable(movie);
     }
+
+    @FXML
+    private void OpenSettings(ActionEvent event) {
+        mainModel.openSettings();
+    }
 }

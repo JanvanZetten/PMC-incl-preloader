@@ -777,4 +777,8 @@ public class MainWindowModel
         startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
     }
 
+    public void openSettings() {
+         startModalWindowWithSetup("SettingsView", "Settings", 302, 255, false);
+    }
+
 }
