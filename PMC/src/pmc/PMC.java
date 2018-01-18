@@ -39,14 +39,13 @@ public class PMC extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        cont.afterInitialization();
-        
         stage.setScene(scene);
         stage.setTitle("PMC");
         stage.getIcons().add(new Image("pmc/gui/resources/logo.png"));
         stage.setMinWidth(620);
         stage.setMinHeight(420);
         stage.show();
+        cont.afterInitialization();
     }
 
     /**

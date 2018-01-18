@@ -802,8 +802,9 @@ public class MainWindowModel
 
     /**
      * start the popup window for deleting unpopular and long unseen movies
+     * @return
      */
-    public void startDeletePopupWindow()
+    public Scene startDeletePopupWindow()
     {
         try
         {
@@ -816,10 +817,29 @@ public class MainWindowModel
         }
         if (!bllManager.getTBDeletedList().isEmpty())
         {
-            startModalWindowWithSetup("DeletePopupView", "Are you gonna watch these?", 620, 394, false);
+            try
+            {
+                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource(VIEW_DIRECTORY + "DeletePopupView" + VIEW_EXTENSION));
+                Parent root = fxLoader.load();
+
+                ControllerSetup cont = fxLoader.getController();
+                cont.setup(null, null, bllManager);
+
+                Scene scene = new Scene(root);
+                return scene;
+            }
+            catch (IOException ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, ON_ERROR_OPEN_WINDOW + "Are you gonna watch these?" + ":\n" + ex.getMessage(), ButtonType.OK);
+                alert.showAndWait();
+                return null;
             }
         }
-    
+        else
+        {
+            return null;
+        }
+    }
 
     /**
      * opens the settings window
@@ -829,7 +849,3 @@ public class MainWindowModel
         startModalWindow("SettingsView", "Settings", 302, 255, false);
     }
 }
-
-    
-
-
