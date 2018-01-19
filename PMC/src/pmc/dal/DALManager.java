@@ -61,9 +61,9 @@ public class DALManager
      * @param genres
      * @param imdbRating
      * @param personalRating
-     * @param Directors
+     * @param directors
      * @param duration
-     * @param ImdbUrl
+     * @param imdbUrl
      * @param year
      * @param summary
      * @param imageInBytes
@@ -71,14 +71,14 @@ public class DALManager
      * @throws DALException
      */
     public Movie addMovie(String name, String filePath, List<Genre> genres,
-            double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, String summary, byte[] imageInBytes) throws DALException
+            double imdbRating, int personalRating, String directors,
+            int duration, String imdbUrl, int year, String summary, byte[] imageInBytes) throws DALException
     {
 
-        if (database.checkForMovie(name, ImdbUrl))
+        if (database.checkForMovie(name, imdbUrl))
         {
 
-            return database.addMovie(name, filePath, genres, imdbRating, personalRating, Directors, duration, ImdbUrl, year, imageInBytes, summary);
+            return database.addMovie(name, filePath, genres, imdbRating, personalRating, directors, duration, imdbUrl, year, imageInBytes, summary);
         }
         else
         {

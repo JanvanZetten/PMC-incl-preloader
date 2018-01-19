@@ -41,11 +41,11 @@ public class ItemData
 
     /**
      * Add movie to Deleted list.
-     * @param movy
+     * @param movie
      */
-    public void addToTBDeletedList(Movie movy)
+    public void addToTBDeletedList(Movie movie)
     {
-        tBDeleted.add(movy);
+        tBDeleted.add(movie);
     }
 
     /**

@@ -10,23 +10,23 @@ public class GenreMovieFilter implements MovieFilter
 {
     private boolean bypass;
     private List<Genre> genresInMovie;
-    private List<String> ChosenGenres;
+    private List<String> chosenGenres;
 
     /**
      * Constructor for making a Genre movie filter. if a null is passed in one
      * of the conditions. the meetRestictions will always return true
      * @param genresInMovie
-     * @param ChosenGenres
+     * @param chosenGenres
      */
-    public GenreMovieFilter(List<Genre> genresInMovie, List<String> ChosenGenres)
+    public GenreMovieFilter(List<Genre> genresInMovie, List<String> chosenGenres)
     {
-        if (genresInMovie != null && ChosenGenres != null)
+        if (genresInMovie != null && chosenGenres != null)
         {
-            if (ChosenGenres.size() > 0)
+            if (chosenGenres.size() > 0)
             {
                 bypass = false;
                 this.genresInMovie = genresInMovie;
-                this.ChosenGenres = ChosenGenres;
+                this.chosenGenres = chosenGenres;
             }
             else
             {
@@ -50,7 +50,7 @@ public class GenreMovieFilter implements MovieFilter
         {
             return true;
         }
-        for (String ChosenGenre : ChosenGenres)
+        for (String ChosenGenre : chosenGenres)
         {
             for (Genre genre : genresInMovie)
             {
