@@ -137,11 +137,16 @@ public class IMDbRip
                     else if (wasDuration > 0)
                     {
                         String txt = inputLine.trim();
-                        if (txt.toLowerCase().contains("h"))
+                        if (txt.toLowerCase().contains("h") && txt.toLowerCase().contains("min"))
                         {
                             int hour = Integer.parseInt(txt.split("h")[0].trim()) * 60;
                             int min = Integer.parseInt(txt.split("h")[1].split("min")[0].trim());
                             duration = hour + min;
+                        }
+                        if (txt.toLowerCase().contains("h"))
+                        {
+                            int hour = Integer.parseInt(txt.split("h")[0].trim()) * 60;
+                            duration = hour;
                         }
                         else
                         {
