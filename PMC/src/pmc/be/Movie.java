@@ -107,12 +107,12 @@ public class Movie
     }
 
     /**
-     * Replace the current list of Genres with this list
-     * @param Genres the new list
+     * Replace the current list of genres with this list
+     * @param genres the new list
      */
-    public void setGenres(List<Genre> Genres)
+    public void setGenres(List<Genre> genres)
     {
-        this.genres = Genres;
+        this.genres = genres;
     }
 
     /**

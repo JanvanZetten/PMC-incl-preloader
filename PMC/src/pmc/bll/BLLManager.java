@@ -107,9 +107,9 @@ public class BLLManager
      * @param genres
      * @param imdbRating
      * @param personalRating
-     * @param Directors
+     * @param directors
      * @param duration
-     * @param ImdbUrl
+     * @param imdbUrl
      * @param year
      * @param summary
      * @param imageInBytes
@@ -117,12 +117,12 @@ public class BLLManager
      * @throws BLLException
      */
     public Movie addMovie(String name, String filePath, List<Genre> genres,
-            double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, String summary, byte[] imageInBytes) throws BLLException
+            double imdbRating, int personalRating, String directors,
+            int duration, String imdbUrl, int year, String summary, byte[] imageInBytes) throws BLLException
     {
         try
         {
-            return dalManager.addMovie(name, filePath, genres, imdbRating, personalRating, Directors, duration, ImdbUrl, year, summary, imageInBytes);
+            return dalManager.addMovie(name, filePath, genres, imdbRating, personalRating, directors, duration, imdbUrl, year, summary, imageInBytes);
         }
         catch (DALException ex)
         {

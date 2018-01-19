@@ -184,8 +184,8 @@ public class DBManager
     }
 
     Movie addMovie(String name, String filePath, List<Genre> genres,
-            double imdbRating, int personalRating, String Directors,
-            int duration, String ImdbUrl, int year, byte[] imageInBytes, String description) throws DALException
+            double imdbRating, int personalRating, String directors,
+            int duration, String imdbUrl, int year, byte[] imageInBytes, String description) throws DALException
     {
         try (Connection con = dBCon.getConnection())
         {
@@ -199,10 +199,10 @@ public class DBManager
             statement.setDouble(3, imdbRating);
             statement.setInt(4, -1); //lastview is -1 because a newly added movie has not been seen yet
             statement.setString(5, filePath);
-            statement.setString(6, ImdbUrl);
+            statement.setString(6, imdbUrl);
             statement.setInt(7, year);
             statement.setInt(8, duration);
-            statement.setString(9, Directors);
+            statement.setString(9, directors);
             statement.setString(10, description);
 
             if (imageInBytes != null)
@@ -226,7 +226,7 @@ public class DBManager
 
                 if (addGenresToMovie(id, genres).size() == genres.size())
                 {
-                    Movie movie = new Movie(id, name, year, duration, genres, personalRating, imdbRating, Directors, -1, filePath, ImdbUrl);
+                    Movie movie = new Movie(id, name, year, duration, genres, personalRating, imdbRating, directors, -1, filePath, imdbUrl);
                     movie.setSummary(description);
                     if (imageInBytes != null)
                     {
@@ -486,7 +486,7 @@ public class DBManager
 
     /**
      * Delete all the rows in the database where the movieId is the given
- movieId and the genre has the same id as one of the genres in the list
+     * movieId and the genre has the same id as one of the genres in the list
      *
      * @param movieId the movieId from which to delete the genres
      * @param genres the genres to delete from the movie
