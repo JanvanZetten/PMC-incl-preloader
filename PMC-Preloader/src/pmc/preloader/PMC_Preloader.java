@@ -7,20 +7,19 @@ package pmc.preloader;
 
 import java.io.IOException;
 import javafx.application.Preloader;
-import javafx.application.Preloader.ProgressNotification;
 import javafx.application.Preloader.StateChangeNotification;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * Simple Preloader Using the ProgressBar Control
+ * Preloader
  *
- * @author janvanzetten
+ * En Gruppe
+ * @author Alex, Asbjørn & Jan
  */
 public class PMC_Preloader extends Preloader {
     
