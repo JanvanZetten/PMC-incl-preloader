@@ -107,7 +107,7 @@
                         <Insets left="80.0" />
                     </StackPane.margin>
                 </Label>
-                <TextArea fx:id="txtareaSummary" prefHeight="200.0" prefWidth="200.0">
+                <TextArea fx:id="txtareaSummary" prefHeight="200.0" prefWidth="200.0" wrapText="true">
                     <StackPane.margin>
                         <Insets bottom="5.0" left="170.0" right="20.0" top="5.0" />
                     </StackPane.margin>
