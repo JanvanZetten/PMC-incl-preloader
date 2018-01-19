@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class StringWithIntegersComparator implements Comparator<String>
 {

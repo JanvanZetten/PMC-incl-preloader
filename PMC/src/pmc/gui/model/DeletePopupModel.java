@@ -11,7 +11,7 @@ import pmc.bll.HBoxCell;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class DeletePopupModel
 {
@@ -41,6 +41,8 @@ public class DeletePopupModel
 
     /**
      * Sets the BLLManager instance to be the same as the one in the MainModel.
+     * @param mainWindowModel
+     * @param bllManager
      */
     public void setup(MainWindowModel mainWindowModel, BLLManager bllManager)
     {

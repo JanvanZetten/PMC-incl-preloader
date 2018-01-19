@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class IMDbRip
 {

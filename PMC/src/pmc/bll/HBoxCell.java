@@ -11,7 +11,7 @@ import pmc.gui.model.MainWindowModel;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class HBoxCell extends HBox
 {

@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import pmc.gui.controller.MainWindowController;
 
 /**
- *
- * @author janvanzetten
+ *En Gruppe
+ * @author Alex, Asbjørn & Jan
  */
 public class PMC extends Application
 {
