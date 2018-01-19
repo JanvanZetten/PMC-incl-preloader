@@ -579,7 +579,6 @@ public class MainWindowModel
                 Alert alertError = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
                 alertError.showAndWait();
             }
-
         }
         bllManager.setCurrentMovie(tblview.getSelectionModel().getSelectedItem());
     }
@@ -591,7 +590,7 @@ public class MainWindowModel
     public void removeMovieFromTable(Movie movieToDelete)
     {
         movies.remove(movieToDelete);
-        filteredMovies.remove(movieToDelete);
+        addToFiltered();
     }
 
     /**

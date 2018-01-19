@@ -370,4 +370,24 @@ public class Movie
     {
         return "Movie{" + "id=" + id + ", name=" + name + ", year=" + year + ", duration=" + duration + ", genres=" + genres + ", personalRating=" + personalRating + ", imdbRating=" + imdbRating + ", directors=" + directors + ", summary=" + summary + ", lastView=" + lastView + ", filePath=" + filePath + ", imagePath=" + imagePath + ", imdbUrl=" + imdbUrl + '}';
     }
+
+    /**
+     * Compare movies by id.
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj != null)
+        {
+            if (obj instanceof Movie)
+            {
+                Movie objMovie = (Movie) obj;
+                return this.getId() == objMovie.getId();
+            }
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -46,7 +46,6 @@ public class HBoxCell extends HBox
             @Override
             public void handle(ActionEvent event)
             {
-
                 if (button1.getText().equals(DELETE_CONFIRMATION))
                 {
                     mwm.deleteMovie(movie);
