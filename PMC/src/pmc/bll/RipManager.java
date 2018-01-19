@@ -6,7 +6,7 @@ import pmc.dal.IMDbRip;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class RipManager
 {

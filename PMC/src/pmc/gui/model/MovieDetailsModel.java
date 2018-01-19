@@ -19,7 +19,7 @@ import pmc.dal.DALException;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class MovieDetailsModel
 {

@@ -13,7 +13,7 @@ import pmc.gui.model.SettingsModel;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class SettingsController implements Initializable
 {

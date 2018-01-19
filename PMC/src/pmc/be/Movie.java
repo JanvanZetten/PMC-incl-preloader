@@ -6,7 +6,7 @@ import pmc.dal.Bytes2Image;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class Movie
 {

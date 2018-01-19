@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class GenreMovieFilter implements MovieFilter
 {

@@ -6,7 +6,7 @@ import java.sql.Connection;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class DBConnecter
 {

@@ -15,7 +15,7 @@ import pmc.be.Movie;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class TestStart extends Application
 {

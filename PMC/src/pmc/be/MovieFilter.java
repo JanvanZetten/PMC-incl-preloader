@@ -2,7 +2,7 @@ package pmc.be;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public interface MovieFilter
 {

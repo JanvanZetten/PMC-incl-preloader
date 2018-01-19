@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 
 /**
  * En Gruppe
- * @author janvanzetten, Alex & Asbamz
+ * @author Alex, Asbjørn & Jan
  */
 public class AboutController implements Initializable
 {
