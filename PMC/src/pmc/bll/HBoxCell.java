@@ -1,5 +1,6 @@
 package pmc.bll;
 
+import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -67,7 +68,10 @@ public class HBoxCell extends HBox
             @Override
             public void handle(ActionEvent event)
             {
-                movie.setLastView(movie.getLastView() + 20000);
+                String date = LocalDate.now().toString();
+                date = date.replaceAll("-", "");
+                int currentDate = Integer.parseInt(date);
+                movie.setLastView(currentDate);
                 button2.setText("Ignored");
             }
         });
